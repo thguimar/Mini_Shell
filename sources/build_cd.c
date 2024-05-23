@@ -81,6 +81,8 @@ int	main(int argc, char **argv, char **env)
 	char	*home;
 	char	*joined;
 	int		flag;
+	int		fd;
+	char		*line;
 
 	home = "/home";
 	user = user_search(env);
@@ -137,5 +139,11 @@ int	main(int argc, char **argv, char **env)
 		free(joined);
 	}
 	free(home);
-	//printf("%s\n", getcwd(argv[1], 100)); USAR PARA PROMPT NO FUTURO
+	fd = open("build2", O_RDONLY);
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("line: %s", line);
+		free(line);
+	}
+	printf("%s\n", getcwd(argv[1], 100)); //USAR PARA PROMPT NO FUTURO
 }
