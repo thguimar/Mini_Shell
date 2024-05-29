@@ -15,13 +15,13 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	(void)argv;
-	if(argc == 1)
-	{
-		int	j;
+	int	j;
 
-		j = 0;
-		while(env[j])
+	j = 0;
+	(void)argv;
+	if (argc == 1)
+	{
+		while (env[j])
 		{
 			ft_putstr_fd(env[j], 1);
 			ft_putstr_fd("\n", 1);

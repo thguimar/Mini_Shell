@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/29 17:06:55 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:19:36 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,31 @@ int	echo_flag(char *argv)
 	return (0);
 }
 
+int	echo_func(char **argv, int flag)
+{
+	int	j;
+
+	j = 1;
+	while (argv[j])
+	{
+		if (j == 1 && echo_flag(argv[j]) == 1)
+		{
+			j++;
+			flag = 1;
+		}
+		if (argv[j] != NULL)
+		{
+			ft_putstr_fd(argv[j], 1);
+			if (argv[j + 1] != NULL)
+				ft_putchar_fd(' ', 1);
+			else
+				break ;
+			j++;
+		}
+	}
+	return (flag);
+}
+
 int	main(int argc, char **argv)
 {
 	int	flag;
@@ -42,26 +67,7 @@ int	main(int argc, char **argv)
 	flag = 0;
 	if (argc != 1)
 	{
-		int	j;
-	
-		j = 1;
-		while (argv[j])
-		{
-			if (j == 1 && echo_flag(argv[j]) == 1)
-			{
-				j++;
-				flag = 1;
-			}
-			if (argv[j] != NULL)
-			{
-				ft_putstr_fd(argv[j], 1);
-				if (argv[j + 1] != NULL)
-					ft_putchar_fd(' ', 1);
-				else
-					break ;
-				j++;
-			}
-		}
+		flag = echo_func(argv, flag);
 	}
 	if (flag != 1)
 		ft_putchar_fd('\n', 1);

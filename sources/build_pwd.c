@@ -24,3 +24,4 @@ int	main(int argc, char **argv)
 		ft_putstr_fd(getcwd(argv[1], 100), 1);
 	ft_putstr_fd("\n", 1);
 }
+

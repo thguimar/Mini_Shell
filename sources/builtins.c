@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:06:36 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/29 17:09:12 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:11:51 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ int	*build_array(char *str)
 	int			i;
 
 	i = 0;
-	while(i < 7)
+	while (i < 7)
 	{
-		if(str)
+		if (str)
 		{
-			if(!ft_strncmp(builtins[i][0], str, ft_strlen(builtins[i][0])))
+			if (!ft_strncmp(builtins[i][0], str, ft_strlen(builtins[i][0])))
 				return (builtins[i][1]);
 		}
 		i++;

@@ -3,128 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   build_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 16:01:10 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/27 17:22:25 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/05/29 19:14:21 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "builtins.h"
+#include "../libs/builtins.h"
 #include "../libft/libft.h"
 
-void	write_env(int j, char **mlc)
+void	struct_initialize_unset(t_builtvars2 *unset)
 {
-//	mlc = bubble_sort(j, mlc);
-	while(mlc[j])
-	{
-		ft_putstr_fd(mlc[j], 1);
-		ft_putstr_fd("\n", 1);
-		j++;
-	}
-	mlc[j] = NULL;
+	unset->i = 0;
+	unset->j = 0;
+	unset->l = 0;
+	unset->m = 0;
+	unset->flag = 0;
+	unset->clc = 0;
+	unset->tries = 0;
 }
 
-int	ft_strlen4(char *str)
+void	unset_helper(t_builtvars2 *unset, char **argv, char **env)
 {
-	int	i;
-
-	i = 0;
-	while (str[i + 1] != '=' && str[i])
-		i++;
-	//printf("i: %i\n", i);
-	return (i);
-}
-
-int	there_is_an_equal_argv(char **argv, char *env)
-{
-	int	j;
-	
-	j = 0;
-	while (argv[j])
+	unset->m = 0;
+	if (there_is_an_equal_argv(argv, env[unset->l]) == 1)
 	{
-		if (ft_strncmp(argv[j], env, ft_strlen4(env)) == 0)
-			return (0);
-		j++;
+		unset->clc[unset->i] = \
+		ft_calloc(ft_strlen(env[unset->l]) + 1, sizeof(char));
+		while (env[unset->l][unset->m])
+		{
+			unset->clc[unset->i][unset->m] = env[unset->l][unset->m];
+			unset->m++;
+		}
+		unset->i++;
 	}
-	return (1);
-}
-
-int	var_equal_line(char **env, char *argv)
-{
-	int	m;
-
-	m = 0;
-	while (env[m])
-	{
-		if(ft_strncmp(argv, env[m], ft_strlen(argv)) == 0)
-			return (m);
-		m++;
-	}
-	return (0);
-}
-
-int	var_comp(char **env, char **argv, int j)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		if(ft_strncmp(argv[j], env[i], ft_strlen(argv[j])) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
+	unset->l++;
+	unset->j++;
 }
 
 int	main(int argc, char **argv, char **env)
 {
+	t_builtvars2	*unset;
+
+	unset = ft_calloc(1, sizeof(t_builtvars2));
+	struct_initialize_unset(unset);
 	if (argc != 1)
 	{
-		int		j;
-		int		flag;
-		char	**clc;
-		int		i;
-		int		m;
-		int		l;
-		int		tries;
-
-		tries = 0;
-		j = 0;
-		flag = 0;
-		i = 0;
-		m = 0;
-		l = 0;
-		while (argv[j])
+		while (argv[unset->j])
 		{
-			if (var_comp(env, argv, 0) == 1)
-				flag++;
-			j++;
+			if (var_comp2(env, argv, 0) == 1)
+				unset->flag++;
+			unset->j++;
 		}
-		j = 0;
-		while(env[j + 1])
-			j++;
-		clc = ft_calloc((j + 1 - flag), sizeof(char *));
-		j = 0;
-		while (env[l])
-		{
-			m = 0;
-			if (there_is_an_equal_argv(argv, env[l]) == 1)
-			{
-				clc[i] = ft_calloc(ft_strlen(env[l]) + 1, sizeof(char));
-				while(env[l][m])
-				{
-					clc[i][m] = env[l][m];
-					m++;
-				}
-				i++;
-			}
-			l++;
-			j++;
-		}
-		j = 0;
-		write_env(0, clc);
+		unset->j = 0;
+		while (env[unset->j + 1])
+			unset->j++;
+		unset->clc = ft_calloc((unset->j + 1 - unset->flag), sizeof(char *));
+		unset->j = 0;
+		while (env[unset->l])
+			unset_helper(unset, argv, env);
+		unset->j = 0;
+		write_env(0, unset->clc);
 	}
 	else
 		ft_putstr_fd("\n", 1);
