@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:06:36 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/21 16:31:07 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:09:12 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	*build_array(char *str)
 {
-	static	void	*builtins[7][2] = {
+	static void	*builtins[7][2] = {
 	{"echo", "build_echo"},
 	{"cd", "build_cd"},
 	{"pwd", "build_pwd"},
@@ -24,7 +24,7 @@ int	*build_array(char *str)
 	{"env", "build_env"},
 	{"exit", "build_exit"}
 	};
-	int	i;
+	int			i;
 
 	i = 0;
 	while(i < 7)

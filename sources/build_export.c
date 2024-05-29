@@ -6,12 +6,20 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:27:03 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/24 20:16:14 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/05/29 16:47:12 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "builtins.h"
+#include "../libs/builtins.h"
 #include "../libft/libft.h"
+
+void	line_waste(t_builtvars *export, char **argv, int flag)
+{
+	if (flag == 0)
+		export->mlc[export->m] = ft_calloc(ft_strlen(argv[export->j]) + 3, sizeof(char));
+	if (flag == 1)
+		export->mlc[export->i] = ft_calloc(ft_strlen(argv[export->j]) + 3, sizeof(char));
+}
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -105,151 +113,137 @@ void	write_exp(int j, char **mlc)
 	mlc[j] = NULL;
 }
 
-char	**exp_calloc(int j, char **env, int argc)
+char	**exp_calloc(t_builtvars *export, char **env, int argc)
 {
-	int		flag;
-	int		x;
-	char	**mlc;
-	int		i;
-
-	j = 0;
-	flag = 0;
-	while(env[j + 1])
-		j++;
+	while(env[export->j + 1])
+		export->j++;
 	if (argc == 1)
-		mlc = ft_calloc((j + 1), sizeof(char *));
+		export->mlc = ft_calloc((export->j + 1), sizeof(char *));
 	else
-		mlc = ft_calloc((j + argc + 1), sizeof(char *));
-	j = 0;
-	while(env[j + 1])
+		export->mlc = ft_calloc((export->j + argc + 1), sizeof(char *));
+	export->j = 0;
+	while(env[export->j + 1])
 	{
-		i = 0;
-		while(env[j][i])
-			i++;
-		mlc[j] = ft_calloc(i + 3, sizeof(char));
-		i = 0;
-		x = 0;
-		while(env[j][x])
+		export->i = 0;
+		while(env[export->j][export->i])
+			export->i++;
+		export->mlc[export->j] = ft_calloc(export->i + 3, sizeof(char));
+		export->i = 0;
+		export->x = 0;
+		while(env[export->j][export->x])
 		{
-			mlc[j][i] = env[j][x];
-			if (mlc[j][i] == '=' && flag == 0)
+			export->mlc[export->j][export->i] = env[export->j][export->x];
+			if (export->mlc[export->j][export->i] == '=' && export->flag == 0)
 			{
-				flag = 1;
-				i++;
-				mlc[j][i] = '"';
+				export->flag = 1;
+				export->i++;
+				export->mlc[export->j][export->i] = '"';
 			}
-			i++;
-			x++;
+			export->i++;
+			export->x++;
 		}
-		flag = 0;
-		mlc[j][i] = '"';
-		j++;
+		export->flag = 0;
+		export->mlc[export->j][export->i] = '"';
+		export->j++;
 	}
-	return (bubble_sort(j, mlc));
+	return (bubble_sort(export->j, export->mlc));
+}
+void	struct_initialize(t_builtvars *export, char **env, int argc)
+{
+	export->mlc = exp_calloc(export, env, argc);
+	export->k = 0;
+	export->l = 0;
+	export->m = 0;
+	export->n = 0;
+	export->x = 0;
+	export->j = 0;
+	export->i = 0;
+	export->flag = 0;
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	int	j;
-	char	**mlc;
-	int	flag;
+	t_builtvars *export;
 
-	flag = 0;
+	export = ft_calloc(1 , sizeof(t_builtvars));
+	struct_initialize(export, env, argc);
 	if (argc == 1)
-	{
-		j = 0;
-		mlc = exp_calloc(j, env, argc);
-		write_exp(j, mlc);
-	}
+		write_exp(export->j, export->mlc);
 	else
 	{
-		int	i;
-		int	x;
-		int	l;
-		int m;
-		int	k;
-		int	n;
-
-		k = 0;
-		j = 0;
-		l = 0;
-		x = 0;
-		m = 0;
-		n = 0;
-		mlc = exp_calloc(j, env, argc);
-		i = mlc_size(j, mlc);
-		while(argv[++j])
+		export->i = mlc_size(export->j, export->mlc);
+		while(argv[++export->j])
 		{
-			if (var_comp(mlc, argv, 1) == 1)
+			if (var_comp(export->mlc, argv, 1) == 1)
 			{
-				m = var_equal_line(mlc, argv, 1);
-				while (argv[j][l])
+				export->m = var_equal_line(export->mlc, argv, 1);
+				while (argv[export->j][export->l])
 				{
-					while (argv[j][l] == mlc[m][l] && argv[j][l])
+					while (argv[export->j][export->l] == export->mlc[export->m][export->l] && argv[export->j][export->l])
 					{
-						if (argv[j][l] == '=')
+						if (argv[export->j][export->l] == '=')
 						{
-							mlc[m] = ft_calloc(ft_strlen(argv[j]) + 3, sizeof(char));
-							l = 0;
-							while(argv[j][l - 1] != '=')
+							line_waste(export, argv, 0);
+							export->l = 0;
+							while(argv[export->j][export->l - 1] != '=')
 							{
-								mlc[m][l] = argv[j][l];
-								l++;
+								export->mlc[export->m][export->l] = argv[export->j][export->l];
+								export->l++;
 							}
-							n = ft_strlen3(mlc[m]);
-							if (mlc[m][n + 1] != '"')
-								mlc[m][++n] = '"';
-							n++;
-							while (argv[j][l])
+							export->n = ft_strlen3(export->mlc[export->m]);
+							if (export->mlc[export->m][export->n + 1] != '"')
+								export->mlc[export->m][++export->n] = '"';
+							export->n++;
+							while (argv[export->j][export->l])
 							{
-								mlc[m][n] = argv[j][l];
-								n++;
-								l++;
+								export->mlc[export->m][export->n] = argv[export->j][export->l];
+								export->n++;
+								export->l++;
 							}
-							mlc[m][n] = '"';
+							export->mlc[export->m][export->n] = '"';
 						}
-						else if (argv[j][l] == '\0')
+						else if (argv[export->j][export->l] == '\0')
 							break ;
-						if (argv[j][l] != '\0')
-							l++;
+						if (argv[export->j][export->l] != '\0')
+							export->l++;
 					}
-					if (argv[j][l] != '\0')
-						l++;
+					if (argv[export->j][export->l] != '\0')
+						export->l++;
 				}
 			}
 			else
 			{
-				mlc[i] = ft_calloc(ft_strlen(argv[j]) + 3, sizeof(char));
-				while (argv[j][l])
+				export->mlc[export->i] = ft_calloc(ft_strlen(argv[export->j]) + 3, sizeof(char));
+				while (argv[export->j][export->l])
 				{
-					mlc[i][x] = argv[j][l];
-					if (mlc[i][x] == '=' && flag == 0)
+					export->mlc[export->i][export->x] = argv[export->j][export->l];
+					if (export->mlc[export->i][export->x] == '=' && export->flag == 0)
 					{
-						flag = 1;
-						x++;
-						mlc[i][x] = '"';
-						x++;
-						l++;
-						if (argv[j][l] == '\0')
-							mlc[i][x] = '"';
-						while (argv[j][l])
+						export->flag = 1;
+						export->x++;
+						export->mlc[export->i][export->x] = '"';
+						export->x++;
+						export->l++;
+						if (argv[export->j][export->l] == '\0')
+							export->mlc[export->i][export->x] = '"';
+						while (argv[export->j][export->l])
 						{
-							mlc[i][x] = argv[j][l];
-							x++;
-							l++;
-							if (argv[j][l] == '\0')
-								mlc[i][x] = '"';
+							export->mlc[export->i][export->x] = argv[export->j][export->l];
+							export->x++;
+							export->l++;
+							if (argv[export->j][export->l] == '\0')
+								export->mlc[export->i][export->x] = '"';
 						}
 					}
-					if (argv[j][l] != '\0')
-						l++;
-					x++;
-					flag = 0;
+					if (argv[export->j][export->l] != '\0')
+						export->l++;
+					export->x++;
+					export->flag = 0;
 				}
-				i++;
+				export->i++;
 			}
 		}
-		j = 0;
-		write_exp(j, mlc);
+		export->j = 0;
+		write_exp(export->j, export->mlc);
 	}
 }
