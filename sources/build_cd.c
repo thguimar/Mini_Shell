@@ -6,14 +6,13 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:33:47 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/24 14:50:19 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:53:05 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "builtins.h"
 #include <unistd.h>
 #include "../libft/libft.h"
-#include <fcntl.h>
 #include <fcntl.h>
 #include "../get_next_line.h"
 
