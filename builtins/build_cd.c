@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:33:47 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/29 19:46:27 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/04 20:58:50 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*user_search(char **env, int i, int j, int len)
 	return (NULL);
 }
 
-int	main(int argc, char **argv, char **env)
+void	build_cd(int argc, char **argv, char **env)
 {
 	t_cd	cd;
 	char	*home;

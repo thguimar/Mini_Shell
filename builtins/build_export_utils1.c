@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_export_utils1.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:45:32 by joanda-s          #+#    #+#             */
-/*   Updated: 2024/05/29 18:29:06 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/06/04 21:13:07 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	line_waste(t_builtvars *export, char **argv, int flag)
 		ft_calloc(ft_strlen(argv[export->j]) + 3, sizeof(char));
 }
 
-int	ft_strcmp(char *s1, char *s2)
+int	ft_strcmp2(char *s1, char *s2)
 {
 	while (*s1 != '\0' || *s2 != '\0')
 	{

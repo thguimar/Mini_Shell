@@ -6,13 +6,29 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/29 17:19:36 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/04 20:45:00 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
-//#include "mini_shell.h"
 #include "../libft/libft.h"
+
+void skips(char **argv, int j)
+{
+	int	i;
+
+	i = 0;
+	while(argv[j][i])
+	{
+		if (argv[j][i] == '"') //ISSO ESTA PULANDO AS '"' POREM QUANDO TEM APENAS
+			i++;				//UMA ASPAS PRECISAMOS ABRIR O HEREDOC
+		else
+		{
+			ft_putchar_fd(argv[j][i], 1);
+			i++;
+		}
+	}
+}
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -49,7 +65,7 @@ int	echo_func(char **argv, int flag)
 		}
 		if (argv[j] != NULL)
 		{
-			ft_putstr_fd(argv[j], 1);
+			skips(argv, j);
 			if (argv[j + 1] != NULL)
 				ft_putchar_fd(' ', 1);
 			else
@@ -60,14 +76,14 @@ int	echo_func(char **argv, int flag)
 	return (flag);
 }
 
-int	main(int argc, char **argv)
+void	build_echo(char **arr)
 {
 	int	flag;
 
 	flag = 0;
-	if (argc != 1)
+	if (arr)
 	{
-		flag = echo_func(argv, flag);
+		flag = echo_func(arr, flag);
 	}
 	if (flag != 1)
 		ft_putchar_fd('\n', 1);

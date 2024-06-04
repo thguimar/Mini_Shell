@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:27:03 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/29 19:15:49 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/06/04 21:33:35 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,14 @@ void	export_helper2(t_builtvars *export, char **argv)
 	export->i++;
 }
 
-int	main(int argc, char **argv, char **env)
+char	**build_export(int argc, char **argv, char **env, char **exp)
 {
 	t_builtvars	*export;
 
 	export = ft_calloc(1, sizeof(t_builtvars));
 	struct_initialize_export(export, env, argc);
+	if (exp != NULL)
+		export->mlc = exp;
 	if (argc == 1)
 		write_exp(export->j, export->mlc);
 	else
@@ -110,6 +112,6 @@ int	main(int argc, char **argv, char **env)
 				export_helper2(export, argv);
 		}
 		export->j = 0;
-		write_exp(export->j, export->mlc);
 	}
+	return (export->mlc);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 16:01:10 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/29 19:14:21 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/06/04 21:58:32 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	unset_helper(t_builtvars2 *unset, char **argv, char **env)
 	unset->j++;
 }
 
-int	main(int argc, char **argv, char **env)
+char	**build_unset(int argc, char **argv, char **env)
 {
 	t_builtvars2	*unset;
 
@@ -64,8 +64,8 @@ int	main(int argc, char **argv, char **env)
 		while (env[unset->l])
 			unset_helper(unset, argv, env);
 		unset->j = 0;
-		write_env(0, unset->clc);
 	}
 	else
 		ft_putstr_fd("\n", 1);
+	return (unset->clc);
 }

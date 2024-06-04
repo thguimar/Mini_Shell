@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/29 19:16:40 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/06/04 22:17:43 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 //# include <minishell.h>
 # include "../libft/libft.h"
 # include <stdlib.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct s_builtvars
 {
@@ -42,11 +44,21 @@ typedef struct s_builtvars2
 	char	**clc;
 }		t_builtvars2;
 
+typedef struct s_cd
+{
+	char 	*user;
+	int		flag;
+	char	*str;
+	char	*joined;
+	int		i;
+	int		j;
+}		t_cd;
+
 //Export Functions
 
 char	**bubble_sort(int j, char **mlc);
 char	**exp_calloc(t_builtvars *export, char **env, int argc);
-int		ft_strcmp(char *s1, char *s2);
+int		ft_strcmp2(char *s1, char *s2);
 int		ft_strlen3(char *str);
 int		mlc_size(int j, char **mlc);
 int		var_comp(char **env, char **argv, int j);
@@ -69,6 +81,22 @@ int		var_equal_line2(char **env, char *argv);
 void	struct_initialize_unset(t_builtvars2 *unset);
 void	unset_helper(t_builtvars2 *unset, char **argv, char **env);
 void	write_env(int j, char **mlc);
+
+//CD Functions
+
+void	argc_1(t_cd *cd, char *home, int argc, char **argv);
+void	argc_2(t_cd *cd, char **argv);
+int		is_twopoints(char *argv);
+
+//BUILTINS
+char	**build_export(int argc, char **argv, char **env, char **exp);
+char	**build_unset(int argc, char **argv, char **env);
+int		builtins(char *str);
+void	build_cd(int argc, char **argv, char **env);
+void	build_echo(char **arr);
+void	build_env(int argc, char **argv, char **env);
+void	build_exit(void);
+void	build_pwd(int argc, char **argv);
 
 //tokenizar a string, e depois usar o split para ...
 

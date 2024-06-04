@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_export_utils3.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:45:38 by joanda-s          #+#    #+#             */
-/*   Updated: 2024/05/29 18:30:07 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/06/04 21:28:23 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**bubble_sort(int j, char **mlc)
 	while (mlc[j])
 	{
 		if (mlc[j + 1] != NULL && \
-		mlc[j] != NULL && ft_strcmp(mlc[j], mlc[j + 1]) > 0)
+		mlc[j] != NULL && ft_strcmp2(mlc[j], mlc[j + 1]) > 0)
 		{
 			shelf = mlc[j];
 			mlc[j] = mlc[j + 1];

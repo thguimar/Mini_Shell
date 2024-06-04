@@ -6,14 +6,14 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:22:26 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/24 16:18:40 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/04 21:59:37 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "builtins.h"
 #include "../libft/libft.h"
 
-int	main(int argc, char **argv, char **env)
+void	build_env(int argc, char **argv, char **env)
 {
 	int	j;
 

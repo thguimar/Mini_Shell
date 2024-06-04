@@ -1,0 +1,2 @@
+compile -lreadline minishell.c  ../builtins/build_echo.c ../builtins/builtins.c ../builtins/build_cd.c ../builtins/build_cd_utils.c ../builtins/build_pwd.c ../builtins/build_export.c ../builtins/build_export_utils1.c ../builtins/build_export_utils2.c ../builtins/build_export_utils3.c ../builtins/build_unset.c ../builtins/build_unset_utils.c ../builtins/build_env.c ../builtins/build_exit.c commands.c ../libft/libft.a
+
