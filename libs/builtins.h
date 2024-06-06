@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/04 22:17:43 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/06 06:17:56 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define BUILTINS_H
 
 # include <dirent.h>
-//# include <minishell.h>
 # include "../libft/libft.h"
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include "minishell.h"
 
 typedef struct s_builtvars
 {
@@ -54,8 +54,19 @@ typedef struct s_cd
 	int		j;
 }		t_cd;
 
+typedef struct s_shell
+{
+	char			**exp;
+	char			**envr;
+	int				j;
+	int				process_id;
+	t_builtvars		*export;
+	t_builtvars2	*cd;
+}		t_shell;
+
 //Export Functions
 
+char	**bubble_joanda(int j, char **mlc);
 char	**bubble_sort(int j, char **mlc);
 char	**exp_calloc(t_builtvars *export, char **env, int argc);
 int		ft_strcmp2(char *s1, char *s2);
@@ -69,8 +80,8 @@ void	export_helper2(t_builtvars *export, char **argv);
 void	export_helper_helper(t_builtvars *export, char **argv);
 void	export_helper_helper2(t_builtvars *export, char **argv);
 void	line_waste(t_builtvars *export, char **argv, int flag);
-void	struct_initialize_export(t_builtvars *export, char **env, int argc);
-void	write_exp(int j, char **mlc);
+void	struct_initialize_export(t_shell *utils, char **env, int argc);
+void	write_exp(t_builtvars *export);
 
 //Unset Functions
 
@@ -89,7 +100,7 @@ void	argc_2(t_cd *cd, char **argv);
 int		is_twopoints(char *argv);
 
 //BUILTINS
-char	**build_export(int argc, char **argv, char **env, char **exp);
+char	**build_export(int argc, char **argv, char **env, t_shell *utils);
 char	**build_unset(int argc, char **argv, char **env);
 int		builtins(char *str);
 void	build_cd(int argc, char **argv, char **env);

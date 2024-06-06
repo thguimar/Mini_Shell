@@ -6,11 +6,11 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:27:03 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/04 21:33:35 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/06 06:21:21 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libs/builtins.h"
+#include "../libs/minishell.h"
 #include "../libft/libft.h"
 
 void	export_helper_helper(t_builtvars *export, char **argv)
@@ -91,27 +91,30 @@ void	export_helper2(t_builtvars *export, char **argv)
 	export->i++;
 }
 
-char	**build_export(int argc, char **argv, char **env, char **exp)
+char	**build_export(int argc, char **argv, char **env, t_shell *utils)
 {
-	t_builtvars	*export;
-
-	export = ft_calloc(1, sizeof(t_builtvars));
-	struct_initialize_export(export, env, argc);
-	if (exp != NULL)
-		export->mlc = exp;
+	struct_initialize_export(utils, env, argc);
+	if (utils->exp != NULL)
+		utils->export->mlc = utils->exp;
 	if (argc == 1)
-		write_exp(export->j, export->mlc);
+	{
+		utils->export->i = mlc_size(utils->export->j, utils->export->mlc);
+		write_exp(utils->export);
+	}
 	else
 	{
-		export->i = mlc_size(export->j, export->mlc);
-		while (argv[++export->j])
+		utils->export->i = mlc_size(utils->export->j, utils->export->mlc);
+		while (argv[++utils->export->j])
 		{
-			if (var_comp(export->mlc, argv, 1) == 1)
-				export_helper(export, argv);
+			if (var_comp(utils->export->mlc, argv, 1) == 1)
+				export_helper(utils->export, argv);
 			else
-				export_helper2(export, argv);
+			{
+				export_helper2(utils->export, argv);
+				utils->export->mlc = bubble_joanda(0, utils->export->mlc);
+			}
 		}
-		export->j = 0;
+		utils->export->j = 0;
 	}
-	return (export->mlc);
+	return (utils->export->mlc);
 }

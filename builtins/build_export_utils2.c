@@ -3,25 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   build_export_utils2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:45:35 by joanda-s          #+#    #+#             */
-/*   Updated: 2024/05/29 19:09:17 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/06/06 06:24:00 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
 #include "../libft/libft.h"
 
-void	struct_initialize_export(t_builtvars *export, char **env, int argc)
+void	struct_initialize_export(t_shell *utils, char **env, int argc)
 {
-	export->mlc = exp_calloc(export, env, argc);
-	export->k = 0;
-	export->l = 0;
-	export->m = 0;
-	export->n = 0;
-	export->x = 0;
-	export->j = 0;
-	export->i = 0;
-	export->flag = 0;
+	if (!utils->export->mlc)
+		utils->export->mlc = exp_calloc(utils->export, env, argc);
+	utils->export->k = 0;
+	utils->export->l = 0;
+	utils->export->m = 0;
+	utils->export->n = 0;
+	utils->export->x = 0;
+	utils->export->j = 0;
+	utils->export->i = 0;
+	utils->export->flag = 0;
 }

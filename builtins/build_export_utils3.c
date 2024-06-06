@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:45:38 by joanda-s          #+#    #+#             */
-/*   Updated: 2024/06/04 21:28:23 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/06 06:22:44 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,33 @@ int	mlc_size(int j, char **mlc)
 		j++;
 	return (j);
 }
+char	**bubble_joanda(int j, char **mlc)
+{
+	char	*shelf1;
+	char	*shelf2;
+	int		i;
+
+	j = mlc_size(j, mlc);
+	i = 0;
+	while(mlc[i])
+	{
+		if ((mlc[j] != NULL && \
+		mlc[i] != NULL) && ft_strcmp2(mlc[i], mlc[j]) > 0)
+		{
+			shelf1 = mlc[i];
+			mlc[i] = mlc[j];
+			i++;
+			if (mlc[i] != NULL)
+			{
+				shelf2 = mlc[i];
+				mlc[i] = shelf1;
+			}
+		}
+		if (mlc[i] != NULL)
+			i++;
+	}
+	return (mlc);
+}
 
 char	**bubble_sort(int j, char **mlc)
 {
@@ -27,9 +54,10 @@ char	**bubble_sort(int j, char **mlc)
 	j = 0;
 	while (mlc[j])
 	{
-		if (mlc[j + 1] != NULL && \
-		mlc[j] != NULL && ft_strcmp2(mlc[j], mlc[j + 1]) > 0)
+		if ((mlc[j + 1] != NULL && \
+		mlc[j] != NULL) && ft_strcmp2(mlc[j], mlc[j + 1]) > 0)
 		{
+			//printf("ft_strcmp2(mlc[j], mlc[j + 1]): %i\n", ft_strcmp2(mlc[j], mlc[j + 1]));
 			shelf = mlc[j];
 			mlc[j] = mlc[j + 1];
 			mlc[j + 1] = shelf;
@@ -40,17 +68,18 @@ char	**bubble_sort(int j, char **mlc)
 	return (mlc);
 }
 
-void	write_exp(int j, char **mlc)
+void	write_exp(t_builtvars *export)
 {
-	mlc = bubble_sort(j, mlc);
-	while (mlc[j])
+	export->mlc = bubble_sort(export->j, export->mlc);
+	export->mlc = bubble_sort(export->j, export->mlc);
+	while (export->mlc[export->j])
 	{
 		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(mlc[j], 1);
+		ft_putstr_fd(export->mlc[export->j], 1);
 		ft_putstr_fd("\n", 1);
-		j++;
+		export->j++;
 	}
-	mlc[j] = NULL;
+	export->mlc[export->j] = NULL;
 }
 
 void	exp_calloc_helper(t_builtvars *export, char **env)
