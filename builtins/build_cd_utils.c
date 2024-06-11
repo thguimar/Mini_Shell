@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:03:58 by thguimar          #+#    #+#             */
-/*   Updated: 2024/05/29 19:46:09 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:30:53 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	argc_2(t_cd *cd, char **argv)
 		}
 		while (argv[1][cd->i])
 			cd->str[cd->j++] = argv[1][cd->i++];
-		cd->joined = ft_strjoin(getcwd(argv[1], 100), cd->str);
-		chdir(cd->joined);
+		//cd->joined = ft_strjoin(getcwd(argv[1], 100), cd->str);
+		chdir(getcwd(argv[1], 100));
 		cd->flag = 1;
 	}
 }

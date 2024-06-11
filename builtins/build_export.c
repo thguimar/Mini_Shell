@@ -5,116 +5,262 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 18:27:03 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/06 06:21:21 by thguimar         ###   ########.fr       */
+/*   Created: 2024/06/07 16:33:10 by thguimar          #+#    #+#             */
+/*   Updated: 2024/06/11 20:21:13 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libs/minishell.h"
-#include "../libft/libft.h"
+#include "../libs/builtins.h"
 
-void	export_helper_helper(t_builtvars *export, char **argv)
+int	mlc_size(int j, char **mlc)
+{
+	while (mlc[j])
+		j++;
+	return (j);
+}
+
+int	ft_strcmp2(char *s1, char *s2)
+{
+	while (*s1 != '\0' || *s2 != '\0')
+	{
+		//printf("*s1: %s\n*s2: %s\n", s1, s2);
+		if (*s1 != *s2)
+			return (*s1 - *s2);
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}
+
+char	**exp_copy2(char **exp)
+{
+	int		i;
+	int		j;
+	char	**copy;
+
+	i = -1;
+	j = -1;
+	copy = ft_calloc(mlc_size(0, exp) + 2, sizeof(char *));
+	while (exp[++j])
+	{
+		copy[j] = ft_calloc(ft_strlen(exp[j]) + 1, sizeof(char));
+		while(exp[j][++i])
+			copy[j][i] = exp[j][i];
+		i = -1;
+	}
+	return (copy);
+}
+
+char	**exp_copy(char **exp)
+{
+	int		i;
+	int		j;
+	char	**copy;
+
+	i = -1;
+	j = -1;
+	copy = ft_calloc(mlc_size(0, exp) + 1, sizeof(char *));
+	while (exp[++j + 1])
+	{
+		copy[j] = ft_calloc(ft_strlen(exp[j]) + 1, sizeof(char));
+		while(exp[j][++i])
+			copy[j][i] = exp[j][i];
+		i = -1;
+	}
+	return (copy);
+}
+
+char	**bubble_sort(int j, char **mlc, int flag)
+{
+	char	**copy;
+	char	*shelf;
+	int		i = 0;
+
+	if (flag == 0)
+		copy = exp_copy(mlc);
+	else
+		copy = exp_copy2(mlc);
+	j = 0;
+	while (copy[j])
+	{
+		if ((copy[j + 1] != NULL && copy[j] != NULL) &&
+			ft_strcmp2(copy[j], copy[j + 1]) > 0)
+		{
+			shelf = copy[j];
+			copy[j] = copy[j + 1];
+			copy[j + 1] = shelf;
+			j = -1;
+			i = -1;
+		}
+		i++;
+		j++;
+	}
+	return (copy);
+}
+
+void	write_exp(t_shell *utils)
+{
+	int	j;
+	int	i;
+	int	flag;
+
+	j = 0;
+	i = 0;
+	flag = 0;
+	while (utils->exp[j])
+	{
+		ft_putstr_fd("declare -x ", 1);
+		while (utils->exp[j][i])
+		{
+			if (utils->exp[j][i - 1] == '=' && flag == 0)
+			{
+				flag = 1;
+				ft_putchar_fd('"', 1);
+			}
+			ft_putchar_fd(utils->exp[j][i], 1);
+			i++;
+			if (flag == 1 && utils->exp[j][i] == '\0')
+			{
+				ft_putchar_fd('"', 1);
+				flag = 0;
+			}
+		}
+		ft_putstr_fd("\n", 1);
+		i = 0;
+		j++;
+	}
+	utils->exp[j] = NULL;
+}
+
+int	ft_strlen3(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '=' && str[i])
+		i++;
+	return (i);
+}
+
+int	var_equal_line(char **env, char **argv, int j)
+{
+	int	m;
+
+	m = 0;
+	while (env[m])
+	{
+		if (ft_strncmp(argv[j], env[m], ft_strlen3(argv[j])) == 0)
+			return (m);
+		m++;
+	}
+	return (0);
+}
+
+void	line_waste(t_builtvars *export, char **argv, int flag)
+{
+	free(export->mlc[export->m]);
+	if (flag == 0)
+		export->mlc[export->m] = \
+		ft_calloc(ft_strlen(argv[export->j]) + 1, sizeof(char));
+	if (flag == 1)
+		export->mlc[export->i] = \
+		ft_calloc(ft_strlen(argv[export->j]) + 1, sizeof(char));
+}
+
+void	export_helper2(t_builtvars *export, char **argv, int i)
+{
+	int	j;
+	
+	j = mlc_size(0, export->mlc);
+	export->mlc[j] = ft_strdup(argv[i]);
+}
+
+void	export_helper_helper(t_builtvars *export, char **argv, int j)
 {
 	line_waste(export, argv, 0);
 	export->l = 0;
-	while (argv[export->j][export->l - 1] != '=')
+	while (argv[j][export->l - 1] != '=')
 	{
-		export->mlc[export->m][export->l] = argv[export->j][export->l];
+		export->mlc[export->m][export->l] = argv[j][export->l];
 		export->l++;
 	}
 	export->n = ft_strlen3(export->mlc[export->m]);
-	if (export->mlc[export->m][export->n + 1] != '"')
-		export->mlc[export->m][++export->n] = '"';
-	export->n++;
-	while (argv[export->j][export->l])
+	if (argv[j][export->l] != '"')
+		export->n++;
+	while (argv[j][export->l + 1] == '"')
+		export->l++;
+	while (argv[j][export->l])
 	{
-		export->mlc[export->m][export->n] = argv[export->j][export->l];
+		if (argv[j][export->l] != '"')
+			export->mlc[export->m][export->n] = argv[j][export->l];
 		export->n++;
 		export->l++;
 	}
-	export->mlc[export->m][export->n] = '"';
 }
 
-void	export_helper(t_builtvars *export, char **argv)
+void	export_helper(t_builtvars *export, char **argv, int j)
 {
-	export->m = var_equal_line(export->mlc, argv, 1);
-	while (argv[export->j][export->l])
+	export->m = var_equal_line(export->mlc, argv, j);
+	while (argv[j][export->l])
 	{
-		while (argv[export->j][export->l] == \
-		export->mlc[export->m][export->l] && argv[export->j][export->l])
+		while (argv[j][export->l] == \
+		export->mlc[export->m][export->l] && argv[j][export->l])
 		{
-			if (argv[export->j][export->l] == '=')
-				export_helper_helper(export, argv);
-			else if (argv[export->j][export->l] == '\0')
+			if (argv[j][export->l] == '=')
+				export_helper_helper(export, argv, j);
+			else if (argv[j][export->l] == '\0')
 				break ;
-			if (argv[export->j][export->l] != '\0')
+			if (argv[j][export->l] != '\0')
 				export->l++;
 		}
-		if (argv[export->j][export->l] != '\0')
+		if (argv[j][export->l] != '\0')
 			export->l++;
 	}
 }
 
-void	export_helper_helper2(t_builtvars *export, char **argv)
+int	equal_vars(char **envr, char **argv, int j)
 {
-	export->flag = 1;
-	export->x++;
-	export->mlc[export->i][export->x] = '"';
-	export->x++;
-	export->l++;
-	if (argv[export->j][export->l] == '\0')
-		export->mlc[export->i][export->x] = '"';
-	while (argv[export->j][export->l])
+	int	m;
+
+	m = 0;
+	while (envr[m])
 	{
-		export->mlc[export->i][export->x] = argv[export->j][export->l];
-		export->x++;
-		export->l++;
-		if (argv[export->j][export->l] == '\0')
-			export->mlc[export->i][export->x] = '"';
+		if (ft_strncmp(argv[j], envr[m], ft_strlen3(argv[j])) == 0)
+			return (1);
+		m++;
 	}
+	return (0);
 }
 
-void	export_helper2(t_builtvars *export, char **argv)
+char	**build_export(int argc, char **argv, t_shell *utils)
 {
-	export->mlc[export->i] = \
-	ft_calloc(ft_strlen(argv[export->j]) + 3, sizeof(char));
-	while (argv[export->j][export->l])
-	{
-		export->mlc[export->i][export->x] = argv[export->j][export->l];
-		if (export->mlc[export->i][export->x] == '=' && export->flag == 0)
-			export_helper_helper2(export, argv);
-		if (argv[export->j][export->l] != '\0')
-			export->l++;
-		export->x++;
-		export->flag = 0;
-	}
-	export->i++;
-}
-
-char	**build_export(int argc, char **argv, char **env, t_shell *utils)
-{
-	struct_initialize_export(utils, env, argc);
-	if (utils->exp != NULL)
-		utils->export->mlc = utils->exp;
+	int	j;
+	
+	(void)argv;
+	j = 1;
 	if (argc == 1)
 	{
-		utils->export->i = mlc_size(utils->export->j, utils->export->mlc);
-		write_exp(utils->export);
+		utils->export->i = mlc_size(0, utils->exp);
+		write_exp(utils);
 	}
 	else
 	{
-		utils->export->i = mlc_size(utils->export->j, utils->export->mlc);
-		while (argv[++utils->export->j])
+		while(argv[j])
 		{
-			if (var_comp(utils->export->mlc, argv, 1) == 1)
-				export_helper(utils->export, argv);
+			if (equal_vars(utils->envr, argv, j) == 1)
+			{
+				utils->export->mlc = utils->exp;
+				export_helper(utils->export, argv, j);
+			}
 			else
 			{
-				export_helper2(utils->export, argv);
-				utils->export->mlc = bubble_joanda(0, utils->export->mlc);
+				utils->export->mlc = utils->exp;
+				export_helper2(utils->export, argv, j);
+				utils->exp = bubble_sort(0, utils->export->mlc, 1);
 			}
+			index_reset(utils);
+			j++;
 		}
-		utils->export->j = 0;
 	}
-	return (utils->export->mlc);
+	return (utils->exp);
 }

@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:33:47 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/06 07:42:27 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:18:05 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	build_cd(int argc, char **argv, char **env)
 		argc_1(&cd, home, argc, argv);
 	if (argc == 2)
 		argc_2(&cd, argv);
+	//printf("whoop\n");
 	if (cd.flag == 1)
 	{
 		free(cd.str);

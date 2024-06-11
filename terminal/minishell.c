@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/06 07:10:53 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/11 20:25:37 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,27 @@ void	exec_builtin(int flag, char **command, char **env, t_shell *utils)
 	else if (flag == 3)
 		build_pwd(utils->j, command);
 	else if (flag == 4)
-		utils->exp = build_export(utils->j, command, env, utils);//utils->exp
+		utils->exp = build_export(utils->j, command, utils);//utils->exp
 	else if (flag == 5)
 		utils->envr = build_unset(utils->j, command, env);
 	else if (flag == 6)
-		build_env(utils->j, command, env);
+		build_env(utils->j, command, utils->envr);
 	else if (flag == 7)
 		build_exit();
-}	//32
+}
+
+void	index_reset(t_shell *utils)
+{
+	utils->j = 0;
+	utils->export->i = 0;
+	utils->export->j = 0;
+	utils->export->k = 0;
+	utils->export->l = 0;
+	utils->export->m = 0;
+	utils->export->n = 0;
+	utils->export->x = 0;
+	utils->export->flag = 0;
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -44,7 +57,7 @@ int	main(int argc, char **argv, char **env)
 	utils->export = ft_calloc(2, sizeof(t_builtvars));
 	utils->j = 0;
 	utils->envr = env;
-	utils->exp = env;
+	utils->exp = bubble_sort(0, env, 0);
 	if (argc != 1 || argv[1])
 	{
 		printf("invalid args (no args should be used)\n");
@@ -52,7 +65,8 @@ int	main(int argc, char **argv, char **env)
 	}
     while (1)
 	{
-    	input = readline("panic_shell> ");
+		index_reset(utils);
+    	input = readline("\x1b[5;95mpanic_shell> \x1b[0m");
 		command = ft_split(input, ' ');
 		while (command[utils->j])
 			utils->j++;

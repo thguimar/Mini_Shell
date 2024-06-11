@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/06 06:17:56 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/11 19:36:58 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,22 @@ typedef struct s_shell
 //Export Functions
 
 char	**bubble_joanda(int j, char **mlc);
-char	**bubble_sort(int j, char **mlc);
+char	**bubble_sort(int j, char **mlc, int flag);
 char	**exp_calloc(t_builtvars *export, char **env, int argc);
 int		ft_strcmp2(char *s1, char *s2);
 int		ft_strlen3(char *str);
+void	index_reset(t_shell *utils);
 int		mlc_size(int j, char **mlc);
 int		var_comp(char **env, char **argv, int j);
 int		var_equal_line(char **env, char **argv, int j);
 void	exp_calloc_helper(t_builtvars *export, char **env);
-void	export_helper(t_builtvars *export, char **argv);
-void	export_helper2(t_builtvars *export, char **argv);
-void	export_helper_helper(t_builtvars *export, char **argv);
+void	export_helper(t_builtvars *export, char **argv, int j);
+void	export_helper2(t_builtvars *export, char **argv, int i);
+void	export_helper_helper(t_builtvars *export, char **argv, int j);
 void	export_helper_helper2(t_builtvars *export, char **argv);
 void	line_waste(t_builtvars *export, char **argv, int flag);
 void	struct_initialize_export(t_shell *utils, char **env, int argc);
-void	write_exp(t_builtvars *export);
+void	write_exp(t_shell *utils);
 
 //Unset Functions
 
@@ -100,7 +101,7 @@ void	argc_2(t_cd *cd, char **argv);
 int		is_twopoints(char *argv);
 
 //BUILTINS
-char	**build_export(int argc, char **argv, char **env, t_shell *utils);
+char	**build_export(int argc, char **argv, t_shell *utils);
 char	**build_unset(int argc, char **argv, char **env);
 int		builtins(char *str);
 void	build_cd(int argc, char **argv, char **env);
