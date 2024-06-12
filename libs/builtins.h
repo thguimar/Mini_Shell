@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/11 19:36:58 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:02:15 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	export_helper(t_builtvars *export, char **argv, int j);
 void	export_helper2(t_builtvars *export, char **argv, int i);
 void	export_helper_helper(t_builtvars *export, char **argv, int j);
 void	export_helper_helper2(t_builtvars *export, char **argv);
-void	line_waste(t_builtvars *export, char **argv, int flag);
+int		line_waste(t_builtvars *export, char **argv, int flag, int j);
 void	struct_initialize_export(t_shell *utils, char **env, int argc);
 void	write_exp(t_shell *utils);
 
@@ -106,7 +106,7 @@ char	**build_unset(int argc, char **argv, char **env);
 int		builtins(char *str);
 void	build_cd(int argc, char **argv, char **env);
 void	build_echo(char **arr);
-void	build_env(int argc, char **argv, char **env);
+void	build_env(int argc, char **argv, t_shell *utils);
 void	build_exit(void);
 void	build_pwd(int argc, char **argv);
 

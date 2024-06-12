@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/11 20:25:37 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:05:42 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	exec_builtin(int flag, char **command, char **env, t_shell *utils)
 	else if (flag == 5)
 		utils->envr = build_unset(utils->j, command, env);
 	else if (flag == 6)
-		build_env(utils->j, command, utils->envr);
+		build_env(utils->j, command, utils);
 	else if (flag == 7)
 		build_exit();
 }

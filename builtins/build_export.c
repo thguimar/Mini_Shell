@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:33:10 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/11 20:21:13 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:07:17 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,11 @@ int	var_equal_line(char **env, char **argv, int j)
 	return (0);
 }
 
-void	line_waste(t_builtvars *export, char **argv, int flag)
+int	line_waste(t_builtvars *export, char **argv, int flag, int j)
 {
+	int	i;
+
+	i = 0;
 	free(export->mlc[export->m]);
 	if (flag == 0)
 		export->mlc[export->m] = \
@@ -165,26 +168,49 @@ void	line_waste(t_builtvars *export, char **argv, int flag)
 	if (flag == 1)
 		export->mlc[export->i] = \
 		ft_calloc(ft_strlen(argv[export->j]) + 1, sizeof(char));
+	if (j >= 0)
+	{
+		while (argv[j][i++])
+		{
+			if (argv[j][i] == '=')
+				flag = 1;
+		}
+	}
+	return (flag);
 }
 
 void	export_helper2(t_builtvars *export, char **argv, int i)
 {
 	int	j;
 	
-	j = mlc_size(0, export->mlc);
-	export->mlc[j] = ft_strdup(argv[i]);
+	if (!ft_isalpha(argv[i][0]))
+		printf("export: `%s': not a valid identifier\n", argv[i]);
+	else
+	{
+		j = mlc_size(0, export->mlc);
+		export->mlc[j] = ft_strdup(argv[i]);
+	}
 }
 
 void	export_helper_helper(t_builtvars *export, char **argv, int j)
 {
-	line_waste(export, argv, 0);
+	int	flag;
+
+	flag = line_waste(export, argv, 0, j);
 	export->l = 0;
-	while (argv[j][export->l - 1] != '=')
+	while (argv[j][export->l - 1] != '=' || argv[j][export->l])
 	{
 		export->mlc[export->m][export->l] = argv[j][export->l];
 		export->l++;
 	}
-	export->n = ft_strlen3(export->mlc[export->m]);
+	printf("...\n");
+	if (flag == 1)
+	{
+		printf("FLAG -> %i\n", flag);
+		export->n = ft_strlen3(export->mlc[export->m]);
+	}
+	else
+		export->n = ft_strlen(export->mlc[export->m]);
 	if (argv[j][export->l] != '"')
 		export->n++;
 	while (argv[j][export->l + 1] == '"')
@@ -206,28 +232,43 @@ void	export_helper(t_builtvars *export, char **argv, int j)
 		while (argv[j][export->l] == \
 		export->mlc[export->m][export->l] && argv[j][export->l])
 		{
-			if (argv[j][export->l] == '=')
+			if (ft_strlen3(argv[j]) == 1)
 				export_helper_helper(export, argv, j);
-			else if (argv[j][export->l] == '\0')
-				break ;
-			if (argv[j][export->l] != '\0')
-				export->l++;
+			else
+			{
+				if (argv[j][export->l] == '=')
+					export_helper_helper(export, argv, j);
+				else if (argv[j][export->l] == '\0')
+					break ;
+				if (argv[j][export->l] != '\0')
+					export->l++;
+			}
 		}
 		if (argv[j][export->l] != '\0')
 			export->l++;
 	}
 }
 
-int	equal_vars(char **envr, char **argv, int j)
+int	equal_vars(char **exp, char **argv, int j)
 {
 	int	m;
 
 	m = 0;
-	while (envr[m])
+	while (exp[m + 1])
 	{
-		if (ft_strncmp(argv[j], envr[m], ft_strlen3(argv[j])) == 0)
-			return (1);
-		m++;
+		if (ft_strlen3(argv[j]) > ft_strlen3(exp[m]))
+		{
+			if (ft_strncmp(argv[j], exp[m], ft_strlen3(argv[j])) == 0)
+				return (1);
+			m++;
+		}
+		else
+		{
+			if (ft_strncmp(argv[j], exp[m], ft_strlen3(exp[m])) == 0)
+				return (1);
+			m++;
+		}
+
 	}
 	return (0);
 }
@@ -247,10 +288,11 @@ char	**build_export(int argc, char **argv, t_shell *utils)
 	{
 		while(argv[j])
 		{
-			if (equal_vars(utils->envr, argv, j) == 1)
+			if (equal_vars(utils->exp, argv, j) == 1)
 			{
 				utils->export->mlc = utils->exp;
 				export_helper(utils->export, argv, j);
+				utils->export->mlc = bubble_sort(0, utils->export->mlc, 1);
 			}
 			else
 			{
@@ -264,3 +306,8 @@ char	**build_export(int argc, char **argv, t_shell *utils)
 	}
 	return (utils->exp);
 }
+/*if !minishell
+	if (pebonito)
+		vender pack do pe
+	else
+		trafico*/ 
