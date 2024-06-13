@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   build_echo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/04 20:45:00 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/13 22:10:04 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
 #include "../libft/libft.h"
 
-void skips(char **argv, int j)
+void	skips(char **argv, int j)
 {
 	int	i;
 
 	i = 0;
-	while(argv[j][i])
+	while (argv[j][i])
 	{
-		if (argv[j][i] == '"') //ISSO ESTA PULANDO AS '"' POREM QUANDO TEM APENAS
-			i++;				//UMA ASPAS PRECISAMOS ABRIR O HEREDOC
+		if (argv[j][i] == '"')
+			i++;
 		else
 		{
 			ft_putchar_fd(argv[j][i], 1);
@@ -88,3 +88,5 @@ void	build_echo(char **arr)
 	if (flag != 1)
 		ft_putchar_fd('\n', 1);
 }
+//23-24: ISSO ESTA PULANDO AS '"' POREM QUANDO TEM APENAS
+//23-24: UMA ASPAS PRECISAMOS ABRIR O HEREDOC

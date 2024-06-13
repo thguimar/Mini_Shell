@@ -3,69 +3,121 @@
 /*                                                        :::      ::::::::   */
 /*   build_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 16:01:10 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/04 21:58:32 by thguimar         ###   ########.fr       */
+/*   Created: 2024/06/13 14:24:33 by thiago-camp       #+#    #+#             */
+/*   Updated: 2024/06/13 22:28:48 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
-#include "../libft/libft.h"
 
-void	struct_initialize_unset(t_builtvars2 *unset)
+int	unset_argv_checker(char *exp, char **argv)
 {
-	unset->i = 0;
-	unset->j = 0;
-	unset->l = 0;
-	unset->m = 0;
-	unset->flag = 0;
-	unset->clc = 0;
-	unset->tries = 0;
-}
+	int	j;
 
-void	unset_helper(t_builtvars2 *unset, char **argv, char **env)
-{
-	unset->m = 0;
-	if (there_is_an_equal_argv(argv, env[unset->l]) == 1)
+	j = 0;
+	while (argv[j])
 	{
-		unset->clc[unset->i] = \
-		ft_calloc(ft_strlen(env[unset->l]) + 1, sizeof(char));
-		while (env[unset->l][unset->m])
-		{
-			unset->clc[unset->i][unset->m] = env[unset->l][unset->m];
-			unset->m++;
-		}
-		unset->i++;
+		if (ft_strncmp(exp, argv[j], ft_strlen4(argv[j])) == 0)
+			return (1);
+		j++;
 	}
-	unset->l++;
-	unset->j++;
+	return (0);
 }
 
-char	**build_unset(int argc, char **argv, char **env)
+char	**build_unset(int argc, char **argv, char **exp, int i)
 {
-	t_builtvars2	*unset;
+	int		j;
+	char	**copy;
+	int		flag;
 
-	unset = ft_calloc(1, sizeof(t_builtvars2));
-	struct_initialize_unset(unset);
-	if (argc != 1)
+	j = -1;
+	flag = 0;
+	if (argc > 1)
 	{
-		while (argv[unset->j])
+		while (argv[++j])
 		{
-			if (var_comp2(env, argv, 0) == 1)
-				unset->flag++;
-			unset->j++;
+			while (exp[++i])
+			{
+				if (ft_strncmp(exp[i], argv[j], ft_strlen4(argv[j]) == 0))
+					flag++;
+			}
+			i = -1;
 		}
-		unset->j = 0;
-		while (env[unset->j + 1])
-			unset->j++;
-		unset->clc = ft_calloc((unset->j + 1 - unset->flag), sizeof(char *));
-		unset->j = 0;
-		while (env[unset->l])
-			unset_helper(unset, argv, env);
-		unset->j = 0;
+		j = -1;
+		copy = ft_calloc(mlc_size(0, exp) + 1 - flag, sizeof(char *));
+		while (exp[++i])
+			if (unset_argv_checker(exp[i], argv) == 0)
+				copy[++j] = ft_strdup(exp[i]);
+		exp = copy;
 	}
-	else
-		ft_putstr_fd("\n", 1);
-	return (unset->clc);
+	return (exp);
 }
+
+//char	**build_unset(int argc, char **argv, char **exp)
+//{
+//	int		j;
+//	int		i;
+//	char	**copy;
+//	int		flag;
+//
+//	i = 0;
+//	j = 0;
+//	flag = 0;
+//	if (argc > 1)
+//	{
+//		while (argv[j])
+//		{
+//			while (exp[i])
+//			{
+//				if (ft_strncmp(exp[i], argv[j], ft_strlen4(argv[j]) == 0))
+//					flag++;
+//				i++;
+//			}
+//			i = 0;
+//			j++;
+//		}
+//		j = 0;
+//		copy = ft_calloc(mlc_size(0, exp) + 1 - flag, sizeof(char *));
+//		while (exp[i++])
+//		{
+//			if (unset_argv_checker(exp[i], argv) == 0)
+//			{
+//				copy[j] = ft_strdup(exp[i]);
+//				j++;
+//			}
+//		}
+//		exp = copy;
+//	}
+//	return (exp);
+//}
+//char	**build_unset(int argc, char **argv, char **exp, int flag)
+//{
+//	int		array[2];
+//	char	**copy;
+//	
+//	array[0] = 0; // i;
+//	array[1] = -1; // j;
+//	if (argc > 1)
+//	{
+//		while (argv[++array[1]])
+//		{
+//			while (exp[++array[0]])
+//			{
+//				if (ft_strncmp(exp[array[0]], argv[array[1]], ft_strlen4(argv[array[1]]) == 0))
+//					flag++;
+//			}
+//			array[0] = -1;
+//		}
+//		array[1] = -1;
+//		copy = ft_calloc(mlc_size(0, exp) + 1 - array[2], sizeof(char *));
+//		while (exp[++array[0]])
+//		{
+//			if (unset_argv_checker(exp[array[0]], argv) == 0)
+//				copy[++array[1]] = ft_strdup(exp[array[0]]);
+//		}
+//		exp = copy;
+//	}
+//	return (exp);
+//}

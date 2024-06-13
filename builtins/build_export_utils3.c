@@ -1,27 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_pwd.c                                        :+:      :+:    :+:   */
+/*   build_export_utils3.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 15:49:53 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/13 22:42:13 by joana            ###   ########.fr       */
+/*   Created: 2024/06/13 21:34:30 by joana             #+#    #+#             */
+/*   Updated: 2024/06/13 21:34:46 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
-#include "../libft/libft.h"
 
-void	build_pwd(int argc, char **argv)
+int	line_waste(t_builtvars *export, char **argv, int flag, int j)
 {
-	(void)argv;
-	if (argc == 1)
-		ft_putstr_fd(getcwd(argv[1], 100), 1);
-	ft_putstr_fd("\n", 1);
-}
+	int	i;
 
-/*
-LEMBRAR DE COLOCAR O RESULTADO
-DE PWD NO EXPORT/ENV
-*/
+	i = 0;
+	free(export->mlc[export->m]);
+	if (flag == 0)
+		export->mlc[export->m] = \
+		ft_calloc(ft_strlen(argv[export->j]) + 1, sizeof(char));
+	if (flag == 1)
+		export->mlc[export->i] = \
+		ft_calloc(ft_strlen(argv[export->j]) + 1, sizeof(char));
+	if (j >= 0)
+	{
+		while (argv[j][i++])
+		{
+			if (argv[j][i] == '=')
+				flag = 1;
+		}
+	}
+	return (flag);
+}
