@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:24:33 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/06/13 22:28:48 by joana            ###   ########.fr       */
+/*   Updated: 2024/06/18 19:49:31 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	**build_unset(int argc, char **argv, char **exp, int i)
 	int		j;
 	char	**copy;
 	int		flag;
+	int		sla;
 
 	j = -1;
 	flag = 0;
@@ -40,16 +41,21 @@ char	**build_unset(int argc, char **argv, char **exp, int i)
 		{
 			while (exp[++i])
 			{
-				if (ft_strncmp(exp[i], argv[j], ft_strlen4(argv[j]) == 0))
-					flag++;
+				sla = ft_strncmp(exp[i], argv[j], ft_strlen4(argv[j]));
+				if (sla == 0)
+					flag++;	
 			}
 			i = -1;
 		}
 		j = -1;
-		copy = ft_calloc(mlc_size(0, exp) + 1 - flag, sizeof(char *));
+		copy = ft_calloc(mlc_size(0, exp) - flag, sizeof(char *));
 		while (exp[++i])
+		{
 			if (unset_argv_checker(exp[i], argv) == 0)
 				copy[++j] = ft_strdup(exp[i]);
+			printf("size: %i\n", mlc_size(0, copy));
+		}
+		//printf("now: %s\nafter: %s\n", copy[59], copy[60]);
 		exp = copy;
 	}
 	return (exp);

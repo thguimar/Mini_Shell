@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_export_utils1.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:23:45 by joana             #+#    #+#             */
-/*   Updated: 2024/06/13 21:31:30 by joana            ###   ########.fr       */
+/*   Updated: 2024/06/18 20:19:02 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_strcmp2(char *s1, char *s2)
 	return (*s1 - *s2);
 }
 
-char	**exp_copy2(char **exp)
+char	**exp_copy2(char **exp, int argc)
 {
 	int		i;
 	int		j;
@@ -39,7 +39,8 @@ char	**exp_copy2(char **exp)
 
 	i = -1;
 	j = -1;
-	copy = ft_calloc(mlc_size(0, exp) + 2, sizeof(char *));
+	printf("%i\n", mlc_size(0, exp));
+	copy = ft_calloc(mlc_size(0, exp) + argc - 1, sizeof(char *));
 	while (exp[++j])
 	{
 		copy[j] = ft_calloc(ft_strlen(exp[j]) + 1, sizeof(char));
@@ -69,7 +70,7 @@ char	**exp_copy(char **exp)
 	return (copy);
 }
 
-char	**bubble_sort(int j, char **mlc, int flag)
+char	**bubble_sort(int j, char **mlc, int flag, int argc)
 {
 	char	**copy;
 	char	*shelf;
@@ -79,7 +80,7 @@ char	**bubble_sort(int j, char **mlc, int flag)
 	if (flag == 0)
 		copy = exp_copy(mlc);
 	else
-		copy = exp_copy2(mlc);
+		copy = exp_copy2(mlc, argc);
 	j = 0;
 	while (copy[j])
 	{

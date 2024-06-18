@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/13 22:36:50 by joana            ###   ########.fr       */
+/*   Updated: 2024/06/18 20:11:32 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ typedef struct s_shell
 
 //Export Functions
 
-char	**bubble_sort(int j, char **mlc, int flag);
+char	**bubble_sort(int j, char **mlc, int flag, int argc);
 char	**exp_copy(char **exp);
-char	**exp_copy2(char **exp);
+char	**exp_copy2(char **exp, int argc);
 int		equal_vars(char **exp, char **argv, int j);
 int		ft_strcmp2(char *s1, char *s2);
 int		ft_strlen3(char *str);
@@ -125,6 +125,7 @@ void	skips(char **argv, int j);
 char	**build_export(int argc, char **argv, t_shell *utils);
 char	**build_unset(int argc, char **argv, char **exp, int i);
 int		builtins_id(char *str, t_stuff *stuff);
+int		is_there_equals(char *argv);
 void	build_cd(int argc, char **argv, char **env);
 void	build_echo(char **arr);
 void	build_env(int argc, char **argv, t_shell *utils);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_export_utils2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:25:38 by joana             #+#    #+#             */
-/*   Updated: 2024/06/13 21:34:28 by joana            ###   ########.fr       */
+/*   Updated: 2024/06/18 20:19:17 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	write_exp(t_shell *utils)
 	int	j;
 	int	i;
 	int	flag;
+	int	flag2;
 
 	j = -1;
 	i = 0;
@@ -25,15 +26,23 @@ void	write_exp(t_shell *utils)
 	{
 		ft_putstr_fd("declare -x ", 1);
 		while (utils->exp[j][i])
-			write_exp_helper(utils, i, j, flag);
+			flag2 = write_exp_helper(utils, i, j, flag);
+		if (flag2 == 0 && is_there_equals(utils->exp[j]) == 1)
+		{
+			ft_putchar_fd('"', 1);
+			ft_putchar_fd('"', 1);
+		}
 		ft_putstr_fd("\n", 1);
 		i = 0;
 	}
 	utils->exp[j] = NULL;
 }
 
-void	write_exp_helper(t_shell *utils, int i, int j, int flag)
+int	write_exp_helper(t_shell *utils, int i, int j, int flag)
 {
+	int	flag2;
+
+	flag2 = 0;
 	if (utils->exp[j][i - 1] == '=' && flag == 0)
 	{
 		flag = 1;
@@ -45,7 +54,9 @@ void	write_exp_helper(t_shell *utils, int i, int j, int flag)
 	{
 		ft_putchar_fd('"', 1);
 		flag = 0;
+		flag2 = 1;
 	}
+	return (flag2);
 }
 
 int	ft_strlen3(char *str)
@@ -72,12 +83,12 @@ int	var_equal_line(char **env, char **argv, int j)
 	return (0);
 }
 
-int	equal_vars(char **exp, char **argv, int j)
+int	equal_vars(char **exp, char **argv, int j, int flag)
 {
 	int	m;
 
 	m = 0;
-	while (exp[m + 1])
+	while (exp[m + flag])
 	{
 		if (ft_strlen3(argv[j]) > ft_strlen3(exp[m]))
 		{
