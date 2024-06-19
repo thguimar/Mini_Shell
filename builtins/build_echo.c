@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_echo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/13 22:10:04 by joana            ###   ########.fr       */
+/*   Updated: 2024/06/19 15:43:31 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,3 @@ void	build_echo(char **arr)
 	if (flag != 1)
 		ft_putchar_fd('\n', 1);
 }
-//23-24: ISSO ESTA PULANDO AS '"' POREM QUANDO TEM APENAS
-//23-24: UMA ASPAS PRECISAMOS ABRIR O HEREDOC

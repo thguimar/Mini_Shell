@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/13 22:55:35 by joana            ###   ########.fr       */
+/*   Updated: 2024/06/19 19:18:41 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	exec_builtin(int flag, char **command, char **env, t_shell *utils)
 	else if (flag == 4)
 		utils->exp = build_export(utils->j, command, utils);
 	else if (flag == 5)
-		utils->envr = build_unset(utils->j, command, env, 0);
+		utils->exp = build_unset(utils->j, command, utils->exp, -1);
 	else if (flag == 6)
 		build_env(utils->j, command, utils);
 	else if (flag == 7)
-		build_exit();
+		build_exit(utils);
 }
 
 void	index_reset(t_shell *utils)
@@ -46,20 +46,22 @@ void	index_reset(t_shell *utils)
 	utils->export->flag = 0;
 }
 
-void	minishell_helper(t_shell *utils, char **command, char *input,
-		char **env)
+void	main2(t_shell *utils)
 {
-	int	flag;
+	char	*input;
+	char	**command;
+	int		flag;
 
+	flag = 0;
 	index_reset(utils);
 	input = readline("\x1b[5;95mpanic_shell> \x1b[0m");
 	command = ft_split(input, ' ');
 	while (command[utils->j])
 		utils->j++;
 	utils->process_id = fork();
-	flag = builtins_id(command[0], utils->stuff);
+	flag = builtins(command[0], utils);
 	if (utils->process_id == 0)
-		path_comms(utils->j, command, env, flag);
+		path_comms(utils->j, command, utils->envr, flag);
 	else if (flag != 0)
 		exec_builtin(flag, command, utils->envr, utils);
 	waitpid(utils->process_id, NULL, 0);
@@ -69,39 +71,21 @@ void	minishell_helper(t_shell *utils, char **command, char *input,
 	free(input);
 }
 
-//void	free_stuff(t_stuff *stuff)
-//{
-//	int	n;
-//	
-//	n = 0;
-//	while (n < 7)
-//	{
-//		free(stuff->builtins[n]);
-//		n++;
-//	}
-//}
-
 int	main(int argc, char **argv, char **env)
 {
-	char	*input;
-	char	**command;
 	t_shell	*utils;
 
-	command = NULL;
-	input = NULL;
 	utils = ft_calloc(2, sizeof(t_shell));
-	utils->stuff = malloc(sizeof(t_stuff));
-	utils->export = ft_calloc(2, sizeof(t_builtvars));
+	utils->export = ft_calloc(1, sizeof(t_builtvars));
 	utils->j = 0;
 	utils->envr = env;
-	utils->exp = bubble_sort(0, env, 0);
+	utils->exp = bubble_sort(0, env, 0, argc);
 	if (argc != 1 || argv[1])
 	{
 		printf("invalid args (no args should be used)\n");
 		exit (1);
 	}
 	while (1)
-		minishell_helper(utils, command, input, env);
+		main2(utils);
 	return (0);
 }
-//27: utils->exp

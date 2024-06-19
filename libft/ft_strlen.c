@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 17:09:03 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/11 20:21:35 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:42:53 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ size_t	ft_strlen(const char *s)
 
 	i = 0;
 	while (s[i] != '\0')
+	{
 		i++;
+	}	
 	return (i);
 }
 /*

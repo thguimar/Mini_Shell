@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:24:33 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/06/18 19:49:31 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:10:25 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,21 @@ int	unset_argv_checker(char *exp, char **argv)
 	return (0);
 }
 
+int	unset_flag(int flag, char *exp, char *argv)
+{
+	int	sla;
+
+	sla = ft_strncmp(exp, argv, ft_strlen4(argv));
+	if (sla == 0)
+		flag++;
+	return (flag);
+}
+
 char	**build_unset(int argc, char **argv, char **exp, int i)
 {
 	int		j;
 	char	**copy;
 	int		flag;
-	int		sla;
 
 	j = -1;
 	flag = 0;
@@ -40,90 +49,17 @@ char	**build_unset(int argc, char **argv, char **exp, int i)
 		while (argv[++j])
 		{
 			while (exp[++i])
-			{
-				sla = ft_strncmp(exp[i], argv[j], ft_strlen4(argv[j]));
-				if (sla == 0)
-					flag++;	
-			}
+				flag = unset_flag(flag, exp[i], argv[j]);
 			i = -1;
 		}
 		j = -1;
-		copy = ft_calloc(mlc_size(0, exp) - flag, sizeof(char *));
+		copy = ft_calloc(mlc_size(0, exp) - flag + 1, sizeof(char *));
 		while (exp[++i])
 		{
 			if (unset_argv_checker(exp[i], argv) == 0)
 				copy[++j] = ft_strdup(exp[i]);
-			printf("size: %i\n", mlc_size(0, copy));
 		}
-		//printf("now: %s\nafter: %s\n", copy[59], copy[60]);
 		exp = copy;
 	}
 	return (exp);
 }
-
-//char	**build_unset(int argc, char **argv, char **exp)
-//{
-//	int		j;
-//	int		i;
-//	char	**copy;
-//	int		flag;
-//
-//	i = 0;
-//	j = 0;
-//	flag = 0;
-//	if (argc > 1)
-//	{
-//		while (argv[j])
-//		{
-//			while (exp[i])
-//			{
-//				if (ft_strncmp(exp[i], argv[j], ft_strlen4(argv[j]) == 0))
-//					flag++;
-//				i++;
-//			}
-//			i = 0;
-//			j++;
-//		}
-//		j = 0;
-//		copy = ft_calloc(mlc_size(0, exp) + 1 - flag, sizeof(char *));
-//		while (exp[i++])
-//		{
-//			if (unset_argv_checker(exp[i], argv) == 0)
-//			{
-//				copy[j] = ft_strdup(exp[i]);
-//				j++;
-//			}
-//		}
-//		exp = copy;
-//	}
-//	return (exp);
-//}
-//char	**build_unset(int argc, char **argv, char **exp, int flag)
-//{
-//	int		array[2];
-//	char	**copy;
-//	
-//	array[0] = 0; // i;
-//	array[1] = -1; // j;
-//	if (argc > 1)
-//	{
-//		while (argv[++array[1]])
-//		{
-//			while (exp[++array[0]])
-//			{
-//				if (ft_strncmp(exp[array[0]], argv[array[1]], ft_strlen4(argv[array[1]]) == 0))
-//					flag++;
-//			}
-//			array[0] = -1;
-//		}
-//		array[1] = -1;
-//		copy = ft_calloc(mlc_size(0, exp) + 1 - array[2], sizeof(char *));
-//		while (exp[++array[0]])
-//		{
-//			if (unset_argv_checker(exp[array[0]], argv) == 0)
-//				copy[++array[1]] = ft_strdup(exp[array[0]]);
-//		}
-//		exp = copy;
-//	}
-//	return (exp);
-//}

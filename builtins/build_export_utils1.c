@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 21:23:45 by joana             #+#    #+#             */
-/*   Updated: 2024/06/18 20:19:02 by thguimar         ###   ########.fr       */
+/*   Created: 2024/06/19 15:56:04 by thguimar          #+#    #+#             */
+/*   Updated: 2024/06/19 18:03:19 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**exp_copy2(char **exp, int argc)
 	i = -1;
 	j = -1;
 	printf("%i\n", mlc_size(0, exp));
-	copy = ft_calloc(mlc_size(0, exp) + argc - 1, sizeof(char *));
+	copy = ft_calloc(mlc_size(0, exp) + argc, sizeof(char *));
 	while (exp[++j])
 	{
 		copy[j] = ft_calloc(ft_strlen(exp[j]) + 1, sizeof(char));

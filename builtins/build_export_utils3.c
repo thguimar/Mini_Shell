@@ -5,12 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 21:34:30 by joana             #+#    #+#             */
-/*   Updated: 2024/06/18 20:11:11 by thguimar         ###   ########.fr       */
+/*   Created: 2024/06/19 16:12:42 by thguimar          #+#    #+#             */
+/*   Updated: 2024/06/19 19:19:16 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
+
+void	export_hha(char **argv, t_builtvars *export, int j, int flag)
+{
+	while (argv[j][export->l - 1] != '=')
+	{
+		export->mlc[export->m][export->l] = argv[j][export->l];
+		export->l++;
+	}
+	if (flag == 1)
+		export->n = ft_strlen3(export->mlc[export->m]);
+}
 
 int	line_waste(t_builtvars *export, char **argv, int flag, int j)
 {
@@ -35,16 +46,25 @@ int	line_waste(t_builtvars *export, char **argv, int flag, int j)
 	return (flag);
 }
 
-int	is_there_equals(char *argv)
+void	export_helper_helper(t_builtvars *export, char **argv, int j)
 {
-	int	i;
+	int	flag;
 
-	i = 0;
-	while (argv[i])
+	flag = line_waste(export, argv, 0, j);
+	export->l = 0;
+	if (flag == 1)
+		export_hha(argv, export, j, flag);
+	else
+		export->n = ft_strlen(export->mlc[export->m]);
+	if (argv[j][export->l] != '"' && flag == 1)
+		export->n++;
+	while (argv[j][export->l + 1] == '"')
+		export->l++;
+	while (argv[j][export->l])
 	{
-		if (argv[i] == '=')
-			return (1);
-		i++;
+		if (argv[j][export->l] != '"')
+			export->mlc[export->m][export->n] = argv[j][export->l];
+		export->n++;
+		export->l++;
 	}
-	return (0);
 }

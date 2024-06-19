@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_cd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:33:47 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/13 19:36:07 by joana            ###   ########.fr       */
+/*   Updated: 2024/06/19 19:19:11 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ int	is_twopoints(char *argv)
 char	*user_search(char **env, int i, int j, int len)
 {
 	char	*str;
+	int		x;
 
+	x = 1;
 	while (env[j++])
 	{
 		while (env[j][i])

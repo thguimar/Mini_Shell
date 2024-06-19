@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:12:32 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/13 18:16:42 by joana            ###   ########.fr       */
+/*   Updated: 2024/06/19 19:19:15 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,3 @@ void	path_comms(int argc, char **argv, char **env, int flag)
 	free(right_path);
 	exit (1);
 }
-//31: EXECVE's serao feito em child process, pois eles finalizam a execucao";
-//32: TROCAR ARGV+1 PELO COMANDO NA FUTURA STRUCT;

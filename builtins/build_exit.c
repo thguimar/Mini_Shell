@@ -3,24 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   build_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:57:29 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/13 19:45:37 by joana            ###   ########.fr       */
+/*   Updated: 2024/06/19 19:18:41 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
 
-void	build_exit(void)
+void	final_cleaner(t_shell *utils)
 {
-	exit (1);
+	int	i;
+
+	i = 0;
+	while (utils->builtins && utils->builtins[i])
+	{
+		free(utils->builtins[i]);
+		printf("%s\n", utils->builtins[i]);
+		i++;
+	}
+
+	free(utils->builtins);
+	i = 0;
+	while (utils->exp[i])
+	{
+		free(utils->exp[i]);
+		i++;
+	}
+	free(utils->exp);
+	i = 0;
+	while (utils->envr[i])
+	{
+		free(utils->envr[i]);
+		i++;
+	}
+	free(utils->envr);
 }
 
-//free_stuff(stuff);
-	//ARGV VAI SERVIR PRO QUE ESTA ESCRITO A BAIXO
-	/*
-		DEPOIS QUANDO TIVERMOS O NOSSO TERMINAL
-		ADICIONAR FUNCIONALIDADE DE DAR EXIT COM VALOR!
-		EXEMPLO: "exit 2";
-	*/
+void	build_exit(t_shell *utils)
+{
+	final_cleaner(utils);
+	exit (1);
+}
