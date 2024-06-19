@@ -6,11 +6,20 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:57:29 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 19:18:41 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/19 19:58:51 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
+
+void ft_free(void **pointer)
+{
+	if(pointer && *pointer)
+	{
+		free(*pointer);
+		*pointer = NULL;
+	}
+}
 
 void	final_cleaner(t_shell *utils)
 {
@@ -20,7 +29,6 @@ void	final_cleaner(t_shell *utils)
 	while (utils->builtins && utils->builtins[i])
 	{
 		free(utils->builtins[i]);
-		printf("%s\n", utils->builtins[i]);
 		i++;
 	}
 

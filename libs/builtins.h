@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 18:33:49 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/19 19:40:43 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct s_shell
 	t_builtvars		*export;
 	t_builtvars2	*cd;
 }		t_shell;
+
+//global char *bultins[2] = {"echo", "cd"};
 
 //Export Functions
 

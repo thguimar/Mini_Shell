@@ -6,37 +6,32 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:06:36 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 19:16:28 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:11:42 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
 #include <stdio.h>
 
-void	idk(char **builtins)
-{
-	builtins[0] = "echo";
-	builtins[1] = "cd";
-	builtins[2] = "pwd";
-	builtins[3] = "export";
-	builtins[4] = "unset";
-	builtins[5] = "env";
-	builtins[6] = "exit";
-}
-
 int	builtins(char *str, t_shell *utils)
 {
-	int		i;
+	int			i;
+	static int 	flag;
 
-	utils->builtins = ft_calloc(8, sizeof(char *));
-	utils->builtins[0] = ft_calloc(5, sizeof(char));
-	utils->builtins[1] = ft_calloc(3, sizeof(char));
-	utils->builtins[2] = ft_calloc(4, sizeof(char));
-	utils->builtins[3] = ft_calloc(7, sizeof(char));
-	utils->builtins[4] = ft_calloc(6, sizeof(char));
-	utils->builtins[5] = ft_calloc(4, sizeof(char));
-	utils->builtins[6] = ft_calloc(5, sizeof(char));
-	idk(utils->builtins);
+	if (utils->process_id == 0)
+		return (0);
+	if (flag == 0)
+	{
+		utils->builtins = ft_calloc(8, sizeof(char *));
+		utils->builtins[0] = ft_strdup("echo");
+		utils->builtins[1] = ft_strdup("cd");
+		utils->builtins[2] = ft_strdup("pwd");
+		utils->builtins[3] = ft_strdup("export");
+		utils->builtins[4] = ft_strdup("unset");
+		utils->builtins[5] = ft_strdup("env");
+		utils->builtins[6] = ft_strdup("exit");
+		flag = 1;
+	}
 	i = 0;
 	while (i < 7)
 	{

@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 19:18:41 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:15:39 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	main2(t_shell *utils)
 	flag = builtins(command[0], utils);
 	if (utils->process_id == 0)
 		path_comms(utils->j, command, utils->envr, flag);
-	else if (flag != 0)
+	if (flag != 0)
 		exec_builtin(flag, command, utils->envr, utils);
 	waitpid(utils->process_id, NULL, 0);
 	utils->j = 0;
