@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 19:40:43 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/21 21:19:28 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_shell
 	char			**exp;
 	char			**envr;
 	char			**builtins;
+	char			*input;
 	int				j;
 	int				process_id;
 	t_builtvars		*export;
@@ -109,7 +110,7 @@ char	**build_export(int argc, char **argv, t_shell *utils);
 char	**build_unset(int argc, char **argv, char **exp, int i);
 int		builtins(char *str, t_shell *utils);
 void	build_cd(int argc, char **argv, char **env);
-void	build_echo(char **arr);
+void	build_echo(char *arr, t_shell *utils);
 void	build_env(int argc, char **argv, t_shell *utils);
 void	build_exit(t_shell *utils);
 void	build_pwd(int argc, char **argv);

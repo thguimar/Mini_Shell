@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_unset_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:44:02 by joanda-s          #+#    #+#             */
-/*   Updated: 2024/05/29 19:02:24 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/06/21 21:14:45 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	var_equal_line2(char **env, char *argv)
 			return (m);
 		m++;
 	}
-	return (0);
+	return (-1);
 }
 
 int	var_comp2(char **env, char **argv, int j)

@@ -6,84 +6,101 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 20:07:48 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/21 21:24:00 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
 #include "../libft/libft.h"
 
-void	skips(char **argv, int j)
+void	skips(char *argv, int j, t_shell *utils)
 {
-	int	i;
+	int	flag;
+	int yes;
 
-	i = 0;
-	while (argv[j][i])
+	flag = 0;
+	while (argv[j])
 	{
-		if (argv[j][i] == '"')
-			i++;
+		if (argv[j] == '$')
+			break ;
+		else if ((argv[j] == '"' || argv[j] == 39))
+			flag++;
 		else
 		{
-			ft_putchar_fd(argv[j][i], 1);
-			i++;
+			if (flag % 2 != 0)
+				ft_putchar_fd(argv[j], 1);
+			else
+			{
+				while (argv[j + 1] && argv[j + 1] == 32)
+					j++;
+				if (argv[j])
+					ft_putchar_fd(argv[j], 1);
+			}
 		}
+		j++;
 	}
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	while (*s1 != '\0' || *s2 != '\0')
+	if (argv[j] == '$')
 	{
-		if (*s1 != *s2)
+		printf("TESTE\n");
+		j = 0;
+		//ERRO AQUI, O CMP DENTRO DA FUNCAO A BAIXO NAO ESTA SENDO FEITO BEM
+		yes = var_equal_line2(utils->envr, argv);
+		if (yes != -1)
 		{
-			return (*s1 - *s2);
+			while (utils->envr[yes][ft_strlen3(utils->envr[yes]) + j])
+			{
+				ft_putchar_fd(utils->envr[yes][ft_strlen3(utils->envr[yes]) + j], 1);
+				j++;
+			}
 		}
-		s1++;
-		s2++;
 	}
-	return (*s1 - *s2);
 }
 
 int	echo_flag(char *argv)
 {
-	if (ft_strcmp("-n", argv) == 0)
-		return (1);
+	if (ft_strncmp("-n", argv, 2) == 0)
+	{
+		if (argv[2] == 32 || argv[2] == 'n')
+			return (1);
+	}
 	return (0);
 }
 
-int	echo_func(char **argv, int flag)
+int	flag_conut(char *argv)
+{
+	int	i;
+
+	i = 1;
+	while (argv[i] == 'n')
+		i++;
+	while (argv[i] == ' ')
+		i++;
+	return (i);
+}
+
+int	echo_func(char *argv, int flag, t_shell *utils)
 {
 	int	j;
 
-	j = 1;
-	while (argv[j])
+	j = 0;
+	if (j == 0 && echo_flag(argv) == 1)
 	{
-		if (j == 1 && echo_flag(argv[j]) == 1)
-		{
-			j++;
-			flag = 1;
-		}
-		if (argv[j] != NULL)
-		{
-			skips(argv, j);
-			if (argv[j + 1] != NULL)
-				ft_putchar_fd(' ', 1);
-			else
-				break ;
-			j++;
-		}
-	}
+		flag = 1;
+		j += flag_conut(argv);
+	}	
+	if (argv[j] != '\0')
+		skips(argv, j, utils);
 	return (flag);
 }
 
-void	build_echo(char **arr)
+void	build_echo(char *arr, t_shell *utils)
 {
 	int	flag;
 
 	flag = 0;
 	if (arr)
 	{
-		flag = echo_func(arr, flag);
+		flag = echo_func(arr, flag, utils);
 	}
 	if (flag != 1)
 		ft_putchar_fd('\n', 1);

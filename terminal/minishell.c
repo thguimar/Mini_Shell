@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 20:15:39 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/21 21:19:57 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,33 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+void input_fixer(char *input)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = 0;
+	while (input[i] == 32)
+		i++;
+	while (input[i] != 32)
+		i++;
+	while (input[i] == 32)
+		i++;
+	while (input[i])
+	{
+		input[j] = input[i];
+		i++;
+		j++;
+	}
+	input[j] = '\0';
+}
+
 void	exec_builtin(int flag, char **command, char **env, t_shell *utils)
 {
+	input_fixer(utils->input);
 	if (flag == 1)
-		build_echo(command);
+		build_echo(utils->input, utils);
 	else if (flag == 2)
 		build_cd(utils->j, command, env);
 	else if (flag == 3)
@@ -48,27 +71,26 @@ void	index_reset(t_shell *utils)
 
 void	main2(t_shell *utils)
 {
-	char	*input;
 	char	**command;
 	int		flag;
 
 	flag = 0;
 	index_reset(utils);
-	input = readline("\x1b[5;95mpanic_shell> \x1b[0m");
-	command = ft_split(input, ' ');
+	utils->input = readline("\x1b[5;95mpanic_shell> \x1b[0m");
+	command = ft_split(utils->input, ' ');
+	if (utils->input)
+		add_history(utils->input);
 	while (command[utils->j])
 		utils->j++;
 	utils->process_id = fork();
 	flag = builtins(command[0], utils);
 	if (utils->process_id == 0)
-		path_comms(utils->j, command, utils->envr, flag);
+		path_comms(utils->j, command, utils->envr);
 	if (flag != 0)
 		exec_builtin(flag, command, utils->envr, utils);
 	waitpid(utils->process_id, NULL, 0);
 	utils->j = 0;
-	if (input && *input)
-		add_history(input);
-	free(input);
+	free(utils->input);
 }
 
 int	main(int argc, char **argv, char **env)
