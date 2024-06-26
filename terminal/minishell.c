@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/21 21:19:57 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:59:55 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	exec_builtin(int flag, char **command, char **env, t_shell *utils)
 {
 	input_fixer(utils->input);
 	if (flag == 1)
-		build_echo(utils->input, utils);
+		build_echo(utils->input, utils->exp);
 	else if (flag == 2)
 		build_cd(utils->j, command, env);
 	else if (flag == 3)

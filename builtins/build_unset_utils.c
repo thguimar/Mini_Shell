@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:44:02 by joanda-s          #+#    #+#             */
-/*   Updated: 2024/06/21 21:14:45 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:13:38 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	var_equal_line2(char **env, char *argv)
 	int	m;
 
 	m = 0;
-	while (env[m])
+	while (env[m + 1])
 	{
-		if (ft_strncmp(argv, env[m], ft_strlen(argv)) == 0)
+		if (ft_strncmp(argv, env[m], ft_strlen4(env[m])) == 0)
 			return (m);
 		m++;
 	}
