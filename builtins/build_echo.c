@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/26 20:39:24 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/27 18:15:44 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ int	var_equal_line_echo(char **env, char *argv)
 	int	m;
 
 	m = 0;
+	//printf("\nESSA E A STRING: %s\n", argv);
 	while (env[m])
 	{
+
 		if (ft_strncmp(argv, env[m], ft_strlen4(argv)) == 0)
 			return (m);
 		m++;
@@ -32,10 +34,15 @@ int	echo_env(char *argv, int j, char **exp, int i)
     char	    *str;
     int 		variavel;
 
+
     variavel = 0;
     while (argv[j] != '\0' && argv[j] != ' ' &&
-			argv[j] != '"' && argv[j++] != 39)
+			argv[j] != '"' && argv[j] != 39 && argv[j] != '$')
+	{
+		j++;
 		i++;
+	}
+	//printf("tamanho da palavra: %i\n", i);
 	if (i == 0 && argv[j - 1] == '$')
 	{
 		ft_putchar_fd ('$', 1);
@@ -44,13 +51,13 @@ int	echo_env(char *argv, int j, char **exp, int i)
 	str = ft_calloc(i + 1, sizeof(char));
 	while (i >= 0)
 	{
-		if (str[j] == ' ')
+		while (argv[j] == ' ' || argv[j] == '$' || argv[j] == '"'
+			|| argv[j] == 39)
 		{
 			i--;
 			j--;
 		}
-		else
-			str[i--] = argv[j--];
+		str[i--] = argv[j--];
 	}
 	variavel = var_equal_line_echo(exp, str);
 	free(str);
@@ -61,7 +68,6 @@ int	echo_env(char *argv, int j, char **exp, int i)
 		    ft_putchar_fd(exp[variavel][i++], 1);
 		return (1);
 	}
-	//printf("\nnao funfou a: %s\n", str); testar: export a=1 b=2 c=3 d=4, echo $a $b $c $d.
 	return (0);
 }
 
@@ -69,23 +75,32 @@ void	skips(char *argv, int j, char **exp)
 {
 	int	flag;
 	int	i;
+	int	quotes;
 
 	flag = 0;
+	quotes = 0;
 	while (argv[j])
 	{
-		if (argv[j] == '$')
+		if (argv[j] == '$' && quotes % 2 == 0)
 		{
 			i = echo_env(argv, j + 1, exp, 0);
-			while (argv[j] != '\0' && argv[j] != ' ')
+			j++;
+			while (argv[j] != '\0' && argv[j] != ' ' && argv[j] != '$'
+				&& argv[j] != '"' && argv[j] == '\'')
+			{
+				//erro aqui, echo "'USER'       ola", por algum motivo nao entra nesse while.
 				j++;
-			if (argv[j] != '\0' && i == 1)
+			}
+			if (argv[j] != '\0' && i == 1 && argv[j] != '$')
 				ft_putchar_fd(' ', 1);
 		}
-		else if ((argv[j] == '"' || argv[j] == 39))
+		else if (argv[j] == '"' && quotes % 2 == 0)
 			flag++;
+		else if (argv[j] == '\'' && flag % 2 == 0)
+			quotes++;
 		else
 		{
-			if (flag % 2 != 0)
+			if (flag % 2 != 0 || quotes % 2 != 0)
 				ft_putchar_fd(argv[j], 1);
 			else
 			{
@@ -94,8 +109,9 @@ void	skips(char *argv, int j, char **exp)
 				if (argv[j])
 					ft_putchar_fd(argv[j], 1);
 			}
+				
 		}
-		if (argv[j])
+		if (argv[j] || argv[j] != '$')
 			j++;
 	}
 }
