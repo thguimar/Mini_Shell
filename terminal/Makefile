@@ -2,7 +2,7 @@ NAME 	= panic_shell
 
 CC 		= cc
 
-CFLAGS 	= -Wall -Wextra -Werror -g -lreadline #-fsanitize=address
+CFLAGS 	= -Wall -Wextra -Werror -g #-fsanitize=address
 
 OBJ_DIR = objects
 OBJECTS= $(SRC:sources/%.c=%.o)
@@ -33,6 +33,8 @@ IGreen='\033[0;92m'       # Green
 IYellow='\033[0;93m'      # Yellow
 ICyan='\033[0;96m'        # Cyan
 
+LINKS = $(LIBFT) -lreadline
+
 MSG1 = @echo ${IGreen}"Compiled Successfully ✔︎"${Color_Off}
 MSG2 = @echo ${IYellow}"Cleaned Successfully ✔︎"${Color_Off}
 MSG3 = @echo ${ICyan}"Cleaned ${NAME} Successfully ✔︎"${Color_Off}
@@ -40,7 +42,7 @@ MSG3 = @echo ${ICyan}"Cleaned ${NAME} Successfully ✔︎"${Color_Off}
 all: $(NAME)
 
 $(NAME) : $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(SRCS) -o $@ $(LIBFT)
+	@$(CC) $(CFLAGS) $(SRCS) -o $@ $(LINKS)
 	$(MSG1);
 
 %.o:%.c

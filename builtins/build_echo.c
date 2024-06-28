@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/27 18:15:44 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:14:14 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,10 @@ void	skips(char *argv, int j, char **exp)
 			i = echo_env(argv, j + 1, exp, 0);
 			j++;
 			while (argv[j] != '\0' && argv[j] != ' ' && argv[j] != '$'
-				&& argv[j] != '"' && argv[j] == '\'')
-			{
-				//erro aqui, echo "'USER'       ola", por algum motivo nao entra nesse while.
+				&& argv[j] != '"' && argv[j + 1] != '\'')
 				j++;
-			}
-			if (argv[j] != '\0' && i == 1 && argv[j] != '$')
+			if ((argv[j] != '\0' && i == 1 && argv[j] != '$')
+				|| argv[j + 1] != '\'')
 				ft_putchar_fd(' ', 1);
 		}
 		else if (argv[j] == '"' && quotes % 2 == 0)
@@ -111,7 +109,7 @@ void	skips(char *argv, int j, char **exp)
 			}
 				
 		}
-		if (argv[j] || argv[j] != '$')
+		if (argv[j] && argv[j] != '$') //se der merda testar, argv[j] || argv[j] != '$'
 			j++;
 	}
 }

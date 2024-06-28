@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:33:10 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 17:39:54 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:12:34 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	export_helper2(t_builtvars *export, char **argv, int i)
 	{
 		j = mlc_size(0, export->mlc);
 		export->mlc[j] = ft_strdup(argv[i]);
-		printf("mlc_size(0, export->mlc): %i\n", mlc_size(0, export->mlc));
 	}
 }
 
