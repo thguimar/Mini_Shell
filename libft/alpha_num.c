@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   alpha_num.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/04 11:36:59 by thguimar          #+#    #+#             */
-/*   Updated: 2024/07/12 15:46:17 by thiago-camp      ###   ########.fr       */
+/*   Created: 2024/07/12 15:42:41 by thiago-camp       #+#    #+#             */
+/*   Updated: 2024/07/12 16:40:02 by thiago-camp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isdigit(int c)
+int	alpha_num(int c)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	if (!ft_isalpha(c) && !ft_isdigit(c))
+		return (0);
+	return (1);
 }
-/*
-int	main(void)
-{
-	printf("%d\n", ft_isdigit('9'));
-	printf("%d", ft_isalpha('b'));
-}*/

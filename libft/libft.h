@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 12:04:58 by thguimar          #+#    #+#             */
-/*   Updated: 2023/10/23 11:55:02 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:46:54 by thiago-camp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ size_t		ft_strlcat(char *dest, const char *src, size_t size);
 size_t		ft_strlcpy(char *dest, const char *src, size_t size);
 size_t		ft_strlen(const char *s);
 //int
+int			alpha_num(int c);
 int			ft_memcmp(const void *str1, const void *str2, size_t n);
 int			ft_strncmp(const char *str1, const char *str2, size_t n);
 int			ft_tolower(int ch);

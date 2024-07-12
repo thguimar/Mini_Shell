@@ -46,9 +46,7 @@ int	is_twopoints(char *argv)
 char	*user_search(char **env, int i, int j, int len)
 {
 	char	*str;
-	int		x;
 
-	x = 1;
 	while (env[j++])
 	{
 		while (env[j][i])
