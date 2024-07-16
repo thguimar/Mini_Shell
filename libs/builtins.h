@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/26 19:53:39 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:12:32 by thiago-camp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,10 @@ void	struct_initialize_unset(t_builtvars2 *unset);
 void	unset_helper(t_builtvars2 *unset, char **argv, char **env);
 void	write_env(int j, char **mlc);
 
+//ECHO FUNCTIONS
+
+char	*quotes(char *argv);
+
 //CD Functions
 
 int		is_twopoints(char *argv);
@@ -110,7 +114,7 @@ char	**build_export(int argc, char **argv, t_shell *utils);
 char	**build_unset(int argc, char **argv, char **exp, int i);
 int		builtins(char *str, t_shell *utils);
 void	build_cd(int argc, char **argv, char **env);
-void	build_echo(char *arr, char **envr);
+void	build_echo(char *arr/*, char **envr*/);
 void	build_env(int argc, char **argv, t_shell *utils);
 void	build_exit(t_shell *utils);
 void	build_pwd(int argc, char **argv);

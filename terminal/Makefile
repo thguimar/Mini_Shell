@@ -21,6 +21,7 @@ SRCS 	=	minishell.c\
 			../builtins/build_export_utils2.c\
 			../builtins/build_export_utils3.c\
 			../builtins/build_unset.c\
+			../builtins/echo_expansioner.c\
 			../builtins/build_unset_utils.c\
 			../builtins/build_env.c\
 			../builtins/build_exit.c\
