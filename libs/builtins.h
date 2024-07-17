@@ -6,7 +6,7 @@
 /*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/07/16 18:12:32 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/07/17 14:43:25 by thiago-camp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	write_env(int j, char **mlc);
 
 //ECHO FUNCTIONS
 
-char	*quotes(char *argv);
+char	*quotes(char *argv, char **exp);
 
 //CD Functions
 
@@ -114,7 +114,7 @@ char	**build_export(int argc, char **argv, t_shell *utils);
 char	**build_unset(int argc, char **argv, char **exp, int i);
 int		builtins(char *str, t_shell *utils);
 void	build_cd(int argc, char **argv, char **env);
-void	build_echo(char *arr/*, char **envr*/);
+void	build_echo(char *arr, char **exp);
 void	build_env(int argc, char **argv, t_shell *utils);
 void	build_exit(t_shell *utils);
 void	build_pwd(int argc, char **argv);

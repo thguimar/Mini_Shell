@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_echo.c                                       :+:      :+:    :+:   */
+/*   build_echo_old.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/07/16 15:59:34 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/07/17 15:54:15 by thiago-camp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	echo_env(char *argv, int j, char **exp, int i)
 		{
 			i = ft_strlen3(exp[variavel]) + 1;
 			while (exp[variavel][i])							/* TRANSFORMAR ESSE IF EM FUNCAO PQ LA EM CIMA FAZ A MESMA COISA*/
-			ft_putchar_fd(exp[variavel][i++], 1);				//MENOS A LINHA DO J = 1;
+				ft_putchar_fd(exp[variavel][i++], 1);				//MENOS A LINHA DO J = 1;
 			j = 1;
 		}
 		i = 0;

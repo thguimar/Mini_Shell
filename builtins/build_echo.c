@@ -6,7 +6,7 @@
 /*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:19:40 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/07/16 18:11:02 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/07/17 14:42:51 by thiago-camp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	flag_count(char *argv)
 	return (i);
 }
 
-int	echo_func(char *argv, int flag/*, char **exp*/)
+int	echo_func(char *argv, int flag)
 {
 	int	j;
 
@@ -48,14 +48,14 @@ int	echo_func(char *argv, int flag/*, char **exp*/)
 	return (flag);
 }
 
-void	build_echo(char *arr/*, char **exp*/)
+void	build_echo(char *arr, char **exp)
 {
 	int	flag;
 
 	flag = 0;
 	if (arr)
-		flag = echo_func(arr, flag/*, exp*/);
-	quotes(arr);
+		flag = echo_func(arr, flag);
+	quotes(arr, exp);
 	if (flag != 1)
 		ft_putchar_fd('\n', 1);
 }
