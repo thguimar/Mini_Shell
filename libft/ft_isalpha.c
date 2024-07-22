@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:45:22 by thguimar          #+#    #+#             */
-/*   Updated: 2024/04/15 15:50:16 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:04:28 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 
 int	ft_isalpha(int c)
 {
-	if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z'))
-		return (0);
-	return (1);
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+	{
+		return (1);
+	}
+	return (0);
 }
-/*
-int	main(void)
-{
-//	int	n = 'e';
-	printf("%d",ft_isalpha(4));
-}*/

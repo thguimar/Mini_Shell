@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   echo_expansioner.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
+/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:38:35 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/07/17 15:39:59 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/07/22 18:43:43 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
 #include "../libft/libft.h"
+
+int	dollar_sign(char *str, int i)
+{
+	while (str[i] && str[i] != '$')
+		i++;
+	return (i);
+}
 
 char *expansion_var(char *argv, int j)
 {
@@ -19,15 +26,27 @@ char *expansion_var(char *argv, int j)
 	char	*var;
 
 	i = 0;
-	while (argv[j] && argv[j] != '\'' && argv[j] != '$'
-		&& argv[j] != '"' && argv[j] != ' ')
+	while (argv[j] && alpha_num(argv[j]) == 1)
 	{
 		j++;
 		i++;
+	}	
+	if (i == 0)
+	{
+		var = ft_calloc(dollar_sign(argv, j) + 2, sizeof(char));
+		var[i] = '$';
+		i++;
+		while (argv[j] && argv[j] != '$')
+		{
+			var[i] = argv[j];
+			j++;
+			i++;
+		}
+		return (var);
 	}
 	i--;
 	j--;
-	var = ft_calloc(i + 1, sizeof(char));
+	var = ft_calloc(i + 1, sizeof(char));	
 	while (i >= 0)
 	{
 		var[i] = argv[j];
@@ -44,7 +63,6 @@ int	var_equal_line_echo(char **env, char *argv)
 	m = 0;
 	while (env[m])
 	{
-		printf("%i\n", ft_strlen4(argv));
 		if (ft_strncmp(argv, env[m], ft_strlen4(argv)) == 0)
 			return (m);
 		m++;
@@ -59,9 +77,11 @@ void	expansioner(char *argv, char **exp, int i)
 	char	*str;
 	int		variavel;
 	char	*var;
+	int		dollar;
 
 	j = 0;
 	x = 0;
+	dollar = 0;
 	str = ft_calloc(ft_strlen(argv) + 1, sizeof(char));
 	while (argv[j])
 	{
@@ -71,7 +91,6 @@ void	expansioner(char *argv, char **exp, int i)
 			{
 				var = expansion_var(argv, j + 1);
 				variavel = var_equal_line_echo(exp, var);
-				printf("aaaaaa: %i\n", variavel);
 				if (variavel != -1)
 				{
 					i = ft_strlen3(exp[variavel]) + 1;
@@ -82,15 +101,31 @@ void	expansioner(char *argv, char **exp, int i)
 						x++;
 					}
 				}
+				dollar = 1;
 			}
 			else
-				str[x] = argv[j];
+			{
+				if (dollar == 1)
+				{
+					while (argv[j] && alpha_num(argv[j]) == 1)
+						j++;
+					dollar = 0;
+				}
+				if (x != 0)
+				{
+					if (x == 1)
+						ft_putchar_fd(argv[0], 1);
+					str[x - 1] = argv[j];
+				}
+				else
+					str[x] = argv[j];
+			}
 			x++;
 		}
 		j++;
 	}
 	ft_putstr_fd(str, 1);
-	free(var);
+	//free(var);
 	free(str);
 }
 
@@ -144,14 +179,14 @@ char	*quotes(char *argv, char **exp)
 			flag = 1;
 			j++;
 			if (quotes_verify('\'', argv, j) % 2 != 0)
-				return (printf("Odd Quotes\n"), NULL);
+				return (ft_putstr_fd("Odd Quotes", 1), NULL);
 			break ;
 		}
 		else if (argv[j] == '"')
 		{
 			j++;
 			if (quotes_verify('"', argv, j) % 2 != 0)
-				return (printf("Odd Quotes\n"), NULL);
+				return (ft_putstr_fd("Odd Quotes", 1), NULL);
 			break ;
 		}
 		j++;
