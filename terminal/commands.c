@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:12:32 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/21 20:41:26 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/02 13:05:40 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	builtin_not_command(char **argv)
 	return (0);
 }
 
-void	path_comms(int argc, char **argv, char **env)
+void	path_comms(int argc, char **argv, char **env, t_shell *utils)
 {
 	char	**right_path;
 	int		j;
@@ -39,22 +39,40 @@ void	path_comms(int argc, char **argv, char **env)
 
 	j = -1;
 	if (builtin_not_command(argv) == 1)
-		exit (1);
-	right_path = ft_split(PATH, ':');
-	if (argc >= 1)
+		return ;
+	if (ft_strncmp("./", argv[0], 2) == 0)
 	{
-		while (right_path[++j])
-		{
-			test = ft_strjoin(right_path[j], "/");
-			test = ft_strjoin(test, argv[0]);
-			if (access(test, F_OK) == 0)
-				execve(test, argv, env);
-			free(test);
-		}
+		test = ft_substr(argv[0], 2, ft_strlen(argv[0]) - 2);
+		utils->process_id = fork();
+		if (utils->process_id == 0)
+			execve(test, argv, env);
+		else
+			waitpid(utils->process_id, NULL, 0);
+		free(test);
 	}
-	j = -1;
-	while (right_path[++j])
-		free(right_path[j]);
-	free(right_path);
-	exit (1);
+	else
+	{
+		right_path = ft_split(PATH, ':');
+		if (argc >= 1)
+		{
+			while (right_path[++j])
+			{
+				test = ft_strjoin(right_path[j], "/");
+				test = ft_strjoin(test, argv[0]);
+				if (access(test, F_OK) == 0)
+				{
+					utils->process_id = fork();
+					if (utils->process_id == 0)
+						execve(test, argv, env);
+					else
+						waitpid(utils->process_id, NULL, 0);
+				}
+				free(test);
+			}
+		}
+		j = -1;
+		while (right_path[++j])
+			free(right_path[j]);
+		free(right_path);
+	}
 }
