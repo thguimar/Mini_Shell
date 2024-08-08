@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:06:36 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/02 13:09:25 by joana            ###   ########.fr       */
+/*   Updated: 2024/06/21 20:38:59 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	builtins(char *str, t_shell *utils)
 	int			i;
 	static int 	flag;
 
+	if (utils->process_id == 0)
+		return (0);
 	if (flag == 0)
 	{
 		utils->builtins = ft_calloc(8, sizeof(char *));

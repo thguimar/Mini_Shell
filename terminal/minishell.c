@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/02 13:38:19 by joana            ###   ########.fr       */
+/*   Updated: 2024/07/17 14:41:59 by thiago-camp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,17 @@ void input_fixer(char *input)
 
 	j = 0;
 	i = 0;
-	if (input)
+	while (input[i] == 32)
+		i++;
+	while (input[i] != 32)
+		i++;
+	while (input[i] == 32)
+		i++;
+	while (input[i])
 	{
-		while (input[i] && input[i] == 32)
-			i++;
-		while (input[i] && input[i] != 32)
-			i++;
-		while (input[i] && input[i] == 32)
-			i++;
-		while (input[i])
-		{
-			input[j] = input[i];
-			i++;
-			j++;
-		}
+		input[j] = input[i];
+		i++;
+		j++;
 	}
 	input[j] = '\0';
 }
@@ -85,14 +82,13 @@ void	main2(t_shell *utils)
 		add_history(utils->input);
 	while (command[utils->j])
 		utils->j++;
+	utils->process_id = fork();
 	flag = builtins(command[0], utils);
-	if (utils->input && utils->input[0])
-	{
-		if (flag != 0)
-			exec_builtin(flag, command, utils->envr, utils);
-		else
-			path_comms(utils->j, command, utils->envr, utils);
-	}
+	if (utils->process_id == 0)
+		path_comms(utils->j, command, utils->envr);
+	if (flag != 0)
+		exec_builtin(flag, command, utils->envr, utils);
+	waitpid(utils->process_id, NULL, 0);
 	utils->j = 0;
 	free(utils->input);
 }

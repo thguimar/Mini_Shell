@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_export_utils2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:00:33 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/02 14:23:23 by joana            ###   ########.fr       */
+/*   Updated: 2024/06/21 21:14:16 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ int	write_exp2(t_shell *utils, int flag, int j, int i)
 	flag2 = 0;
 	while (utils->exp[j][i])
 	{
-		ft_putchar_fd(utils->exp[j][i], 1);
-		if (utils->exp[j][i] == '=' && flag == 0)
+		if (utils->exp[j][i - 1] == '=' && flag == 0)
 		{
 			flag = 1;
 			ft_putchar_fd('"', 1);
 		}
+		ft_putchar_fd(utils->exp[j][i], 1);
 		i++;
 		if (flag == 1 && utils->exp[j][i] == '\0')
 		{

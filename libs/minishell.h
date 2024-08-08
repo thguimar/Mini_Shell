@@ -10,7 +10,7 @@ typedef	struct s_shell
 
 //MINISHELL.C
 void	exec_builtin(int flag, char **command, char **env, t_shell *utils);
-void	path_comms(int argc, char **argv, char **env, t_shell *utils);
+void	path_comms(int argc, char **argv, char **env);
 
 # endif
 

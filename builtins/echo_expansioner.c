@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_expansioner.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:38:35 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/07/22 18:43:43 by joana            ###   ########.fr       */
+/*   Updated: 2024/07/24 16:37:48 by thiago-camp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	expansioner(char *argv, char **exp, int i)
 				}
 				if (x != 0)
 				{
-					if (x == 1)
+					if (x == 1 && argv[j - 1] == '$')
 						ft_putchar_fd(argv[0], 1);
 					str[x - 1] = argv[j];
 				}
