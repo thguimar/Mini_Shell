@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/07/17 14:43:25 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/08/09 20:12:22 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "minishell.h"
+# include "../pipex/sources/pipex.h"
+# include "../get_next_line/get_next_line.h"
+# include <fcntl.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 typedef struct s_builtvars
 {
@@ -44,16 +50,6 @@ typedef struct s_builtvars2
 	char	**clc;
 }		t_builtvars2;
 
-typedef struct s_cd
-{
-	char 	*user;
-	int		flag;
-	char	*str;
-	char	*joined;
-	int		i;
-	int		j;
-}		t_cd;
-
 typedef struct s_shell
 {
 	char			**exp;
@@ -65,6 +61,18 @@ typedef struct s_shell
 	t_builtvars		*export;
 	t_builtvars2	*cd;
 }		t_shell;
+
+typedef struct s_cd
+{
+	char 	*user;
+	int		flag;
+	char	*str;
+	char	*joined;
+	int		i;
+	int		j;
+	int		x;
+	t_shell	*utils;
+}		t_cd;
 
 //global char *bultins[2] = {"echo", "cd"};
 
@@ -113,11 +121,14 @@ void	argc_2(t_cd *cd, char **argv);
 char	**build_export(int argc, char **argv, t_shell *utils);
 char	**build_unset(int argc, char **argv, char **exp, int i);
 int		builtins(char *str, t_shell *utils);
-void	build_cd(int argc, char **argv, char **env);
+void	build_cd(int argc, char **argv, char **env, t_shell *utils);
 void	build_echo(char *arr, char **exp);
 void	build_env(int argc, char **argv, t_shell *utils);
 void	build_exit(t_shell *utils);
 void	build_pwd(int argc, char **argv);
+
+//COMMANDS
+void	path_comms(int argc, char **argv, char **env);
 
 //tokenizar a string, e depois usar o split para ...
 

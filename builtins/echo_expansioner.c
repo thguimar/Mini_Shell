@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_expansioner.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:38:35 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/07/24 16:37:48 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/08/09 18:42:14 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,13 @@ void	expansioner(char *argv, char **exp, int i)
 						j++;
 					dollar = 0;
 				}
-				if (x != 0)
+				/*if (x != 0)
 				{
+					printf("AQUIIII-> %c\n", argv[j]);
 					if (x == 1 && argv[j - 1] == '$')
 						ft_putchar_fd(argv[0], 1);
 					str[x - 1] = argv[j];
-				}
+				}*/
 				else
 					str[x] = argv[j];
 			}

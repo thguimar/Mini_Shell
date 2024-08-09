@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:07:20 by thguimar          #+#    #+#             */
-/*   Updated: 2023/10/13 17:57:58 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/09 20:28:02 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		i++;
 	}
 	rtn[j] = '\0';
+	printf("------------------substr: %s\n", rtn);
 	return ((char *)rtn);
 }
 /*

@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:02:20 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/02 16:25:57 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/08/09 16:37:42 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	path_cleaner(char **paths)
+{
+	int	i;
+
+	i = 0;
+	while (paths && paths[i])
+	{
+		if (i == 0)
+			free(paths[i] - 5);
+		else
+			free(paths[i]);
+		i++;
+	}
+	if (paths)
+		free(paths);
+}
 
 void	pick_path2(t_pipe *p, char **path, int n, int i)
 {
@@ -46,7 +63,7 @@ char **pick_path(char **env)
 		{
 			path = ft_split(env[index], ':');
 			if (!path)
-				free_paths(path);
+				path_cleaner(path);
 			else
 				path[0] = path[0] + 5;
 			break ;
@@ -69,7 +86,7 @@ void	search_path(t_pipe *p, char **paths)
 		check = 0;
 		while (paths && paths[++i])
 		{
-			path_creator2(p, paths, n, i);
+			pick_path2(p, paths, n, i);
 			if (p[n].path_p)
 			{
 				check = access(p[n].path_p, X_OK);
@@ -84,3 +101,4 @@ void	search_path(t_pipe *p, char **paths)
 	}
 	path_cleaner(paths);
 }
+

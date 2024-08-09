@@ -3,32 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:58:21 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/02 17:14:34 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/08/09 16:45:34 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+void	fd_shut(t_pipe *p, int n)
+{
+	int	x;
+
+	x = 0;
+	while (x < n)
+	{
+		if (p[x].fd[0] != -1 && p[x].fd[0] != STDIN_FILENO
+			&& p[x].fd[0] != STDOUT_FILENO && p[x].fd[0] != STDERR_FILENO)
+			close(p[x].fd[0]);
+		if (p[x].fd[1] != -1 && p[x].fd[1] != STDIN_FILENO
+			&& p[x].fd[1] != STDOUT_FILENO && p[x].fd[1] != STDERR_FILENO)
+			close(p[x].fd[1]);
+		x++;
+	}
+}
+
 void	exec_command(t_pipe *p, char **env, int n)
 {
 	if (dup2(p[n - 1].fd[0], STDIN_FILENO) == -1)
-		error(p, NULL, 0, 1);
+		error_handler(p, 0, 1);
 	if (n == p[0].n)
 	{
 		if (dup2(p[0].fd[1], STDOUT_FILENO) == -1)
-			error_msg(p, NULL, 0, 1);
+			error_handler(p, 0, 1);
 	}
 	else
 	{
 		if (dup2(p[n].fd[1], STDOUT_FILENO) == -1)
-			error_msg(p, NULL, 0, 1);
+			error_handler(p, 0, 1);
 	}
-	close_fd(p, p[0].n);
+	fd_shut(p, p[0].n);
 	if (execve(p[n].path_p, p[n].command, env) == -1)
-		fancy_exit(p);
+		final_cleaner(p);
 }
 
 void	exec_fork(t_pipe *p, char **env)
@@ -51,7 +68,7 @@ void	exec_fork(t_pipe *p, char **env)
 			}
 		}
 		if ((!p[n].path_p || !p[n].path_p[0]) && p[n].command)
-			-> error <-;
+			error_handler(p, n, 0);
 	}
-	close_fd(p, p[0].n);
+	fd_shut(p, p[0].n);
 }

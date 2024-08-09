@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:33:47 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 19:19:11 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/09 20:13:03 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,12 @@ char	*user_search(char **env, int i, int j, int len)
 
 	while (env[j++])
 	{
-		while (env[j][i])
+		while (env[j] && env[j][i])
 		{
-			if (env[j][i] == 'U' && env[j][i + 1] == 'S'
-			&& env[j][i + 2] == 'E' && env[j][i + 3] == 'R'
-			&& env[j][i + 4] == '=')
+			if (ft_strncmp("USER=", env[j], 5) == 0)
 			{
 				i += 5;
-				len = ft_strlen(&env[j][i]);
+				len = ft_strlen(env[j]) - 5;
 				str = ft_calloc(len + 2, sizeof(char));
 				str = get_user(env, str, j, i);
 				return (str);
@@ -68,14 +66,28 @@ char	*user_search(char **env, int i, int j, int len)
 	return (NULL);
 }
 
-void	build_cd(int argc, char **argv, char **env)
+void	cd_initialize(t_cd *cd, t_shell *utils)
+{
+	cd->user = NULL;
+	cd->flag = -1;
+	cd->str = NULL;
+	cd->joined = NULL;
+	cd->i = 0;
+	cd->j = 0;
+	cd->x = 0;
+	cd->utils = utils;
+}
+
+void	build_cd(int argc, char **argv, char **env, t_shell *utils)
 {
 	t_cd	cd;
 	char	*home;
 
+	cd_initialize(&cd, utils);
 	home = "/home";
 	cd.user = user_search(env, 0, 0, 0);
-	home = ft_strjoin(home, cd.user);
+	if (cd.user)
+		home = ft_strjoin(home, cd.user);
 	free(cd.user);
 	cd.flag = 0;
 	if (argc == 1 || argv[1][0] == '\0' || argv[1][0] == 47)
@@ -84,8 +96,13 @@ void	build_cd(int argc, char **argv, char **env)
 		argc_2(&cd, argv);
 	if (cd.flag == 1)
 	{
+		printf("AAAAAAAAAAAAAAAAAAAAAAAA11111111111\n");
 		free(cd.str);
 		free(cd.joined);
 	}
-	free(home);
+	if (home && ft_strncmp("/home", home, 6) != 0)
+	{
+		printf("AAAAAAAAAAAAAAAAAAAAAAAA2222222222222222\n");
+		free(home);
+	}
 }

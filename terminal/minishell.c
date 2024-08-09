@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/07/17 14:41:59 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/08/09 20:11:48 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/minishell.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 
 void input_fixer(char *input)
 {
@@ -22,11 +19,11 @@ void input_fixer(char *input)
 
 	j = 0;
 	i = 0;
-	while (input[i] == 32)
+	while (input && input[i] == 32)
 		i++;
-	while (input[i] != 32)
+	while (input && input[i] != 32)
 		i++;
-	while (input[i] == 32)
+	while (input && input[i] == 32)
 		i++;
 	while (input[i])
 	{
@@ -43,7 +40,7 @@ void	exec_builtin(int flag, char **command, char **env, t_shell *utils)
 	if (flag == 1)
 		build_echo(utils->input, utils->exp);
 	else if (flag == 2)
-		build_cd(utils->j, command, env);
+		build_cd(utils->j, command, env, utils);
 	else if (flag == 3)
 		build_pwd(utils->j, command);
 	else if (flag == 4)
@@ -77,9 +74,9 @@ void	main2(t_shell *utils)
 	flag = 0;
 	index_reset(utils);
 	utils->input = readline("\x1b[5;95mpanic_shell> \x1b[0m");
-	command = ft_split(utils->input, ' ');
 	if (utils->input)
 		add_history(utils->input);
+	command = ft_split(utils->input, ' ');
 	while (command[utils->j])
 		utils->j++;
 	utils->process_id = fork();

@@ -1,4 +1,4 @@
-NAME 	= panic_shell
+NAME 	= minishell
 
 CC 		= cc
 
@@ -25,6 +25,7 @@ SRCS 	=	minishell.c\
 			../builtins/build_unset_utils.c\
 			../builtins/build_env.c\
 			../builtins/build_exit.c\
+			../builtins/aux.c\
 			commands.c\
 			../libft/libft.a
 
@@ -43,7 +44,7 @@ MSG3 = @echo ${ICyan}"Cleaned ${NAME} Successfully ✔︎"${Color_Off}
 all: $(NAME)
 
 $(NAME) : $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(SRCS) -o $@ $(LINKS)
+	@$(CC) $(CFLAGS) $(SRCS) -o $@ $(LINKS) ../get_next_line/get_next_line.c ../get_next_line/get_next_line_utils.c
 	$(MSG1);
 
 %.o:%.c

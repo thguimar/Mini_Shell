@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:40:59 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/02 16:05:25 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/08/09 13:25:46 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@
 #  include <stddef.h>
 #  include <sys/types.h>
 #  include <sys/wait.h>
-/*#  include "libft/libft.h"
-#  include "get_next_line/get_next_line.h"*/
+#  include "../../libft/libft.h"
 
 typedef struct s_pipe
 {
@@ -36,7 +35,14 @@ typedef struct s_pipe
 	int		n;
 }		t_pipe;
 
-char **pick_path(char **env);
+char 	**pick_path(char **env);
+void	search_path(t_pipe *p, char **paths);
+void	exec_fork(t_pipe *p, char **env);
+void	fd_shut(t_pipe *p, int n);
+void	free_p(t_pipe *p);
+void	final_cleaner(t_pipe *p);
+void	error_handler(t_pipe *p, int n, int type);
+void	path_cleaner(char **paths);
 
 # endif
 #endif

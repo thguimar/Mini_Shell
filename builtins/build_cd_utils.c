@@ -6,11 +6,24 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:03:58 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 15:52:18 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/09 20:20:22 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
+
+int	get_line_value(char **exp, int line)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	i = ft_strlen3(exp[line]);
+	while (exp[line][++i])
+		j++;
+	return (j);
+}
 
 void	argc_2(t_cd *cd, char **argv)
 {
@@ -25,15 +38,22 @@ void	argc_2(t_cd *cd, char **argv)
 	else if (is_twopoints(argv[1]) == 0)
 	{
 		if (argv[1][cd->i] == '/')
+		{
 			cd->str = ft_calloc(ft_strlen(argv[1]) + 1, sizeof(char));
+			cd->str[cd->j - 1] = argv[1][cd->i];
+			cd->i++;
+		}
 		else
 		{
-			cd->str = ft_calloc(ft_strlen(argv[1]) + 2, sizeof(char));
+			cd->str = ft_calloc(ft_strlen(argv[1]) + 1, sizeof(char));
 			cd->str[0] = '/';
 		}
 		while (argv[1][cd->i])
 			cd->str[cd->j++] = argv[1][cd->i++];
-		chdir(getcwd(argv[1], 100));
+		cd->x = var_equal_line2(cd->utils->exp, "PWD=");
+		cd->x = get_line_value(cd->utils->exp, cd->x);
+		printf("--------------------argv[1]: %s\n", argv[1]);
+		chdir(getcwd(argv[1], cd->x + ft_strlen(argv[1])));
 		cd->flag = 1;
 	}
 }
