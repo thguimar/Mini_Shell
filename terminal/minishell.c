@@ -6,11 +6,25 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/09 20:11:48 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/10 19:20:40 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/minishell.h"
+
+void	free_dptr(char **clc, int i)
+{
+	if (clc)
+	{
+		while (clc[i])
+		{
+			free(clc[i]);
+			clc[i] = NULL;
+			i++;
+		}
+		free(clc);
+	}
+}
 
 void input_fixer(char *input)
 {
@@ -19,11 +33,12 @@ void input_fixer(char *input)
 
 	j = 0;
 	i = 0;
-	while (input && input[i] == 32)
+
+	while (input[i] && input[i] == 32)
 		i++;
-	while (input && input[i] != 32)
+	while (input[i] && input[i] != 32)
 		i++;
-	while (input && input[i] == 32)
+	while (input[i] && input[i] == 32)
 		i++;
 	while (input[i])
 	{
@@ -36,7 +51,8 @@ void input_fixer(char *input)
 
 void	exec_builtin(int flag, char **command, char **env, t_shell *utils)
 {
-	input_fixer(utils->input);
+	if (utils->input)
+		input_fixer(utils->input);
 	if (flag == 1)
 		build_echo(utils->input, utils->exp);
 	else if (flag == 2)
@@ -68,25 +84,26 @@ void	index_reset(t_shell *utils)
 
 void	main2(t_shell *utils)
 {
-	char	**command;
 	int		flag;
 
 	flag = 0;
+	signal_search(ROOT);
 	index_reset(utils);
 	utils->input = readline("\x1b[5;95mpanic_shell> \x1b[0m");
 	if (utils->input)
 		add_history(utils->input);
-	command = ft_split(utils->input, ' ');
-	while (command[utils->j])
+	utils->command = ft_split(utils->input, ' ');
+	while (utils->command[utils->j])
 		utils->j++;
 	utils->process_id = fork();
-	flag = builtins(command[0], utils);
+	flag = builtins(utils->command[0], utils);
 	if (utils->process_id == 0)
-		path_comms(utils->j, command, utils->envr);
-	if (flag != 0)
-		exec_builtin(flag, command, utils->envr, utils);
+		path_comms(utils->j, utils->command, utils->envr);
+	if (flag != 0 && flag != 6)
+		exec_builtin(flag, utils->command, utils->envr, utils);
 	waitpid(utils->process_id, NULL, 0);
 	utils->j = 0;
+	free_dptr(utils->command, 0);
 	free(utils->input);
 }
 
@@ -94,7 +111,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_shell	*utils;
 
-	utils = ft_calloc(2, sizeof(t_shell));
+	utils = ft_calloc(1, sizeof(t_shell));
 	utils->export = ft_calloc(1, sizeof(t_builtvars));
 	utils->j = 0;
 	utils->envr = env;

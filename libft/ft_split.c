@@ -3,60 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 11:11:00 by thguimar          #+#    #+#             */
-/*   Updated: 2023/10/18 14:13:42 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/10 15:17:34 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_countwords(char const *s, char c)
+static int	word_count(char const *str, char c)
 {
-	int	imlc;
-	int	strsize;
+	int	i;
+	int	words;
 
-	imlc = 0;
-	strsize = 0;
-	while (s[imlc])
+	i = 0;
+	words = 0;
+	while (str[i])
 	{
-		while (s[imlc] == c)
-			imlc++;
-		if (s[imlc])
-		{
-			strsize++;
-			while (s[imlc] && s[imlc] != c)
-			{
-				imlc++;
-			}
-		}
+		while (str[i] && str[i] == c)
+			i++;
+		if (str[i] && str[i++] != c)
+			words++;
+		while (str[i] && str[i] != c)
+			i++;
 	}
-	return (strsize);
+	return (words);
 }
 
-char	**ft_split(char const *s, char c)
+static void	*free_matrix(char **matrix, int word)
 {
-	char	**rtn;
-	int		imlc;
-	int		j;
-	int		i;
-
-	imlc = 0;
-	rtn = ft_calloc(ft_countwords(s, c) + 1, sizeof(char *));
-	if (!rtn)
-		return (NULL);
-	j = 0;
-	while (s[j])
+	while (word >= 0)
 	{
-		while (s[j] == c)
-			j++;
-		i = 0;
-		while (s[j + i] != c && s[j + i])
-			i++;
-		if (i > 0)
-			rtn[imlc++] = ft_substr(s, j, i);
-		j += i;
+		free(matrix[word]);
+		matrix[word] = NULL;
+		word--;
 	}
-	return (rtn);
+	free(matrix);
+	return (NULL);
+}
+
+static void	*fill_matrix(char **matrix, char const *str, char c)
+{
+	int		i;
+	int		j;
+	int		word;
+
+	i = 0;
+	word = 0;
+	while (str[i])
+	{
+		if (str[i] && str[i] == c)
+			i++;
+		else
+		{
+			j = 0;
+			while (str[i + j] && str[i + j] != c)
+				j++;
+			matrix[word++] = ft_substr(str, i, j);
+			if (!matrix[word - 1])
+				return (free_matrix(matrix, word - 1));
+			i += j;
+		}
+	}
+	matrix[word] = 0;
+	return (matrix);
+}
+
+char	**ft_split(char const *str, char c)
+{
+	char	**matrix;
+
+	matrix = (char **)malloc(sizeof (char *) * (word_count(str, c) + 1));
+	if (!matrix)
+		return (NULL);
+	matrix = fill_matrix(matrix, str, c);
+	return (matrix);
 }

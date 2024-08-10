@@ -26,6 +26,7 @@ SRCS 	=	minishell.c\
 			../builtins/build_env.c\
 			../builtins/build_exit.c\
 			../builtins/aux.c\
+			../signals/signals.c\
 			commands.c\
 			../libft/libft.a
 

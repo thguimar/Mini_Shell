@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:57:29 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 19:58:51 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:11:09 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,25 @@ void ft_free(void **pointer)
 
 void	final_cleaner(t_shell *utils)
 {
-	int	i;
+	free_dptr(utils->builtins, 0);
+	free_dptr(utils->exp, 0);
+	free_dptr(utils->command, 0);
+	//utils->command[0] = NULL;
+	free(utils->export);
+	free(utils);
+/*	utils->builtins = NULL;
+	utils->exp = NULL;
+	utils->command = NULL;
+	utils->export = NULL;
+	utils = NULL;*/
 
-	i = 0;
-	while (utils->builtins && utils->builtins[i])
-	{
-		free(utils->builtins[i]);
-		i++;
-	}
-
-	free(utils->builtins);
-	i = 0;
-	while (utils->exp[i])
-	{
-		free(utils->exp[i]);
-		i++;
-	}
-	free(utils->exp);
-	i = 0;
-	while (utils->envr[i])
+//	printf("AAAAAAAAAAAAAAAAAAAA- utils->command[0]: %s", utils->command[0]);
+	/*while (utils->envr[i])
 	{
 		free(utils->envr[i]);
 		i++;
-	}
-	free(utils->envr);
+	}*/
+	//free(utils->envr);
 }
 
 void	build_exit(t_shell *utils)

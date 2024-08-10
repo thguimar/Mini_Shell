@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/09 20:12:22 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/10 19:51:51 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <unistd.h>
+#include <signal.h>
+
+typedef enum e_signal_type
+{
+	ROOT,
+	CHILD,
+	HEREDOC,
+	IGNORE,
+}				t_signal_type;
 
 typedef struct s_builtvars
 {
@@ -55,6 +65,7 @@ typedef struct s_shell
 	char			**exp;
 	char			**envr;
 	char			**builtins;
+	char			**command;
 	char			*input;
 	int				j;
 	int				process_id;
@@ -78,23 +89,17 @@ typedef struct s_cd
 
 //Export Functions
 
-char	**bubble_joanda(int j, char **mlc);
 char	**bubble_sort(int j, char **mlc, int flag, int argc);
-char	**exp_calloc(t_builtvars *export, char **env, int argc);
 int		ft_strcmp2(char *s1, char *s2);
 int		ft_strlen3(char *str);
 int		is_there_equals(char *argv);
 int		line_waste(t_builtvars *export, char **argv, int flag, int j);
 int		mlc_size(int j, char **mlc);
-int		var_comp(char **env, char **argv, int j);
 int		var_equal_line(char **env, char **argv, int j);
-void	exp_calloc_helper(t_builtvars *export, char **env);
 void	export_helper(t_builtvars *export, char **argv, int j);
 void	export_helper2(t_builtvars *export, char **argv, int i);
 void	export_helper_helper(t_builtvars *export, char **argv, int j);
-void	export_helper_helper2(t_builtvars *export, char **argv);
 void	index_reset(t_shell *utils);
-void	struct_initialize_export(t_shell *utils, char **env, int argc);
 void	write_exp(t_shell *utils);
 
 //Unset Functions
@@ -103,8 +108,6 @@ int		ft_strlen4(char *str);
 int		there_is_an_equal_argv(char **argv, char *env);
 int		var_comp2(char **env, char **argv, int j);
 int		var_equal_line2(char **env, char *argv);
-void	struct_initialize_unset(t_builtvars2 *unset);
-void	unset_helper(t_builtvars2 *unset, char **argv, char **env);
 void	write_env(int j, char **mlc);
 
 //ECHO FUNCTIONS
@@ -126,6 +129,12 @@ void	build_echo(char *arr, char **exp);
 void	build_env(int argc, char **argv, t_shell *utils);
 void	build_exit(t_shell *utils);
 void	build_pwd(int argc, char **argv);
+
+//SIGNALS
+void	signal_search(t_signal_type t);
+
+//EXIT
+void	free_dptr(char **clc, int i);
 
 //COMMANDS
 void	path_comms(int argc, char **argv, char **env);
