@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/10 19:20:40 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:10:45 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,15 @@ void	main2(t_shell *utils)
 	utils->command = ft_split(utils->input, ' ');
 	while (utils->command[utils->j])
 		utils->j++;
-	utils->process_id = fork();
+	//utils->process_id = fork();
 	flag = builtins(utils->command[0], utils);
-	if (utils->process_id == 0)
-		path_comms(utils->j, utils->command, utils->envr);
+	if (flag == 0)
+		path_comms(utils->j, utils->command, utils->envr, utils);
+	//if (utils->process_id == 0)
+	//	path_comms(utils->j, utils->command, utils->envr);
 	if (flag != 0 && flag != 6)
 		exec_builtin(flag, utils->command, utils->envr, utils);
-	waitpid(utils->process_id, NULL, 0);
+	//waitpid(utils->process_id, NULL, 0);
 	utils->j = 0;
 	free_dptr(utils->command, 0);
 	free(utils->input);

@@ -45,7 +45,7 @@ MSG3 = @echo ${ICyan}"Cleaned ${NAME} Successfully ✔︎"${Color_Off}
 all: $(NAME)
 
 $(NAME) : $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(SRCS) -o $@ $(LINKS) ../get_next_line/get_next_line.c ../get_next_line/get_next_line_utils.c
+	@$(CC) $(CFLAGS) $(SRCS) -o $@ $(LINKS)
 	$(MSG1);
 
 %.o:%.c
