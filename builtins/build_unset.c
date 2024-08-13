@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:24:33 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/06/19 18:10:25 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/13 15:50:47 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char	**build_unset(int argc, char **argv, char **exp, int i)
 			if (unset_argv_checker(exp[i], argv) == 0)
 				copy[++j] = ft_strdup(exp[i]);
 		}
+		free_dptr(exp, 0);
 		exp = copy;
 	}
 	return (exp);

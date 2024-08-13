@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/12 15:10:45 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:04:32 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	main2(t_shell *utils)
 		path_comms(utils->j, utils->command, utils->envr, utils);
 	//if (utils->process_id == 0)
 	//	path_comms(utils->j, utils->command, utils->envr);
-	if (flag != 0 && flag != 6)
+	if (flag != 0)
 		exec_builtin(flag, utils->command, utils->envr, utils);
 	//waitpid(utils->process_id, NULL, 0);
 	utils->j = 0;

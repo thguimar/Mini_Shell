@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_expansioner.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:38:35 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/09 18:42:14 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/13 17:29:17 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,9 +192,5 @@ char	*quotes(char *argv, char **exp)
 		}
 		j++;
 	}
-	if (flag == 1)
-		writter(argv);
-	else
-		expansioner(argv, exp, 0);
-	return (NULL);
+	
 }

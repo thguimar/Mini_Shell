@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_unset_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:44:02 by joanda-s          #+#    #+#             */
-/*   Updated: 2024/06/26 20:13:38 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:58:07 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_strlen4(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i + 1] != '=' && str[i])
+	while (str[i] && str[i + 1] != '=')
 		i++;
 	return (i);
 }

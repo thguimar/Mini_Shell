@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:57:29 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/12 15:20:15 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:05:20 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	final_cleaner(t_shell *utils)
 	free_dptr(utils->exp, 0);
 	free_dptr(utils->command, 0);
 	//utils->command[0] = NULL;
+	//free_dptr(utils->export->mlc, 0);
 	free(utils->export);
 	free(utils);
 /*	utils->builtins = NULL;

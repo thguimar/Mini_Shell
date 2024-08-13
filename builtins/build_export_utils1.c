@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_export_utils1.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:04 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 18:03:19 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/13 15:58:09 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char	**bubble_sort(int j, char **mlc, int flag, int argc)
 	char	**copy;
 	char	*shelf;
 	int		i;
+	static int	x;
 
 	i = 0;
 	if (flag == 0)
@@ -82,6 +83,9 @@ char	**bubble_sort(int j, char **mlc, int flag, int argc)
 	else
 		copy = exp_copy2(mlc, argc);
 	j = 0;
+	if (mlc && x == 1)
+		free_dptr(mlc, 0);
+	x = 1;
 	while (copy[j])
 	{
 		if ((copy[j + 1] != NULL && copy[j] != NULL)
