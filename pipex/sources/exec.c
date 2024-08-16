@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:58:21 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/09 16:45:34 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/16 00:50:45 by thiago-camp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int	any_here_doc(char **argv)
+{
+	if (ft_strncmp(argv[1], "heredoc", 7) == 0)
+		return (1);
+	return (0);
+}
+
+void	fd_detector(t_pipe *p, char **argv, int argc, int i)
+{
+	if (p[0].heredoc == false)
+	{
+		p[i].fd[0] = open(argv[argc - 5], O_RDONLY);
+		p[i].fd[1] = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	}
+	else
+	{
+		p[0].fd[0] = heredoc_init(p);
+		p[0].fd[1] = open(argv[argc - 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+	}
+}
 
 void	fd_shut(t_pipe *p, int n)
 {

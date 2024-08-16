@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:54:47 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/09 13:21:04 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/16 01:28:12 by thiago-camp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	error_handler(t_pipe *p, int n, int type)
 	if (type == 0)
 	{
 		p[n].path_p = NULL;
-		ft_putstr_fd("Command not found", 2);
+		ft_putstr_fd("Command not found\n", 2);
 	}
 	else if (type == 1)
 	{
@@ -26,13 +26,13 @@ void	error_handler(t_pipe *p, int n, int type)
 		exit(EXIT_FAILURE);
 	}
 	else if (type == 2)
-		ft_putstr_fd("no such file or directory", 2);
+		ft_putstr_fd("no such file or directory\n", 2);
 	else if (type == 3)
 	{
 		p[n].path_p = NULL;
 		free (p[n].command);
 		p[n].command = NULL;
-		ft_putstr_fd("no such command", 2);
+		ft_putstr_fd("no such command\n", 2);
 	}
 }
 
