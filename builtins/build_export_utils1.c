@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:04 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/13 15:58:09 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:59:06 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,10 @@ char	**exp_copy(char **exp)
 
 char	**bubble_sort(int j, char **mlc, int flag, int argc)
 {
-	char	**copy;
-	char	*shelf;
-	int		i;
+	char		**copy;
+	char		*shelf;
 	static int	x;
 
-	i = 0;
 	if (flag == 0)
 		copy = exp_copy(mlc);
 	else
@@ -95,9 +93,7 @@ char	**bubble_sort(int j, char **mlc, int flag, int argc)
 			copy[j] = copy[j + 1];
 			copy[j + 1] = shelf;
 			j = -1;
-			i = -1;
 		}
-		i++;
 		j++;
 	}
 	return (copy);

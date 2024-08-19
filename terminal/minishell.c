@@ -6,34 +6,19 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/13 16:04:32 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/19 21:08:08 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libs/minishell.h"
+#include "../libs/builtins.h"
 
-void	free_dptr(char **clc, int i)
-{
-	if (clc)
-	{
-		while (clc[i])
-		{
-			free(clc[i]);
-			clc[i] = NULL;
-			i++;
-		}
-		free(clc);
-	}
-}
-
-void input_fixer(char *input)
+void	input_fixer(char *input)
 {
 	int	i;
 	int	j;
 
 	j = 0;
 	i = 0;
-
 	while (input[i] && input[i] == 32)
 		i++;
 	while (input[i] && input[i] != 32)
@@ -54,7 +39,7 @@ void	exec_builtin(int flag, char **command, char **env, t_shell *utils)
 	if (utils->input)
 		input_fixer(utils->input);
 	if (flag == 1)
-		build_echo(utils->input, utils->exp);
+		expansions(utils->input, utils);
 	else if (flag == 2)
 		build_cd(utils->j, command, env, utils);
 	else if (flag == 3)
@@ -92,21 +77,19 @@ void	main2(t_shell *utils)
 	utils->input = readline("\x1b[5;95mpanic_shell> \x1b[0m");
 	if (utils->input)
 		add_history(utils->input);
-	utils->command = ft_split(utils->input, ' ');
-	while (utils->command[utils->j])
-		utils->j++;
-	//utils->process_id = fork();
-	flag = builtins(utils->command[0], utils);
-	if (flag == 0)
-		path_comms(utils->j, utils->command, utils->envr, utils);
-	//if (utils->process_id == 0)
-	//	path_comms(utils->j, utils->command, utils->envr);
-	if (flag != 0)
-		exec_builtin(flag, utils->command, utils->envr, utils);
-	//waitpid(utils->process_id, NULL, 0);
-	utils->j = 0;
-	free_dptr(utils->command, 0);
-	free(utils->input);
+	if (quotes_verify(utils->input) == 0)
+	{
+		utils->command = ft_split(utils->input, ' ');
+		while (utils->command[utils->j])
+			utils->j++;
+		flag = builtins(utils->command[0], utils, -1);
+		if (flag == 0)
+			path_comms(utils->j, utils->command, utils->envr, utils);
+		if (flag != 0)
+			exec_builtin(flag, utils->command, utils->envr, utils);
+		utils->j = 0;
+		free_dptr(utils->command, 0);
+	}
 }
 
 int	main(int argc, char **argv, char **env)

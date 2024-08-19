@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:02:20 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/09 16:37:42 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:42:47 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	pick_path2(t_pipe *p, char **path, int n, int i)
 	if (!tmp)
 	{
 		path_cleaner(path);
-		final_cleaner(p);
+		final_cleaner2(p);
 	}
 	if (p[n].command)
 		p[n].path_p = ft_strjoin(tmp, p[n].command[0]);
@@ -45,12 +45,12 @@ void	pick_path2(t_pipe *p, char **path, int n, int i)
 	{
 		free(tmp);
 		path_cleaner(path);
-		final_cleaner(p);
+		final_cleaner2(p);
 	}
 	free(tmp);
 }
 
-char **pick_path(char **env)
+char	**pick_path(char **env)
 {
 	char	**path;
 	int		index;
@@ -101,4 +101,3 @@ void	search_path(t_pipe *p, char **paths)
 	}
 	path_cleaner(paths);
 }
-

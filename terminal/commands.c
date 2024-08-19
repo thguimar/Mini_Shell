@@ -6,11 +6,20 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:12:32 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/12 15:14:18 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/19 21:01:09 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libs/minishell.h"
+#include "../libs/builtins.h"
+#include "../libs/builtins.h"
+
+void	execute_comm(char **argv, char *test2, char **env, char *test)
+{
+	if (access(test2, F_OK) == 0)
+		execve(test2, argv, env);
+	free(test);
+	free(test2);
+}
 
 int	builtin_not_command(char **argv)
 {
@@ -36,13 +45,9 @@ void	path_comms(int argc, char **argv, char **env, t_shell *utils)
 	char	**right_path;
 	int		j;
 	char	*test;
+	char	*test2;
 
 	j = -1;
-	/* if (builtin_not_command(argv) == 1)
-	{
-		free_dptr(argv, 0);
-		exit (1);
-	} */
 	utils->process_id = fork();
 	if (utils->process_id == 0)
 	{
@@ -52,16 +57,12 @@ void	path_comms(int argc, char **argv, char **env, t_shell *utils)
 			while (right_path[++j])
 			{
 				test = ft_strjoin(right_path[j], "/");
-				test = ft_strjoin(test, argv[0]);
-				if (access(test, F_OK) == 0)
-					execve(test, argv, env);
-				free(test);
+				test2 = ft_strjoin(test, argv[0]);
+				execute_comm(argv, test2, env, test);
 			}
 		}
-		j = -1;
-		while (right_path[++j])
-			free(right_path[j]);
-		free(right_path);
+		free_dptr(right_path, 0);
+		build_exit(utils);
 	}
 	else
 		waitpid(utils->process_id, NULL, 0);

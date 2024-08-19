@@ -6,20 +6,17 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:06:36 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/12 15:03:24 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/19 21:04:57 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
 #include <stdio.h>
 
-int	builtins(char *str, t_shell *utils)
+int	builtins(char *str, t_shell *utils, int i)
 {
-	int			i;
-	static int 	flag;
+	static int	flag;
 
-	//if (utils->process_id == 0)
-	//	return (0);
 	if (flag == 0)
 	{
 		utils->builtins = ft_calloc(8, sizeof(char *));
@@ -32,15 +29,14 @@ int	builtins(char *str, t_shell *utils)
 		utils->builtins[6] = ft_strdup("exit");
 		flag = 1;
 	}
-	i = 0;
-	while (i < 7)
+	while (++i < 7)
 	{
 		if (str)
 		{
-			if (!ft_strncmp(utils->builtins[i], str, ft_strlen(utils->builtins[i])))
+			if (!ft_strncmp(utils->builtins[i], str, \
+				ft_strlen(utils->builtins[i])))
 				return (i + 1);
 		}
-		i++;
 	}
 	return (0);
 }

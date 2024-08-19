@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:40:59 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/19 16:59:31 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:42:47 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 # define PIPEX_H
 
 # ifndef PATH
-#  define PATH "/home/thguimar/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+#  define PATH "/home/thguimar/bin:/usr/local/sbin:/usr/local/bin:\
+				/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:\
+				/usr/local/games:/snap/bin"
 
 #  include <string.h>
 #  include <stdlib.h>
@@ -40,18 +42,17 @@ typedef struct s_pipe
 }		t_pipe;
 
 char	*ft_strdup2(const char *s);
-char 	**pick_path(char **env);
+char	**pick_path(char **env);
 void	search_path(t_pipe *p, char **paths);
 void	exec_fork(t_pipe *p, char **env);
 void	fd_shut(t_pipe *p, int n);
 void	free_p(t_pipe *p);
-void	final_cleaner(t_pipe *p);
+void	final_cleaner2(t_pipe *p);
 void	error_handler(t_pipe *p, int n, int type);
 void	path_cleaner(char **paths);
 int		any_here_doc(char **argv);
 int		heredoc_init(t_pipe *p);
 void	fd_detector(t_pipe *p, char **argv, int argc, int i);
-
 
 # endif
 #endif

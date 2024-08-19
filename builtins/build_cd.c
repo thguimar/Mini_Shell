@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_cd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:33:47 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/09 20:13:03 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:43:53 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,9 @@ void	build_cd(int argc, char **argv, char **env, t_shell *utils)
 		argc_2(&cd, argv);
 	if (cd.flag == 1)
 	{
-		printf("AAAAAAAAAAAAAAAAAAAAAAAA11111111111\n");
 		free(cd.str);
 		free(cd.joined);
 	}
 	if (home && ft_strncmp("/home", home, 6) != 0)
-	{
-		printf("AAAAAAAAAAAAAAAAAAAAAAAA2222222222222222\n");
 		free(home);
-	}
 }

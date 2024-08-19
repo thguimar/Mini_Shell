@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 14:28:19 by thguimar          #+#    #+#             */
-/*   Updated: 2023/10/20 16:28:38 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:33:41 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,4 @@ char	*ft_strtrim(char const *s1, char const *set)
 		end--;
 	rtn = (ft_substr(s1, start, end - start + 1));
 	return (rtn);
-}
-
-int	main(void)
-{
-	printf("%s", ft_strtrim("aaaaaeeerrererererererererererraaaeeebom diaseaeaaaeaeaeaee", "aer"));
 }

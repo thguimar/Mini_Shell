@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/12 15:06:21 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/19 21:04:47 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,14 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include "minishell.h"
 # include "../pipex/sources/pipex.h"
 # include "../get_next_line/get_next_line.h"
 # include <fcntl.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
-#include <signal.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <unistd.h>
+# include <signal.h>
 
 typedef enum e_signal_type
 {
@@ -75,7 +74,7 @@ typedef struct s_shell
 
 typedef struct s_cd
 {
-	char 	*user;
+	char	*user;
 	int		flag;
 	char	*str;
 	char	*joined;
@@ -112,7 +111,13 @@ void	write_env(int j, char **mlc);
 
 //ECHO FUNCTIONS
 
-char	*quotes(char *argv, char **exp);
+char	*ft_strjoinn(char *s1, char *s2);
+int		quotes_verify(char *argv);
+//int		is_there_a_dollar_sign(char *argv);
+int		echo_flag(char *argv);
+void	expansions(char *argv, t_shell *utils);
+char	*ft_getpid(void);
+//void	is_there_dollar_sign(char *argv, t_shell *utils);
 
 //CD Functions
 
@@ -123,12 +128,13 @@ void	argc_2(t_cd *cd, char **argv);
 //BUILTINS
 char	**build_export(int argc, char **argv, t_shell *utils);
 char	**build_unset(int argc, char **argv, char **exp, int i);
-int		builtins(char *str, t_shell *utils);
+int		builtins(char *str, t_shell *utils, int i);
 void	build_cd(int argc, char **argv, char **env, t_shell *utils);
-void	build_echo(char *arr, char **exp);
+void	build_echo(char *arr);
 void	build_env(int argc, char **argv, t_shell *utils);
 void	build_exit(t_shell *utils);
 void	build_pwd(int argc, char **argv);
+void	exec_builtin(int flag, char **command, char **env, t_shell *utils);
 
 //SIGNALS
 void	signal_search(t_signal_type t);

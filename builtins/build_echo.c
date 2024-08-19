@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_echo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:19:40 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/09 18:46:09 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:55:31 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 int	echo_flag(char *argv)
 {
-	int	i = 1;
+	int	i;
 
+	i = 1;
 	if (ft_strncmp("-n", argv, 2) == 0)
 	{
 		while (argv[i] != ' ')
@@ -45,11 +46,11 @@ int	flag_count(char *argv)
 int	echo_func(char *argv, int flag)
 {
 	if (echo_flag(argv) == 1)
-		flag = 1;	
+		flag = 1;
 	return (flag);
 }
 
-void	build_echo(char *arr, char **exp)
+void	build_echo(char *arr)
 {
 	int	flag;
 
@@ -58,7 +59,6 @@ void	build_echo(char *arr, char **exp)
 		flag = echo_func(arr, flag);
 	if (echo_flag(arr) == 1)
 		arr += flag_count(arr);
-	quotes(arr, exp);
 	if (flag != 1)
 		ft_putchar_fd('\n', 1);
 }

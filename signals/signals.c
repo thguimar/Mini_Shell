@@ -6,13 +6,13 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 19:21:43 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/13 17:23:55 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:42:13 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libs/minishell.h"
+#include "../libs/builtins.h"
 
-void root_signal(int signal, siginfo_t *info, void *context)
+void	root_signal(int signal, siginfo_t *info, void *context)
 {
 	(void)info;
 	(void)context;
@@ -29,7 +29,6 @@ void	here_signal(int signal, siginfo_t *info, void *context)
 {
 	(void)info;
 	(void)context;
-
 	if (signal == SIGINT)
 	{
 		printf("\n");
@@ -39,7 +38,7 @@ void	here_signal(int signal, siginfo_t *info, void *context)
 
 void	signal_search2(t_signal_type t)
 {
-	static struct sigaction sa;
+	static struct sigaction	sa;
 
 	if (t == HEREDOC)
 	{
@@ -57,7 +56,7 @@ void	signal_search2(t_signal_type t)
 
 void	signal_search(t_signal_type t)
 {
-	static struct sigaction sa;
+	static struct sigaction	sa;
 
 	if (t == ROOT)
 	{

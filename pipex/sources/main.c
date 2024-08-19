@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:42 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/19 17:20:08 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:42:47 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	free_p(t_pipe *p)
 	free(p);
 }
 
-void	execute(char *argv, char **env, t_pipe *p, int	i)
+void	execute(char *argv, char **env, t_pipe *p, int i)
 {
 	if (ft_strncmp(argv, "/", 1) == 0)
 	{
@@ -68,7 +68,7 @@ void	execute(char *argv, char **env, t_pipe *p, int	i)
 	}
 }
 
-void struct_initialize(t_pipe *p, int i, char **argv, int argc)
+void	struct_initialize(t_pipe *p, int i, char **argv, int argc)
 {
 	int	n;
 
@@ -90,7 +90,7 @@ void struct_initialize(t_pipe *p, int i, char **argv, int argc)
 	while (n < p[0].n)
 	{
 		if (pipe(p[n].fd) == -1)
-			final_cleaner(p);
+			final_cleaner2(p);
 		n++;
 	}
 }
@@ -104,7 +104,7 @@ t_pipe	*cmd_creator(int argc, char **argv, char **env)
 	i = 0;
 	p = malloc((argc - 2) * sizeof(t_pipe));
 	if (!p)
-		final_cleaner(p);
+		final_cleaner2(p);
 	p[0].n = 2;
 	struct_initialize(p, -1, argv, argc);
 	while (++i <= p[0].n)
@@ -135,7 +135,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	p = cmd_creator(argc, argv, env);
 	if (!p)
-		final_cleaner(p);
+		final_cleaner2(p);
 	exec_fork(p, env);
 	fd_shut(p, p[0].n);
 	free_p(p);

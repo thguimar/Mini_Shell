@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   build_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:22:26 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/12 15:53:18 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:41:13 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libs/minishell.h"
-#include "../libft/libft.h"
+#include "../libs/builtins.h"
 
 int	compare_exp_env(t_shell *utils, int j, int i)
 {

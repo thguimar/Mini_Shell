@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:58:21 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/19 17:15:19 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:42:47 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	fd_detector(t_pipe *p, char **argv, int argc, int i)
 		p[0].fd[1] = open(argv[argc - 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}
 	if (p[0].fd[1] == -1)
-		final_cleaner(p);
+		final_cleaner2(p);
 	if (p[0].fd[0] == -1)
 		error_handler(p, 0, 2);
 	n = 1;
 	while (n < p[0].n)
 	{
 		if (pipe(p[n].fd) == -1)
-			final_cleaner(p);
+			final_cleaner2(p);
 		n++;
 	}
 }
@@ -79,7 +79,7 @@ void	exec_command(t_pipe *p, char **env, int n)
 	}
 	fd_shut(p, p[0].n);
 	if (execve(p[n].path_p, p[n].command, env) == -1)
-		final_cleaner(p);
+		final_cleaner2(p);
 }
 
 void	exec_fork(t_pipe *p, char **env)
@@ -93,7 +93,7 @@ void	exec_fork(t_pipe *p, char **env)
 		{
 			p[n].id = fork();
 			if (p[n].id == -1)
-				final_cleaner(p);
+				final_cleaner2(p);
 			if (p[n].id == 0)
 			{
 				if (access(p[n].path_p, X_OK) == 0)

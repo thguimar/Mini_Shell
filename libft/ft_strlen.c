@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 17:09:03 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 18:42:53 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:33:02 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ size_t	ft_strlen(const char *s)
 	while (s[i] != '\0')
 	{
 		i++;
-	}	
+	}
 	return (i);
 }
 /*

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:54:47 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/19 16:59:28 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:42:47 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	error_handler(t_pipe *p, int n, int type)
 	}
 }
 
-void	final_cleaner(t_pipe *p)
+void	final_cleaner2(t_pipe *p)
 {
 	if (p[0].fd[0] != -1 && p[0].fd[0] != STDIN_FILENO
 		&& p[0].fd[0] != STDOUT_FILENO && p[0].fd[0] != STDERR_FILENO)

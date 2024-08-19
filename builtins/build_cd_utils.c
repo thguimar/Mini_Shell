@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_cd_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:03:58 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/09 20:20:22 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:54:46 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@ int	get_line_value(char **exp, int line)
 	while (exp[line][++i])
 		j++;
 	return (j);
+}
+
+void	get_cd(t_cd *cd, char **argv)
+{
+	cd->x = var_equal_line2(cd->utils->exp, "PWD=");
+	cd->x = get_line_value(cd->utils->exp, cd->x);
+	chdir(getcwd(argv[1], cd->x + ft_strlen(argv[1])));
+	cd->flag = 1;
 }
 
 void	argc_2(t_cd *cd, char **argv)
@@ -50,11 +58,7 @@ void	argc_2(t_cd *cd, char **argv)
 		}
 		while (argv[1][cd->i])
 			cd->str[cd->j++] = argv[1][cd->i++];
-		cd->x = var_equal_line2(cd->utils->exp, "PWD=");
-		cd->x = get_line_value(cd->utils->exp, cd->x);
-		printf("--------------------argv[1]: %s\n", argv[1]);
-		chdir(getcwd(argv[1], cd->x + ft_strlen(argv[1])));
-		cd->flag = 1;
+		get_cd(cd, argv);
 	}
 }
 

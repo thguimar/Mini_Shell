@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:00:33 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/13 15:15:00 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:40:27 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_strlen3(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] != '=' && str[i])
+	while (str[i] && str[i] != '=')
 		i++;
 	return (i);
 }

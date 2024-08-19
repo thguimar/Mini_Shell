@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:32:44 by thguimar          #+#    #+#             */
-/*   Updated: 2023/10/11 12:47:44 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:03:06 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	return (i);
 }
 
-int		main(void)
-{
-	char	str1[20];
-	char	str2[] = "Ola";
-//	ft_strlcpy(str1, str2, 7);
-	printf("%ld", ft_strlcpy(str1, str2, 2));
-}
+//nt		main(void)
+//
+//	char	str1[20];
+//	char	str2[] = "Ola";
+///	ft_strlcpy(str1, str2, 7);
+//	printf("%ld", ft_strlcpy(str1, str2, 2));
+//
