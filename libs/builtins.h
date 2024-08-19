@@ -19,8 +19,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "minishell.h"
-//# include "../pipex/sources/pipex.h"
-//# include "../get_next_line/get_next_line.h"
+# include "../pipex/sources/pipex.h"
+# include "../get_next_line/get_next_line.h"
 # include <fcntl.h>
 #include <stdio.h>
 #include <readline/readline.h>

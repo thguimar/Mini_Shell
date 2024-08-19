@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:54:47 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/16 01:28:12 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/08/19 16:59:28 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+char	*ft_strdup2(const char *s)
+{
+	char	*str;
+	size_t	i;
+
+	str = (char *)malloc(sizeof(*s) * (ft_strlen(s) + 2));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\n';
+	i++;
+	str[i] = '\0';
+	return (str);
+}
 
 void	error_handler(t_pipe *p, int n, int type)
 {

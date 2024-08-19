@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:42 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/16 01:02:26 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/08/19 17:20:08 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ void struct_initialize(t_pipe *p, int i, char **argv, int argc)
 	int	n;
 
 	if (any_here_doc(argv) == 1)
+	{
 		p[0].heredoc = true;
+		p[0].limiter = ft_strdup2(argv[2]);
+	}
 	else
 		p[0].heredoc = false;
 	while (++i <= p[0].n)
@@ -81,12 +84,8 @@ void struct_initialize(t_pipe *p, int i, char **argv, int argc)
 		p[i].id = 0;
 		p[i].command = NULL;
 		p[i].path_p = NULL;
-		fd_detector(p, argv, argc, i);
 	}
-	if (p[0].fd[1] == -1)
-		final_cleaner(p);
-	if (p[0].fd[0] == -1)
-		error_handler(p, 0, 2);
+	fd_detector(p, argv, argc, i);
 	n = 1;
 	while (n < p[0].n)
 	{
@@ -108,8 +107,6 @@ t_pipe	*cmd_creator(int argc, char **argv, char **env)
 		final_cleaner(p);
 	p[0].n = 2;
 	struct_initialize(p, -1, argv, argc);
-	if (p[0].heredoc == true)
-		p[0].limiter = ft_strdup(argv[2]);
 	while (++i <= p[0].n)
 	{
 		if (p[0].heredoc == true)
@@ -137,6 +134,8 @@ int	main(int argc, char **argv, char **env)
 		return (0);
 	}
 	p = cmd_creator(argc, argv, env);
+	if (!p)
+		final_cleaner(p);
 	exec_fork(p, env);
 	fd_shut(p, p[0].n);
 	free_p(p);

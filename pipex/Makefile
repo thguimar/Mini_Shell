@@ -27,7 +27,7 @@ MSG3 = @echo ${ICyan}"Cleaned ${NAME} Successfully ✔︎"${Color_Off}
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $@ $(LIBFT) get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
+	$(CC) $(CFLAGS) $(OBJECTS) -o $@ $(LIBFT) ../get_next_line/get_next_line.c ../get_next_line/get_next_line_utils.c
 	$(MSG1)
 	
 $(LIBFT):

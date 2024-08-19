@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:40:59 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/16 01:14:31 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/08/19 16:59:31 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #  include <sys/types.h>
 #  include <sys/wait.h>
 #  include "../../libft/libft.h"
-#  include "../get_next_line/get_next_line.h"
+#  include "../../get_next_line/get_next_line.h"
 
 typedef struct s_pipe
 {
@@ -39,6 +39,7 @@ typedef struct s_pipe
 	bool	heredoc;
 }		t_pipe;
 
+char	*ft_strdup2(const char *s);
 char 	**pick_path(char **env);
 void	search_path(t_pipe *p, char **paths);
 void	exec_fork(t_pipe *p, char **env);

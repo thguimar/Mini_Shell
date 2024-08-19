@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:58:21 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/16 00:50:45 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2024/08/19 17:15:19 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	any_here_doc(char **argv)
 
 void	fd_detector(t_pipe *p, char **argv, int argc, int i)
 {
+	int	n;
+
 	if (p[0].heredoc == false)
 	{
 		p[i].fd[0] = open(argv[argc - 5], O_RDONLY);
@@ -30,6 +32,17 @@ void	fd_detector(t_pipe *p, char **argv, int argc, int i)
 	{
 		p[0].fd[0] = heredoc_init(p);
 		p[0].fd[1] = open(argv[argc - 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+	}
+	if (p[0].fd[1] == -1)
+		final_cleaner(p);
+	if (p[0].fd[0] == -1)
+		error_handler(p, 0, 2);
+	n = 1;
+	while (n < p[0].n)
+	{
+		if (pipe(p[n].fd) == -1)
+			final_cleaner(p);
+		n++;
 	}
 }
 
