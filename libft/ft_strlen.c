@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 17:09:03 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/19 20:33:02 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:50:09 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	long unsigned int	i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (s && s[i] != '\0')
 	{
 		i++;
 	}

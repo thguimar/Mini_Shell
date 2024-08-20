@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/19 21:04:47 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/20 20:44:22 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,4 +146,10 @@ void	free_dptr(char **clc, int i);
 void	path_comms(int argc, char **argv, char **env, t_shell *utils);
 //tokenizar a string, e depois usar o split para ...
 
+char	**pipping_commands(t_shell *utils);
+char	**pipping_commands2(t_shell *utils, int x);
+int		size_before_pipe(char *str);
+bool	is_there_pipe(char *str);
+int		pipe_verify(char **argv);
+int		is_there_a_dollar(char *str);
 #endif

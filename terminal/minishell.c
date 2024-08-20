@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/19 21:08:08 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:53:16 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,18 @@ void	main2(t_shell *utils)
 	if (quotes_verify(utils->input) == 0)
 	{
 		utils->command = ft_split(utils->input, ' ');
-		while (utils->command[utils->j])
-			utils->j++;
-		flag = builtins(utils->command[0], utils, -1);
-		if (flag == 0)
-			path_comms(utils->j, utils->command, utils->envr, utils);
-		if (flag != 0)
-			exec_builtin(flag, utils->command, utils->envr, utils);
-		utils->j = 0;
+		if (pipe_verify(utils->command) == 0)
+		{
+			utils->command = pipping_commands(utils);
+			while (utils->command[utils->j])
+				utils->j++;
+			flag = builtins(utils->command[0], utils, -1);
+			if (flag == 0)
+				path_comms(utils->j, utils->command, utils->envr, utils);
+			if (flag != 0)
+				exec_builtin(flag, utils->command, utils->envr, utils);
+			utils->j = 0;
+		}
 		free_dptr(utils->command, 0);
 	}
 }

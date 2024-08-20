@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 19:21:43 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/19 20:42:13 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:36:11 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,18 @@ void	signal_search(t_signal_type t)
 	}
 	else
 		signal_search2(t);
+}
+
+void	ignore_signal(struct sigaction *sa, int signal)
+{
+	struct sigaction	sa2;
+	int					original_flags;
+
+	original_flags = sa->sa_flags;
+	sa->sa_handler = SIG_IGN;
+	sa->sa_flags |= SA_SIGINFO;
+	if (sigemptyset(&sa->sa_mask) != 0)
+		return ;
+	sigaction(signal, sa, &sa2);
+	sa->sa_flags = original_flags;
 }
