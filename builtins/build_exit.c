@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:57:29 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/19 21:08:15 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:52:27 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	free_dptr(char **clc, int i)
 {
+	if (clc || clc[0])
+		return ;
 	if (clc)
 	{
 		while (clc[i])
@@ -47,5 +49,6 @@ void	final_cleaner(t_shell *utils)
 void	build_exit(t_shell *utils)
 {
 	final_cleaner(utils);
+	ft_putendl_fd("exit", 1);
 	exit (1);
 }

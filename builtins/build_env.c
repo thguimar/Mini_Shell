@@ -6,13 +6,13 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:22:26 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/19 20:41:13 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:55:24 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
 
-int	compare_exp_env(t_shell *utils, int j, int i)
+int	compare_exp_env(t_shell *utils, int i, int j)
 {
 	while (utils->envr[i])
 	{
@@ -29,7 +29,7 @@ void	write_exp_to_env(t_shell *utils, int j, int i)
 	{
 		while (utils->exp[j][i])
 		{
-			if (utils->exp[j][i] == '=' && compare_exp_env(utils, j, 0) == 1)
+			if (utils->exp[j][i] == '=' && compare_exp_env(utils, 0, j) == 1)
 			{
 				ft_putstr_fd(utils->exp[j], 1);
 				ft_putstr_fd("\n", 1);
@@ -50,12 +50,12 @@ void	build_env(int argc, char **argv, t_shell *utils)
 	(void)argv;
 	if (argc == 1)
 	{
-		while (utils->envr[j])
+		while (utils->envr && utils->envr[j])
 		{
 			ft_putstr_fd(utils->envr[j], 1);
 			ft_putstr_fd("\n", 1);
 			j++;
 		}
-		write_exp_to_env(utils, mlc_size(0, utils->exp) - 1, 0);
+		write_exp_to_env(utils, 0, mlc_size(0, utils->exp) - 1);
 	}
 }

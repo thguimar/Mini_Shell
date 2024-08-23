@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   build_pwd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 15:49:53 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 15:45:11 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:22:32 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "builtins.h"
 #include "../libft/libft.h"
 
 void	build_pwd(int argc, char **argv)

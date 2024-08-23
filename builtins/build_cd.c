@@ -6,14 +6,14 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:33:47 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/19 20:43:53 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/23 02:43:16 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "builtins.h"
 #include "../libs/builtins.h"
 
-char	*get_user(char **env, char *str, int j, int i)
+char	*get_user(char **env, char *str, int i, int j)
 {
 	int	x;
 
@@ -56,7 +56,7 @@ char	*user_search(char **env, int i, int j, int len)
 				i += 5;
 				len = ft_strlen(env[j]) - 5;
 				str = ft_calloc(len + 2, sizeof(char));
-				str = get_user(env, str, j, i);
+				str = get_user(env, str, i, j);
 				return (str);
 			}
 			i++;

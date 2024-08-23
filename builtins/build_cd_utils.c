@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:03:58 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/19 20:54:46 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:17:48 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ void	argc_2(t_cd *cd, char **argv)
 
 void	argc_1(t_cd *cd, char *home, int argc, char **argv)
 {
+	int	j;
+
+	j = 0;
 	cd->i = 0;
 	while (argc == 1 || (argv[1][cd->i] == 47 && argv[1][cd->i]))
 	{

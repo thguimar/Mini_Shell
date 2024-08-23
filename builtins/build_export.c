@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   build_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:33:10 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/28 17:12:34 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/23 20:36:50 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
 
-void	export_helper2(t_builtvars *export, char **argv, int i)
+void	export_helper2(char **mlc, char **argv, int i)
 {
 	int	j;
 
@@ -20,8 +20,8 @@ void	export_helper2(t_builtvars *export, char **argv, int i)
 		printf("export: `%s': not a valid identifier\n", argv[i]);
 	else
 	{
-		j = mlc_size(0, export->mlc);
-		export->mlc[j] = ft_strdup(argv[i]);
+		j = mlc_size(0, mlc);
+		mlc[j] = ft_strdup(argv[i]);
 	}
 }
 
@@ -89,15 +89,27 @@ void	argc2(t_shell *utils, char **argv, int j, int argc)
 	}
 	else
 	{
-		utils->export->mlc = utils->exp;
-		export_helper2(utils->export, argv, j);
+		export_helper2(utils->exp, argv, j);
 		utils->exp = bubble_sort(0, utils->exp, 1, argc);
 	}
 }
 
+char	**dptr_dup(char	**dptr)
+{
+	char	**rtn;
+	int		i;
+
+	i = -1;
+	rtn = ft_calloc(sizeof(char *), mlc_size(0, dptr) + 1);
+	while (dptr[++i])
+		rtn[i] = ft_strdup(dptr[i]);
+	return (rtn);
+}
+
 char	**build_export(int argc, char **argv, t_shell *utils)
 {
-	int	j;
+	int			j;
+	static int	x;
 
 	(void)argv;
 	j = 1;
@@ -110,10 +122,15 @@ char	**build_export(int argc, char **argv, t_shell *utils)
 	{
 		while (argv[j])
 		{
+			utils->exp = bubble_sort(0, utils->exp, 1, argc);
 			argc2(utils, argv, j, argc);
 			index_reset(utils);
 			j++;
 		}
 	}
+	if (x == 1)
+		free_dptr(utils->envr, 0);
+	x = 1;
+	utils->envr = dptr_dup(utils->exp);
 	return (utils->exp);
 }

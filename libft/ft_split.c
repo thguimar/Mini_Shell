@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 11:11:00 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/10 15:17:34 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:50:46 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,24 @@ static void	*fill_matrix(char **matrix, char const *str, char c)
 			i += j;
 		}
 	}
-	matrix[word] = 0;
+	matrix[word] = NULL;
 	return (matrix);
 }
 
-char	**ft_split(char const *str, char c)
+/*int	all_c(char	*str, char c)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] != c)
+			return (0);
+	}
+	return (1);
+}*/
+
+char	**ft_split(char *str, char c)
 {
 	char	**matrix;
 
@@ -78,5 +91,28 @@ char	**ft_split(char const *str, char c)
 	if (!matrix)
 		return (NULL);
 	matrix = fill_matrix(matrix, str, c);
+	return (matrix);
+}
+
+char	**ft_split2(char *str, char c)
+{
+	char	**matrix;
+	int		i;
+
+	i = 0;
+	while (str[i] && str[i] == c)
+		i++;
+	if (str[i] == '\0')
+	{
+		matrix = (char **)ft_calloc(sizeof(char *), 2);
+		matrix[0] = ft_strdup(str);
+	}
+	else
+	{
+		matrix = (char **)malloc(sizeof (char *) * (word_count(str, c) + 1));
+		if (!matrix)
+			return (NULL);
+		matrix = fill_matrix(matrix, str, c);
+	}
 	return (matrix);
 }

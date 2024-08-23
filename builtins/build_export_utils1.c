@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:04 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/19 20:59:06 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/23 20:29:09 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	**exp_copy2(char **exp, int argc)
 
 	i = -1;
 	j = -1;
-	printf("%i\n", mlc_size(0, exp));
 	copy = ft_calloc(mlc_size(0, exp) + argc, sizeof(char *));
 	while (exp[++j])
 	{
@@ -57,16 +56,24 @@ char	**exp_copy(char **exp)
 	int		j;
 	char	**copy;
 
-	i = -1;
-	j = -1;
-	copy = ft_calloc(mlc_size(0, exp) + 1, sizeof(char *));
-	while (exp[++j + 1])
+	i = 0;
+	j = 0;
+	//copy = ft_calloc(mlc_size(0, exp) + 1, sizeof(char *));
+	while (exp[i])
+		i++;
+	copy = malloc(sizeof(char *) *  (i + 1));
+	while (exp[j + 1])
 	{
-		copy[j] = ft_calloc(ft_strlen(exp[j]) + 1, sizeof(char));
-		while (exp[j][++i])
-			copy[j][i] = exp[j][i];
-		i = -1;
+		//copy[j] = ft_calloc(ft_strlen(exp[j]) + 1, sizeof(char));
+		copy[j] = ft_strdup(exp[j]);
+//		printf("%s\n", exp[j + 1]);
+//		write_env(0, copy[j]);
+		j++;
+		/* while (exp[j][++i])
+			copy[j][i] = exp[j][i]; */
+		//i = -1;
 	}
+	exp[j] = NULL;
 	return (copy);
 }
 

@@ -6,7 +6,7 @@
 /*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/23 21:11:42 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:53:16 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	exec_builtin(int flag, char **command, char **env, t_shell *utils)
 	if (utils->input)
 		input_fixer(utils->input);
 	if (flag == 1)
-		build_echo(utils->input, utils, 0, -1);
+		expansions(utils->input, utils);
 	else if (flag == 2)
 		build_cd(utils->j, command, env, utils);
 	else if (flag == 3)
@@ -67,8 +67,11 @@ void	index_reset(t_shell *utils)
 	utils->export->flag = 0;
 }
 
-void	main2(t_shell *utils, int flag)
+void	main2(t_shell *utils)
 {
+	int		flag;
+
+	flag = 0;
 	signal_search(ROOT);
 	index_reset(utils);
 	utils->input = readline("\x1b[5;95mpanic_shell> \x1b[0m");
@@ -84,7 +87,7 @@ void	main2(t_shell *utils, int flag)
 				utils->j++;
 			flag = builtins(utils->command[0], utils, -1);
 			if (flag == 0)
-				path_comms(utils->command, utils);
+				path_comms(utils->j, utils->command, utils->envr, utils);
 			if (flag != 0)
 				exec_builtin(flag, utils->command, utils->envr, utils);
 			utils->j = 0;
@@ -96,36 +99,18 @@ void	main2(t_shell *utils, int flag)
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	*utils;
-	int		i;
-	int		n;
-	char	*num;
 
-	i = 0;
 	utils = ft_calloc(1, sizeof(t_shell));
 	utils->export = ft_calloc(1, sizeof(t_builtvars));
 	utils->j = 0;
-	utils->exp = dptr_dup(env);
-	while (utils->exp[i] && ft_strncmp("SHLVL", utils->exp[i], \
-			ft_strlen3(utils->exp[i])) != 0)
-		i++;
-	if (utils->exp[i] != NULL)
-	{
-		n = ft_atoi(utils->exp[i] + ft_strlen3(utils->exp[i]) + 1);
-		n++;
-		free (utils->exp[i]);
-		num = ft_itoa(n);
-		utils->exp[i] = ft_strjoin("SHLVL=", num);
-		free (num);
-	}
-	else
-		utils->exp[i] = ft_strdup("SHLVL=1");
-	utils->exp = bubble_sort(0, utils->exp, 0, argc);
+	utils->envr = env;
+	utils->exp = bubble_sort(0, env, 0, argc);
 	if (argc != 1 || argv[1])
 	{
 		printf("invalid args (no args should be used)\n");
 		exit (1);
 	}
 	while (1)
-		main2(utils, 0);
+		main2(utils);
 	return (0);
 }

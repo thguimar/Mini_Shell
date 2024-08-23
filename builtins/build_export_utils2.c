@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:00:33 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/16 15:40:27 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/23 17:23:55 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,5 @@ void	write_exp(t_shell *utils)
 		i = 0;
 		j++;
 	}
-	utils->exp[j] = NULL;
+	//utils->exp[j] = NULL;
 }

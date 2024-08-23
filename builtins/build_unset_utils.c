@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:44:02 by joanda-s          #+#    #+#             */
-/*   Updated: 2024/08/13 14:58:07 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/23 17:48:13 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	write_env(int j, char **mlc)
 		ft_putstr_fd("\n", 1);
 		j++;
 	}
-	mlc[j] = NULL;
 }
 
 int	ft_strlen4(char *str)
@@ -53,10 +52,13 @@ int	var_equal_line2(char **env, char *argv)
 	int	m;
 
 	m = 0;
-	while (env[m + 1])
+	while (env[m])
 	{
-		if (ft_strncmp(argv, env[m], ft_strlen4(env[m])) == 0)
+		if (ft_strncmp(argv, env[m], ft_strlen3(env[m])) == 0)
+		{
+			printf("m = %d\nenv[%d] -> %s\n", m, m, env[m]);
 			return (m);
+		}
 		m++;
 	}
 	return (-1);

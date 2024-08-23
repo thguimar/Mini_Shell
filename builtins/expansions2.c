@@ -6,12 +6,21 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:03:27 by joanda-s          #+#    #+#             */
-/*   Updated: 2024/08/20 20:28:47 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:54:11 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
-#include "../libs/builtins.h"
+
+int	in_between(char c, char *str, int i)
+{
+	int	x;
+	
+	x = 0;
+	while (str[i + x] && str[i + x] != c)
+		x++;
+	return (x);
+}
 
 char	*ft_strjoinn(char *s1, char *s2)
 {
@@ -28,9 +37,9 @@ char	*ft_strjoinn(char *s1, char *s2)
 	if (s1 != NULL && s2 != NULL)
 		final = ft_calloc(sizeof(char), ft_strlen(s1) + ft_strlen(s2) + 2);
 	if (s1 == NULL)
-		return (s2);
+		return (ft_strdup(s2));
 	if (s2 == NULL)
-		return (s1);
+		return (ft_strdup(s1));
 	while (s1[++i] != '\0')
 		final[i] = s1[i];
 	final[i] = ' ';
@@ -64,7 +73,7 @@ int	pid_dollar(char *str, int j)
 	return (x);
 }
 
-void	expansions(char *argv, t_shell *utils)
+char	*expansions(char *argv, t_shell *utils, int pa)
 {
 	int		i;
 	int		j;
@@ -87,10 +96,12 @@ void	expansions(char *argv, t_shell *utils)
 	o_que_quiser3 = NULL;
 	o_que_quiser4 = NULL;
 	o_que_quiser5 = NULL;
-	split = ft_split(argv, ' ');
+	split = ft_split2(argv, ' ');
 	o_que_quiser2 = NULL;
 	dollar = 0;
 	//printf("...1\n");
+	if (pa == 2)
+		return (free_dptr(split, 0), ft_strdup(argv));
 	while (split[i])
 	{
 		while (is_there_a_dollar(split[i]) != 0)
@@ -244,7 +255,7 @@ void	expansions(char *argv, t_shell *utils)
 				ft_putendl_fd("", 1);
 			}
 			else
-				output = ft_strjoinn(split[i] + dollar, split[i + 1]);
+				output = ft_stri = 0;joinn(split[i] + dollar, split[i + 1]);
 			//printf("output -> %s\n", output);
 			//printf("...16\n");
 			if (split[i + 1] == NULL)
@@ -264,9 +275,9 @@ void	expansions(char *argv, t_shell *utils)
 	//printf("...18\n");
 	//if (output && dollar % 2 != 0)
 	//	ft_putendl_fd("", 1);
-	if (output != NULL)
-		ft_putendl_fd(output, 1);
 	free_dptr(split, 0);
+	//if (output != NULL)
+	return (output);
 	//printf("...19\n");
 }
 
