@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/23 21:11:23 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/24 19:36:18 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int		builtins(char *str, t_shell *utils, int i);
 void	build_cd(int argc, char **argv, char **env, t_shell *utils);
 void	build_echo(char *arr, t_shell *utils, int i, int j);
 void	build_env(int argc, char **argv, t_shell *utils);
-void	build_exit(t_shell *utils);
+void	build_exit(char **argv, t_shell *utils);
 void	build_pwd(int argc, char **argv);
 void	exec_builtin(int flag, char **command, char **env, t_shell *utils);
 

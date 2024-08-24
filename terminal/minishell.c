@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/23 21:11:42 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/24 19:35:41 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	exec_builtin(int flag, char **command, char **env, t_shell *utils)
 	else if (flag == 6)
 		build_env(utils->j, command, utils);
 	else if (flag == 7)
-		build_exit(utils);
+		build_exit(command, utils);
 }
 
 void	index_reset(t_shell *utils)
@@ -104,22 +104,22 @@ int	main(int argc, char **argv, char **env)
 	utils = ft_calloc(1, sizeof(t_shell));
 	utils->export = ft_calloc(1, sizeof(t_builtvars));
 	utils->j = 0;
-	utils->exp = dptr_dup(env);
-	while (utils->exp[i] && ft_strncmp("SHLVL", utils->exp[i], \
-			ft_strlen3(utils->exp[i])) != 0)
+	utils->envr = dptr_dup(env);
+	while (utils->envr[i] && ft_strncmp("SHLVL", utils->envr[i], \
+			ft_strlen3(utils->envr[i])) != 0)
 		i++;
-	if (utils->exp[i] != NULL)
+	if (utils->envr[i] != NULL)
 	{
-		n = ft_atoi(utils->exp[i] + ft_strlen3(utils->exp[i]) + 1);
+		n = ft_atoi(utils->envr[i] + ft_strlen3(utils->envr[i]) + 1);
 		n++;
-		free (utils->exp[i]);
+		free (utils->envr[i]);
 		num = ft_itoa(n);
-		utils->exp[i] = ft_strjoin("SHLVL=", num);
+		utils->envr[i] = ft_strjoin("SHLVL=", num);
 		free (num);
 	}
 	else
-		utils->exp[i] = ft_strdup("SHLVL=1");
-	utils->exp = bubble_sort(0, utils->exp, 0, argc);
+		utils->envr[i] = ft_strdup("SHLVL=1");
+	utils->exp = bubble_sort(0, utils->envr, 0, argc);
 	if (argc != 1 || argv[1])
 	{
 		printf("invalid args (no args should be used)\n");

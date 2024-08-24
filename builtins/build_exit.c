@@ -6,7 +6,7 @@
 /*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:57:29 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/23 16:52:27 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/08/24 19:35:22 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,36 @@ void	final_cleaner(t_shell *utils)
 	free(utils);
 }
 
-void	build_exit(t_shell *utils)
+void	build_exit(char **argv, t_shell *utils)
 {
-	final_cleaner(utils);
-	ft_putendl_fd("exit", 1);
-	exit (1);
+	int	status;
+	int	i;
+
+	i = 0;
+	status = 0;
+	if (!argv[1])
+	{
+		free_dptr(argv, 0);
+		final_cleaner(utils);
+		exit (0);
+	}
+	if (!argv[2])
+	{
+		while (ft_isdigit(argv[1][i]) == 1)
+			i++;
+		if (argv[1][i] != '\0')
+		{
+			free_dptr(argv, 0);
+			exit (2);
+		}
+		else
+		{
+			status = ft_atoi(argv[1]);
+			final_cleaner(utils);
+			ft_putendl_fd("exit", 1);
+			exit (status);
+		}
+	}
+	else
+		ft_putendl_fd("Too many arguments", 1);
 }

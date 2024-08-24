@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:12:32 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/23 21:14:01 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/08/24 19:35:37 by joanda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	path_comms(char **argv, t_shell *utils)
 		if (flag == 0)
 			execute_comm(argv, test2, utils, test);
 		free_dptr(right_path, 0);
-		build_exit(utils);
+		build_exit(argv, utils);
 	}
 	else
 		waitpid(utils->process_id, NULL, 0);
