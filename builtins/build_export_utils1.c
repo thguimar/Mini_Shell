@@ -61,8 +61,8 @@ char	**exp_copy(char **exp)
 	//copy = ft_calloc(mlc_size(0, exp) + 1, sizeof(char *));
 	while (exp[i])
 		i++;
-	copy = malloc(sizeof(char *) *  i);
-	while (exp[j + 1])
+	copy = malloc(sizeof(char *) *  i + 1);
+	while (exp[j])
 	{
 		//copy[j] = ft_calloc(ft_strlen(exp[j]) + 1, sizeof(char));
 		copy[j] = ft_strdup(exp[j]);
