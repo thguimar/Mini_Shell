@@ -61,19 +61,18 @@ char	**exp_copy(char **exp)
 	//copy = ft_calloc(mlc_size(0, exp) + 1, sizeof(char *));
 	while (exp[i])
 		i++;
-	copy = malloc(sizeof(char *) *  (i + 1));
+	copy = malloc(sizeof(char *) *  i);
 	while (exp[j + 1])
 	{
 		//copy[j] = ft_calloc(ft_strlen(exp[j]) + 1, sizeof(char));
 		copy[j] = ft_strdup(exp[j]);
 //		printf("%s\n", exp[j + 1]);
 //		write_env(0, copy[j]);
-		j++;
 		/* while (exp[j][++i])
 			copy[j][i] = exp[j][i]; */
 		//i = -1;
+		j++;
 	}
-	exp[j] = NULL;
 	return (copy);
 }
 

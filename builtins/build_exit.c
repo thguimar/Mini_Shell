@@ -46,18 +46,33 @@ void	final_cleaner(t_shell *utils)
 	free(utils);
 }
 
+t_status *global_status(void)
+{
+	static t_status	status;
+
+	return (&status);
+}
+
+void	status_handler(t_shell *utils)
+{
+	(void)utils;
+	//if (utils->status == 2)
+	//	utils->status = 130;
+	if (global_status()->status > 255) // se for maior que este numero, ele divide, mas mostra o exit code como o resto da divisao e nao o resultado
+		global_status()->status /= 256;
+}
+
 void	build_exit(char **argv, t_shell *utils)
 {
-	int	status;
 	int	i;
 
 	i = 0;
-	status = 0;
 	if (!argv[1])
 	{
 		free_dptr(argv, 0);
+		ft_putendl_fd("exit", 1);
 		final_cleaner(utils);
-		exit (0);
+		exit (global_status()->status);
 	}
 	if (!argv[2])
 	{
@@ -70,10 +85,10 @@ void	build_exit(char **argv, t_shell *utils)
 		}
 		else
 		{
-			status = ft_atoi(argv[1]);
+			global_status()->status = ft_atoi(argv[1]);
 			final_cleaner(utils);
 			ft_putendl_fd("exit", 1);
-			exit (status);
+			exit (global_status()->status);
 		}
 	}
 	else

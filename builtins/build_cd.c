@@ -83,6 +83,7 @@ void	build_cd(int argc, char **argv, char **env, t_shell *utils)
 	t_cd	cd;
 	char	*home;
 
+	(void)argc;
 	cd_initialize(&cd, utils);
 	home = "/home";
 	cd.user = user_search(env, 0, 0, 0);
@@ -90,10 +91,10 @@ void	build_cd(int argc, char **argv, char **env, t_shell *utils)
 		home = ft_strjoin(home, cd.user);
 	free(cd.user);
 	cd.flag = 0;
-	if (argc == 1 || argv[1][0] == '\0' || argv[1][0] == 47)
-		argc_1(&cd, home, argc, argv);
-	if (argc == 2)
-		argc_2(&cd, argv);
+	//if (argc == 1 || argv[1][0] == '\0' || argv[1][0] == 47)
+	//	argc_1(&cd, home, argc, argv);
+	//if (argc == 2)
+	argc_2(&cd, argv, utils);
 	if (cd.flag == 1)
 	{
 		free(cd.str);

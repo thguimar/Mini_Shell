@@ -85,15 +85,16 @@ void	write_exp(t_shell *utils)
 	i = 0;
 	flag = 0;
 	flag2 = 0;
-	while (utils->exp[j])
+	while (utils->exp && utils->exp[j])
 	{
 		ft_putstr_fd("declare -x ", 1);
-		flag2 = write_exp2(utils, flag, j, i);
+		flag2 = write_exp2(utils, flag, j, i); //problema do export esta algures neste write exp 2 ou no if, sugestao que deram, tentar reestruturar este if
 		if (flag2 == 0 && is_there_equals(utils->exp[j]) == 1)
 		{
 			ft_putchar_fd('"', 1);
 			ft_putchar_fd('"', 1);
 		}
+		//printf("alguma coisa -> %s\n", utils->exp[j]);
 		ft_putstr_fd("\n", 1);
 		i = 0;
 		j++;

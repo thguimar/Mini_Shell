@@ -27,6 +27,12 @@
 # include <unistd.h>
 # include <signal.h>
 
+
+typedef struct s_status
+{
+	int	status;
+}	t_status;
+
 typedef enum e_signal_type
 {
 	ROOT,
@@ -68,6 +74,7 @@ typedef struct s_shell
 	char			*input;
 	int				j;
 	int				process_id;
+	int				status;
 	t_builtvars		*export;
 	t_builtvars2	*cd;
 }		t_shell;
@@ -137,9 +144,9 @@ char	*user_search(char **env, int i, int j, int len);
 int		get_line_value(char **exp, int line);
 int		is_twopoints(char *argv);
 void	argc_1(t_cd *cd, char *home, int argc, char **argv);
-void	argc_2(t_cd *cd, char **argv);
+void	argc_2(t_cd *cd, char **argv, t_shell *utils);
 void	cd_initialize(t_cd *cd, t_shell *utils);
-void	get_cd(t_cd *cd, char **argv);
+void	get_cd(t_cd *cd, char **argv, t_shell *utils);
 
 //Env Functions
 
@@ -194,10 +201,13 @@ void	path_comms(char **argv, t_shell *utils);
 
 //MiniShell Related
 
+int		main2(t_shell *utils, int flag);
 void	exec_builtin(int flag, char **command, char **env, t_shell *utils);
 void	index_reset(t_shell *utils);
 void	input_fixer(char *input);
-void	main2(t_shell *utils, int flag);
+void	status_handler(t_shell *utils);
+
+t_status *global_status(void);
 
 //tokenizar a string, e depois usar o split para ...
 #endif

@@ -72,8 +72,8 @@ void	path_comms(char **argv, t_shell *utils)
 	j = -1;
 	right_path = NULL;
 	test = NULL;
+	signal_search(IGNORE);
 	utils->process_id = fork();
-	signal_search(CHILD);
 	if (utils->process_id == 0)
 	{
 		signal_search(CHILD);
@@ -97,6 +97,10 @@ void	path_comms(char **argv, t_shell *utils)
 		build_exit(argv, utils);
 	}
 	else
-		waitpid(utils->process_id, NULL, 0);
+	{
+		waitpid(utils->process_id, &global_status()->status, 0);
+		//printf("global_status -> %d\n", global_status()->status);
+		status_handler(utils);
+	}
 	return ;
 }

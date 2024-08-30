@@ -89,7 +89,8 @@ char	*expansions(char *argv, t_shell *utils, int pa)
 	char	*o_que_quiser5;
 	char	*output;
 	char	*pid_str;
-
+	
+	//printf("global_status -> %d\n", global_status()->status);
 	i = 0;
 	k = 0;
 	l = 0;
@@ -141,85 +142,94 @@ char	*expansions(char *argv, t_shell *utils, int pa)
 				else
 				{
 					k = j;
-					while (ft_isalnum((int)split[i][k]) == 1)
-						k++;
-					//printf("...6\n");
-					o_que_quiser = ft_substr(split[i], j, k - j);
-					//printf("...7\n");
-					while (utils->envr[l])
+					if (split[i][k] == '?')
 					{
-						if (ft_strncmp(o_que_quiser, utils->envr[l], ft_strlen3(utils->envr[l])) == 0 && ft_strlen3(o_que_quiser) == ft_strlen3(utils->envr[l]))
-							break ;
-						//printf("...8\n");
-						l++;
-					}
-					//printf("...9\n");
-					if (utils->envr[l])
-					{
-						o_que_quiser2 = ft_substr(utils->envr[l], ft_strlen3(o_que_quiser) + 1, ft_strlen(utils->envr[l]) - ft_strlen(o_que_quiser) - 1);
-						free(o_que_quiser);
-						if (x != 0)
-							o_que_quiser3 = ft_substr(split[i], 0, x);
-						while (split[i][j])
-							j++;
-						o_que_quiser4 = ft_substr(split[i], k, j - k);
-						//j = 0;
-						//while (split[i][j])
-						//{
-						//	while (split[i][j] && split[i][j] != '$')
-						//		j++;
-						//	if (split[i][j])
-						//	{
-						//		while(split[i][j])
-						//		split[i][j] = '\0';
-						//		j++;
-						//	}
-						//}
-						//printf("...10\n");
-																							/*
-																							
-																							
-																							AQUI O, ADICIONAR, LOGICA DE MANTER SPLIT SEM DAR FREE, E OUTRA
-																								VARIAVEL QUE NAO O SPLIT RECEBER 
-																							 ft_strjoinn(o_que_quiser2, ft_substr(utils->envr[l], ft_strlen3(o_que_quiser) + 1, ft_strlen(utils->envr[l]) - ft_strlen(o_que_quiser) - 1));
-		
-		
-																								*/
-						//split[i] = ft_strjoinn(o_que_quiser2, ft_substr(utils->envr[l], ft_strlen3(o_que_quiser) + 1, ft_strlen(utils->envr[l]) - ft_strlen(o_que_quiser) - 1));
-						o_que_quiser5 = ft_strjoin(o_que_quiser3, o_que_quiser2);
-						free(o_que_quiser2);
-						free(o_que_quiser3);
-						o_que_quiser2 = ft_strjoin(o_que_quiser5, o_que_quiser4);
-						free(o_que_quiser4);
-						free(o_que_quiser5);
 						free(split[i]);
-						split[i] = ft_strdup(o_que_quiser2);
-						free(o_que_quiser2);
-						//printf("...12\n");
+						split[i] = ft_itoa(global_status()->status);
+						global_status()->status = 0;
 					}
 					else
 					{
-						o_que_quiser2 = ft_substr(split[i], 0, j - 1);
-						o_que_quiser3 = ft_substr(split[i], k, ft_strlen(split[i]) - k);
-						free(split[i]);
-						split[i] = ft_strjoin(o_que_quiser2, o_que_quiser3);
-						free(o_que_quiser);
-						free(o_que_quiser2);
-						free(o_que_quiser3);
-						/* j = 0;
-						while (split[i][j])
+						while (ft_isalnum((int)split[i][k]) == 1)
+							k++;
+						//printf("...6\n");
+						o_que_quiser = ft_substr(split[i], j, k - j);
+						//printf("...7\n");
+						while (utils->envr[l])
 						{
-							while (split[i][j] && split[i][j] != '$')
+							if (ft_strncmp(o_que_quiser, utils->envr[l], ft_strlen3(utils->envr[l])) == 0 && ft_strlen3(o_que_quiser) == ft_strlen3(utils->envr[l]))
+								break ;
+							//printf("...8\n");
+							l++;
+						}
+						//printf("...9\n");
+						if (utils->envr[l])
+						{
+							o_que_quiser2 = ft_substr(utils->envr[l], ft_strlen3(o_que_quiser) + 1, ft_strlen(utils->envr[l]) - ft_strlen(o_que_quiser) - 1);
+							free(o_que_quiser);
+							if (x != 0)
+								o_que_quiser3 = ft_substr(split[i], 0, x);
+							while (split[i][j])
 								j++;
-							if (split[i][j])
+							o_que_quiser4 = ft_substr(split[i], k, j - k);
+							//j = 0;
+							//while (split[i][j])
+							//{
+							//	while (split[i][j] && split[i][j] != '$')
+							//		j++;
+							//	if (split[i][j])
+							//	{
+							//		while(split[i][j])
+							//		split[i][j] = '\0';
+							//		j++;
+							//	}
+							//}
+							//printf("...10\n");
+																								/*
+
+
+																								AQUI O, ADICIONAR, LOGICA DE MANTER SPLIT SEM DAR FREE, E OUTRA
+																									VARIAVEL QUE NAO O SPLIT RECEBER 
+																								 ft_strjoinn(o_que_quiser2, ft_substr(utils->envr[l], ft_strlen3(o_que_quiser) + 1, ft_strlen(utils->envr[l]) - ft_strlen(o_que_quiser) - 1));
+
+
+																									*/
+							//split[i] = ft_strjoinn(o_que_quiser2, ft_substr(utils->envr[l], ft_strlen3(o_que_quiser) + 1, ft_strlen(utils->envr[l]) - ft_strlen(o_que_quiser) - 1));
+							o_que_quiser5 = ft_strjoin(o_que_quiser3, o_que_quiser2);
+							free(o_que_quiser2);
+							free(o_que_quiser3);
+							o_que_quiser2 = ft_strjoin(o_que_quiser5, o_que_quiser4);
+							free(o_que_quiser4);
+							free(o_que_quiser5);
+							free(split[i]);
+							split[i] = ft_strdup(o_que_quiser2);
+							free(o_que_quiser2);
+							//printf("...12\n");
+						}
+						else
+						{
+							o_que_quiser2 = ft_substr(split[i], 0, j - 1);
+							o_que_quiser3 = ft_substr(split[i], k, ft_strlen(split[i]) - k);
+							free(split[i]);
+							split[i] = ft_strjoin(o_que_quiser2, o_que_quiser3);
+							free(o_que_quiser);
+							free(o_que_quiser2);
+							free(o_que_quiser3);
+							/* j = 0;
+							while (split[i][j])
 							{
-								while (split[i][j])
-								{
-									split[i][j] = '\0';
+								while (split[i][j] && split[i][j] != '$')
 									j++;
+								if (split[i][j])
+								{
+									while (split[i][j])
+									{
+										split[i][j] = '\0';
+										j++;
+									}
 								}
-							}
-						} */
+							} */
+						}
 					}
 				}
 			}

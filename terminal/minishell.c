@@ -67,13 +67,17 @@ void	index_reset(t_shell *utils)
 	utils->export->flag = 0;
 }
 
-void	main2(t_shell *utils, int flag)
+int	main2(t_shell *utils, int flag)
 {
+	//signal_search(IGNORE); //ele funciona aqui, e tem mais sentido estar aqui, mas não me apetece estragar as perfeitas 25 linhas da função
 	signal_search(ROOT);
 	index_reset(utils);
 	utils->input = readline("\x1b[5;95mpanic_shell> \x1b[0m");
+	//utils->input = readline("minishell"); //prompt escreve por cima por causa do prompt ser interativo
 	if (utils->input)
 		add_history(utils->input);
+	else
+		return (0); // dar free do utils, utils->export, utils->envr
 	if (quotes_verify(utils->input) == 0)
 	{
 		utils->command = ft_split(utils->input, ' ');
@@ -91,6 +95,7 @@ void	main2(t_shell *utils, int flag)
 		}
 		free_dptr(utils->command, 0);
 	}
+	return (1);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -125,7 +130,8 @@ int	main(int argc, char **argv, char **env)
 		printf("invalid args (no args should be used)\n");
 		exit (1);
 	}
-	while (1)
-		main2(utils, 0);
+	signal_search(IGNORE);
+	while (main2(utils, 0))
+		;
 	return (0);
 }

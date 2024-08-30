@@ -116,7 +116,7 @@ char	**build_export(int argc, char **argv, t_shell *utils)
 	if (argc == 1)
 	{
 		utils->export->i = mlc_size(0, utils->exp);
-		write_exp(utils);
+		write_exp(utils); //problema do export esta algures aqui
 	}
 	else
 	{
