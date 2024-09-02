@@ -61,7 +61,7 @@ char	**exp_copy(char **exp)
 	//copy = ft_calloc(mlc_size(0, exp) + 1, sizeof(char *));
 	while (exp[i])
 		i++;
-	copy = malloc(sizeof(char *) *  i + 1);
+	copy = ft_calloc(sizeof(char *), i + 1);
 	while (exp[j])
 	{
 		//copy[j] = ft_calloc(ft_strlen(exp[j]) + 1, sizeof(char));
@@ -90,7 +90,7 @@ char	**bubble_sort(int j, char **mlc, int flag, int argc)
 	if (mlc && x == 1)
 		free_dptr(mlc, 0);
 	x = 1;
-	while (copy[j])
+	while (copy[j + 1] && copy[j])
 	{
 		if ((copy[j + 1] != NULL && copy[j] != NULL)
 			&& ft_strcmp2(copy[j], copy[j + 1]) > 0)

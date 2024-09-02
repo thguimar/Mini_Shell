@@ -212,7 +212,6 @@ void	change_env_and_export_dash(t_shell *utils, char **argv, t_cd *cd)
 
 void	get_cd(t_cd *cd, char **argv, t_shell *utils)
 {
-	printf("...\n");
 	cd->x = var_equal_line2(cd->utils->exp, "PWD=");
 	cd->x = get_line_value(cd->utils->exp, cd->x);
 	if (!argv[1] || argv[1][0] == '~')

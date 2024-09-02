@@ -14,14 +14,14 @@
 
 void	free_dptr(char **clc, int i)
 {
-	if (clc || clc[0])
-		return ;
-	if (clc)
+	//if (clc || clc[0])
+	//	return ;
+	if (clc && clc[i])
 	{
 		while (clc[i])
 		{
 			free(clc[i]);
-			clc[i] = NULL;
+			//clc[i] = NULL;
 			i++;
 		}
 		free(clc);
@@ -39,9 +39,12 @@ void	ft_free(void **pointer)
 
 void	final_cleaner(t_shell *utils)
 {
+	//int	i;
+
+	//i = -1;
 	free_dptr(utils->builtins, 0);
 	free_dptr(utils->exp, 0);
-	free_dptr(utils->command, 0);
+	//free_dptr(utils->command, 0);
 	free(utils->export);
 	free(utils);
 }
@@ -62,7 +65,7 @@ void	status_handler(t_shell *utils)
 		global_status()->status /= 256;
 }
 
-void	build_exit(char **argv, t_shell *utils)
+void	build_exit(char **argv, t_shell *utils, int flag)
 {
 	int	i;
 
@@ -70,7 +73,8 @@ void	build_exit(char **argv, t_shell *utils)
 	if (!argv[1])
 	{
 		free_dptr(argv, 0);
-		ft_putendl_fd("exit", 1);
+		if (flag == 1)
+			ft_putendl_fd("exit", 1);
 		final_cleaner(utils);
 		exit (global_status()->status);
 	}
@@ -87,7 +91,6 @@ void	build_exit(char **argv, t_shell *utils)
 		{
 			global_status()->status = ft_atoi(argv[1]);
 			final_cleaner(utils);
-			ft_putendl_fd("exit", 1);
 			exit (global_status()->status);
 		}
 	}

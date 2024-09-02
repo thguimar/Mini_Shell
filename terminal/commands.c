@@ -37,7 +37,20 @@ void	execute_comm(char **argv, char *test2, t_shell *utils, char *test)
 			utils->exp[i] = ft_strdup("SHLVL=1");
 	}*/
 	if (access(test2, F_OK) == 0)
-		execve(test2, argv, utils->exp);
+	{
+		if (access(test2, X_OK) != 0)
+		{
+			ft_putendl_fd("Permission denied", 1);
+			global_status()->status = 126;
+		}
+		else
+			execve(test2, argv, utils->exp);
+	}
+	else if (access(test2, F_OK) == -1)
+	{
+		ft_putstr_fd("Command not found\n", 1);
+		global_status()->status = 127;
+	}
 	free(test);
 	free(test2);
 }
@@ -87,14 +100,16 @@ void	path_comms(char **argv, t_shell *utils)
 			{
 				test = ft_strjoin(right_path[j], "/");
 				test2 = ft_strjoin(test, argv[0]);
-				execute_comm(argv, test2, utils, test);
-				flag = 1;
+				if (access(test2, F_OK) == 0)
+					break ;
 			}
 		}
 		if (flag == 0)
 			execute_comm(argv, test2, utils, test);
 		free_dptr(right_path, 0);
-		build_exit(argv, utils);
+		/* ft_putstr_fd("Command not found\n", 1);
+		global_status()->status = 127; */
+		build_exit(argv, utils, 0);
 	}
 	else
 	{

@@ -68,6 +68,7 @@ void	signal_search2(t_signal_type t)
 	else if (t == IGNORE)
 	{
 		ignore_signal(&sa, SIGQUIT);
+		//global_status()->status = 131;
 		ignore_signal(&sa, SIGINT);
 	}
 }
@@ -92,8 +93,9 @@ void	signal_search(t_signal_type t)
 		if (sigemptyset(&sa.sa_mask) != 0)
 			return ;
 		sigaction(SIGINT, &sa, NULL);
-		sigaction(SIGQUIT, &sa, NULL);
 		global_status()->status = 130;
+		sigaction(SIGQUIT, &sa, NULL);
+		//global_status()->status = 131;
 	}
 	else
 		signal_search2(t);

@@ -89,8 +89,7 @@ char	*expansions(char *argv, t_shell *utils, int pa)
 	char	*o_que_quiser5;
 	char	*output;
 	char	*pid_str;
-	
-	//printf("global_status -> %d\n", global_status()->status);
+
 	i = 0;
 	k = 0;
 	l = 0;

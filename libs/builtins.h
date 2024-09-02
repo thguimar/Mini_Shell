@@ -161,7 +161,7 @@ int		builtins(char *str, t_shell *utils, int i);
 void	build_cd(int argc, char **argv, char **env, t_shell *utils);
 void	build_echo(char *arr, t_shell *utils, int i, int j);
 void	build_env(int argc, char **argv, t_shell *utils);
-void	build_exit(char **argv, t_shell *utils);
+void	build_exit(char **argv, t_shell *utils, int flag);
 void	build_pwd(int argc, char **argv);
 void	exec_builtin(int flag, char **command, char **env, t_shell *utils);
 
