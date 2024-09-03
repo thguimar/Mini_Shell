@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:57:29 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/24 19:35:22 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/09/03 18:06:02 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,3 @@ void	build_exit(char **argv, t_shell *utils, int flag)
 	else
 		ft_putendl_fd("Too many arguments", 1);
 }
-9

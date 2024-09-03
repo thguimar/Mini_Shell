@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_expansioner.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:38:35 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/08/23 03:09:21 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:03:01 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,16 @@ int	size_before_pipe(char *str)
 	return (i);
 }
 
-char	**pipping_commands2(t_shell *utils, int x)
+char	**pipping_commands2(char *str, int x)
+{
+	char	**rtn;
+
+	rtn = ft_calloc(sizeof(char *), x + 1);
+	rtn = ft_split(str, '|');
+	return (rtn);
+}
+
+/*char	**pipping_commands2(t_shell *utils, int x)
 {
 	int		j;
 	int		i;
@@ -74,8 +83,8 @@ char	**pipping_commands2(t_shell *utils, int x)
 	{
 		//printf(" this one here: %s\n", utils->command[j]);
 		i = 0;
-		/*if (is_there_pipe(utils->command[j]) == false || utils->command[j][i] == '|')
-		{*/
+		//if (is_there_pipe(utils->command[j]) == false || utils->command[j][i] == '|')
+		//{
 		if (utils->command[j][i] != '\0' && utils->command[j][i] == '|')
 		{
 			while (utils->command[j][i] == '|')
@@ -96,7 +105,8 @@ char	**pipping_commands2(t_shell *utils, int x)
 		{
 			k++;
 			//if (utils->command[j + 1][1] == '\0')
-			j++;
+			if (is_there_pipe(utils->command[j + 1]) == true && utils->command[j + 1][ft_strlen(utils->command[j + 1])] != '|') 
+				j++;
 			free(tmp2);
 		}
 		if (is_there_pipe(utils->command[j + 1]) == true)
@@ -109,39 +119,24 @@ char	**pipping_commands2(t_shell *utils, int x)
 	while (rtn[++j])
 		printf("CCCCCCCCCCC: %s\n", rtn[j]);
 	return (rtn);
-}
+}*/
 
-char	**pipping_commands(t_shell *utils)
+char	**pipping_commands(char *input)
 {
 	int		i;
-	int		j;
 	int		x;
-	bool	pipe;
 	char	**rtn;
 
 	i = -1;
 	x =  1;
-	j = -1;
-	pipe = false;
-	while (utils->command[++j])
+	while (input[++i])
 	{
-		while (utils->command[j][++i])
-		{
-			if (utils->command[j][i] == '|')
-			{
-				pipe = true;
-				x++;
-			}
-		}
-		i = -1;
+		if (input[i] == '|')
+			x++;
 	}
-	if (pipe == true)
-	{
-		rtn = pipping_commands2(utils, x);
-		return (rtn);
-	}
-	else
-		return (utils->command);
+	i = -1;
+	rtn = pipping_commands2(input, x);
+	return (rtn);
 }
 
 int	quotes_verify(char *argv)
@@ -169,23 +164,31 @@ int	quotes_verify(char *argv)
 	return (0);
 }
 
-int	pipe_verify(char **argv)
+int	pipe_verify(char *argv)
 {
-	int	p;
 	int	j;
+	int	x;
 
 	j = -1;
-	p = 0;
-	while (argv[++j])
+	while (argv[++j] || argv[j - 1] == '|')
 	{
-		if (j == 0 && argv[j][0] == '|')
+		if (argv[j - 1] == '|')
+			j--;
+		x = 0;
+		if (j == 0 && argv[j] == '|')
 			return (ft_putendl_fd("wrong pipes", 1), -1);
-		else if (argv[j][ft_strlen(argv[j]) - 1] == '|')
-			p = 1;
-		else
-			p = 0;
+		if (argv[j] == '|')
+		{
+			j++;
+			while (argv[j] && argv[j] != '|')
+			{
+				if (argv[j] != ' ')
+					x++;
+				j++;
+			}
+			if (x == 0)
+				return (ft_putendl_fd("wrong pipes", 1), -1);
+		}
 	}
-	if (p == 1)
-		return (ft_putendl_fd("wrong pipes", 1), -1);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/24 19:35:41 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/09/03 18:05:46 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,33 +67,69 @@ void	index_reset(t_shell *utils)
 	utils->export->flag = 0;
 }
 
-//utils->input = readline("minishell"); //prompt escreve por cima por causa do prompt ser interativo
+char	***scary_thing(char	**dptr)
+{
+	char	***rtn;
+	int		i;
+	int		j;
+	int		x;
+
+	i = 0;
+	j = 0;
+	x = 0;
+	while (dptr[j])
+		j++;
+	rtn	= ft_calloc(sizeof(char **), j + 1);
+	j = -1;
+	while (dptr[++j])
+	{
+		rtn[x] = ft_split(dptr[j], ' ');
+		x++;
+	}
+	x = 0;
+	while (rtn[x])
+	{
+		j = 0;
+		while (rtn[x][j])
+			j++;
+		x++;
+	}
+	return (rtn);
+}
 
 int	main2(t_shell *utils, int flag)
 {
+	int	x;
+
+	x = -1;
 	//signal_search(IGNORE); //ele funciona aqui, e tem mais sentido estar aqui, mas não me apetece estragar as perfeitas 25 linhas da função
 	signal_search(ROOT);
 	index_reset(utils);
 	utils->input = readline("\x1b[5;95mpanic_shell> \x1b[0m");
+	//utils->input = readline("minishell"); //prompt escreve por cima por causa do prompt ser interativo
 	if (utils->input)
 		add_history(utils->input);
 	else
-		return (free(utils->export), free_dptr(utils->envr, 0), free(utils), 0);
+		return (0); // dar free do utils, utils->export, utils->envr
+	if (quotes_verify(utils->input) == 0)
 	{
-		utils->command = ft_split(utils->input, ' ');
-		if (pipe_verify(utils->command) == 0)
+		if (pipe_verify(utils->input) == 0)
 		{
-			utils->command = pipping_commands(utils);
-			while (utils->command[utils->j])
-				utils->j++;
-			flag = builtins(utils->command[0], utils, -1);
-			if (flag == 0)
-				path_comms(utils->command, utils);
-			if (flag != 0)
-				exec_builtin(flag, utils->command, utils->envr, utils);
-			utils->j = 0;
+			utils->command = pipping_commands(utils->input);
+			utils->bizarre = scary_thing(utils->command);
+			while(utils->bizarre[++x])
+			{
+				while (utils->command[utils->j])
+					utils->j++;
+				flag = builtins(utils->bizarre[x][0], utils, -1);
+				if (flag == 0)
+					path_comms(utils->bizarre[x], utils);
+				if (flag != 0)
+					exec_builtin(flag, utils->bizarre[x], utils->envr, utils);
+				utils->j = 0;
+			}
+			free_dptr(utils->command, 0);
 		}
-		free_dptr(utils->command, 0);
 	}
 	return (1);
 }
@@ -131,7 +167,6 @@ int	main(int argc, char **argv, char **env)
 		exit (1);
 	}
 	signal_search(IGNORE);
-	global_status()->status = 0;
 	while (main2(utils, 0))
 		;
 	return (0);

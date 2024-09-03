@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/24 19:36:18 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/09/03 18:04:51 by thguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_shell
 	char			**envr;
 	char			**builtins;
 	char			**command;
+	char			***bizarre;
 	char			*input;
 	int				j;
 	int				process_id;
@@ -148,6 +149,7 @@ void	argc_2(t_cd *cd, char **argv, t_shell *utils);
 void	cd_initialize(t_cd *cd, t_shell *utils);
 void	get_cd(t_cd *cd, char **argv, t_shell *utils);
 
+
 //Env Functions
 
 int		compare_exp_env(t_shell *utils, int i, int j);
@@ -176,10 +178,11 @@ void	signal_search(t_signal_type t);
 //Pipe Related
 
 bool	is_there_pipe(char *str);
-char	**pipping_commands(t_shell *utils);
-char	**pipping_commands2(t_shell *utils, int x);
+char	**pipping_commands(char *input);
+char	**pipping_commands2(char *str, int x);
 int		size_before_pipe(char *str);
-int		pipe_verify(char **argv);
+int		pipe_verify(char *argv);
+char	***scary_thing(char	**dptr);
 
 //Expansion Related
 
