@@ -84,6 +84,7 @@ void	build_cd(int argc, char **argv, char **env, t_shell *utils)
 	char	*home;
 
 	(void)argc;
+	global_status()->status = 0;
 	cd_initialize(&cd, utils);
 	home = "/home";
 	cd.user = user_search(env, 0, 0, 0);

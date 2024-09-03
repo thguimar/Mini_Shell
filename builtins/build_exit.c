@@ -97,3 +97,4 @@ void	build_exit(char **argv, t_shell *utils, int flag)
 	else
 		ft_putendl_fd("Too many arguments", 1);
 }
+9

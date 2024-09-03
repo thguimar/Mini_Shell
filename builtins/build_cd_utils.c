@@ -32,6 +32,13 @@ void	change_env_and_export_stuff(t_shell *utils, char **argv, t_cd *cd)
 
 	(void)cd;
 	str = getcwd(NULL, 0);
+	if (chdir(argv[1]) == -1)
+	{
+		free(str);
+		ft_putendl_fd("File or directory not found", 1);
+		global_status()->status = 1;
+		return ;
+	}
 	m = 0;
 	while (utils->envr && utils->envr[m])
 	{
@@ -55,7 +62,6 @@ void	change_env_and_export_stuff(t_shell *utils, char **argv, t_cd *cd)
 	free(str);
 	m = 0;
 	//chdir(getcwd(argv[1], cd->x + ft_strlen(argv[1])));
-	chdir(argv[1]);
 	str = getcwd(NULL, 0);
 	while (utils->envr && utils->envr[m])
 	{
@@ -82,11 +88,32 @@ void	change_env_and_export_stuff(t_shell *utils, char **argv, t_cd *cd)
 void	change_env_and_export_home(t_shell *utils, char **argv, t_cd *cd)
 {
 	char	*str;
+	char	*new_cd;
 	int		m;
 
+	(void)argv;
 	str = getcwd(NULL, 0);
 	m = 0;
-	chdir(getcwd(argv[1], cd->x + ft_strlen(argv[1])));
+	(void) cd;
+	//chdir(argv[1]);
+	//chdir(getcwd(argv[1], cd->x + ft_strlen(argv[1])));
+	while (utils->envr && utils->envr[m])
+	{
+		if (ft_strncmp(utils->envr[m], "HOME", 4) == 0)
+		{
+			new_cd = ft_substr(utils->envr[m], 5, ft_strlen(utils->envr[m]) - 5);
+			if (chdir(new_cd) == -1)
+			{
+				free(new_cd);
+				free(str);
+				ft_putendl_fd("File or directory not found", 1);
+				global_status()->status = 1;
+				return ;
+			}
+		}
+		m++;
+	}
+	m = 0;
 	while (utils->envr && utils->envr[m])
 	{
 		if (ft_strncmp(utils->envr[m], "OLDPWD", 6) == 0)
@@ -158,7 +185,9 @@ void	change_env_and_export_dash(t_shell *utils, char **argv, t_cd *cd)
 
 	m = 0;
 	str2 = getcwd(NULL, 0);
-	chdir(getcwd(argv[1], cd->x + ft_strlen(argv[1])));
+	(void) cd;
+	chdir(argv[1]);
+	//chdir(getcwd(argv[1], cd->x + ft_strlen(argv[1])));
 	while (utils->envr && utils->envr[m])
 	{
 		if (ft_strncmp(utils->envr[m], "OLDPWD", 6) == 0)
@@ -174,7 +203,15 @@ void	change_env_and_export_dash(t_shell *utils, char **argv, t_cd *cd)
 	{
 		if (ft_strncmp(utils->exp[m], "OLDPWD", 6) == 0)
 		{
-			str = ft_substr(utils->exp[m], 6, ft_strlen(utils->exp[m]) - 6);
+			str = ft_substr(utils->exp[m], 7, ft_strlen(utils->exp[m]) - 7);
+			if (chdir(str) == -1)
+			{
+				free(str2);
+				free(str);
+				ft_putendl_fd("File or directory not found", 1);
+				global_status()->status = 1;
+				return ;
+			}
 			free(utils->exp[m]);
 			utils->exp[m] = ft_strjoin("OLDPWD=", str2);
 		}

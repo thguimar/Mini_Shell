@@ -131,6 +131,7 @@ int	main(int argc, char **argv, char **env)
 		exit (1);
 	}
 	signal_search(IGNORE);
+	global_status()->status = 0;
 	while (main2(utils, 0))
 		;
 	return (0);

@@ -57,15 +57,17 @@ int	final_reader_size(char *str)
 
 	i = 0;
 	x = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '\'')
 		{
+			i++;
 			while (str[i] != '\'')
 				i++;
 		}
 		else if (str[i] == '"')
 		{
+			i++;
 			while (str[i] != '"')
 				i++;
 		}
@@ -117,12 +119,19 @@ void	build_echo(char *arr, t_shell *utils, int i, int j)
 		if (pa > 0)
 			i++;
 		final_reader[++j] = expansions(str, utils, pa);
-		free(str);
 		i += x;
 	}
-	j = -1;
-	while (final_reader[++j])
+	//printf("final_reader -> %s\n", final_reader[j]);
+	//printf("final_reader -> %s\n", final_reader[j + 1]);
+	//printf("final_reader -> %s\n", final_reader[j + 2]);
+	j = 0;
+	while (final_reader && final_reader[j])
+	{
+		//printf("j = %d\n", j);
+		//printf("final_reader[%d] -> %s\n", j, final_reader[j]);
 		ft_putstr_fd(final_reader[j], 1);
+		j++;
+	}
 	if (echo_flag(arr) == 0)
 		ft_putstr_fd("\n", 1);
 	free_dptr(final_reader, 0);

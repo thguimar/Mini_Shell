@@ -132,5 +132,6 @@ char	**build_export(int argc, char **argv, t_shell *utils)
 		free_dptr(utils->envr, 0);
 	x = 1;
 	utils->envr = dptr_dup(utils->exp);
+	global_status()->status = 0;
 	return (utils->exp);
 }

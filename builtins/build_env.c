@@ -58,4 +58,5 @@ void	build_env(int argc, char **argv, t_shell *utils)
 		}
 		write_exp_to_env(utils, 0, mlc_size(0, utils->exp) - 1);
 	}
+	global_status()->status = 0;
 }

@@ -61,16 +61,15 @@ int	pid_dollar(char *str, int j)
 {
 	int	x;
 
-	j--;
 	if (j < 0)
 		return (0);
 	x = 0;
-	while (j >= 0 && str[j] == '$')
+	while (j >= 0 && str[j] && str[j] == '$')
 	{
 		x++;
 		j--;
 	}
-	return (x);
+	return (x - 1);
 }
 
 char	*expansions(char *argv, t_shell *utils, int pa)
@@ -106,6 +105,8 @@ char	*expansions(char *argv, t_shell *utils, int pa)
 	{
 		while (is_there_a_dollar(split[i]) != 0)
 		{
+			int	o = is_there_a_dollar(split[i]);
+			printf("o = %d\n", o);
 			j = 0;
 			while (split[i][j] && split[i][j] != '$')
 				j++;
@@ -113,7 +114,13 @@ char	*expansions(char *argv, t_shell *utils, int pa)
 			//printf("...3\n");
 			if (split[i][j] == '$')
 			{
-				j++;
+				if (split[i][j + 1] && (ft_isalnum(split[i][j + 1]) == 1 || split[i][j + 1] == '$' || split[i][j + 1] == '?'))
+					j++;
+				else
+					break ;
+				//printf("split[i][j] -> %c\n", split[i][j]);
+				//printf("split[i][j - 1] -> %c\n", split[i][j - 1]);
+				//printf("split[i][j + 1] -> %c\n", split[i][j + 1]);
 				if (split[i][j] == '$')
 				{
 					/* while (split[i][j] == '$')
@@ -125,12 +132,15 @@ char	*expansions(char *argv, t_shell *utils, int pa)
 						j++;
 					} */
 					dollar = pid_dollar(split[i], j);
+					//printf("DOLLAR!: %i\n", dollar);
 					if (dollar % 2 != 0)
 						pid_str = ft_getpid();
 					j++;
+					//printf("JJJJJJJJJJ: %i\n", j);
 					o_que_quiser = ft_substr(split[i], 0, j - 2);
 					o_que_quiser2 = ft_substr(split[i], j, ft_strlen(split[i]) - j);
 					free(split[i]);
+					//printf("O que quiser: %s\npis_str: %s\n", o_que_quiser, pid_str);
 					o_que_quiser3 = ft_strjoin(o_que_quiser, pid_str);
 					free(o_que_quiser);
 					split[i] = ft_strjoin(o_que_quiser3, o_que_quiser2);
@@ -143,8 +153,12 @@ char	*expansions(char *argv, t_shell *utils, int pa)
 					k = j;
 					if (split[i][k] == '?')
 					{
+						o_que_quiser = ft_substr(split[i], k + 1, ft_strlen(split[i]) - k);
 						free(split[i]);
-						split[i] = ft_itoa(global_status()->status);
+						o_que_quiser2 = ft_itoa(global_status()->status);
+						split[i] = ft_strjoin(o_que_quiser2, o_que_quiser);
+						free(o_que_quiser);
+						free(o_que_quiser2);
 						global_status()->status = 0;
 					}
 					else
@@ -168,6 +182,8 @@ char	*expansions(char *argv, t_shell *utils, int pa)
 							free(o_que_quiser);
 							if (x != 0)
 								o_que_quiser3 = ft_substr(split[i], 0, x);
+							else
+								o_que_quiser3 = NULL;
 							while (split[i][j])
 								j++;
 							o_que_quiser4 = ft_substr(split[i], k, j - k);
@@ -207,8 +223,11 @@ char	*expansions(char *argv, t_shell *utils, int pa)
 						}
 						else
 						{
+							//printf("split[i] -> %s\n", split[i]);
 							o_que_quiser2 = ft_substr(split[i], 0, j - 1);
 							o_que_quiser3 = ft_substr(split[i], k, ft_strlen(split[i]) - k);
+							//printf("o que quiser2 -> %s\n", o_que_quiser2);
+							//printf("o que quiser3 -> %s\n", o_que_quiser3);
 							free(split[i]);
 							split[i] = ft_strjoin(o_que_quiser2, o_que_quiser3);
 							free(o_que_quiser);

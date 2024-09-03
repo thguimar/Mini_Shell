@@ -62,5 +62,6 @@ char	**build_unset(int argc, char **argv, char **exp, int i)
 		free_dptr(exp, 0);
 		exp = copy;
 	}
+	global_status()->status = 0;
 	return (exp);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../libs/builtins.h"
 
 void	build_pwd(int argc, char **argv)
 {
@@ -18,4 +18,5 @@ void	build_pwd(int argc, char **argv)
 	if (argc == 1)
 		ft_putstr_fd(getcwd(argv[1], 100), 1);
 	ft_putstr_fd("\n", 1);
+	global_status()->status = 0;
 }
