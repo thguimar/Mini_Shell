@@ -65,19 +65,42 @@ typedef struct s_builtvars2
 	char	**clc;
 }		t_builtvars2;
 
+typedef struct s_index
+{
+	int	i;
+	int	j;
+	int	k;
+	int	l;
+	int	x;
+}		t_index;
+
+typedef struct s_expansions
+{
+	int		dollar;
+	char 	*o_que_quiser;
+	char 	*o_que_quiser2;
+	char 	*o_que_quiser3;
+	char 	*o_que_quiser4;
+	char 	*o_que_quiser5;
+	char	*output;
+	char	*pid_str;
+	char	**split;
+}		t_expansions;
+
 typedef struct s_shell
 {
 	char			**exp;
 	char			**envr;
 	char			**builtins;
 	char			**command;
-	char			***bizarre;
+	//char			***bizarre;
 	char			*input;
 	int				j;
 	int				process_id;
 	int				status;
 	t_builtvars		*export;
 	t_builtvars2	*cd;
+	t_expansions	*expansions;
 }		t_shell;
 
 typedef struct s_cd
@@ -91,6 +114,16 @@ typedef struct s_cd
 	int		x;
 	t_shell	*utils;
 }		t_cd;
+
+typedef struct s_pipe_comms	t_pipe_comms;
+
+typedef struct s_pipe_comms
+{
+	char				*strp;
+	int					*fd_in;
+	int					*fd_out;
+	t_pipe_comms	*next;
+}		t_pipe_comms;
 
 //global char *bultins[2] = {"echo", "cd"};
 
@@ -178,8 +211,8 @@ void	signal_search(t_signal_type t);
 //Pipe Related
 
 bool	is_there_pipe(char *str);
-char	**pipping_commands(char *input);
-char	**pipping_commands2(char *str, int x);
+char	**pipping_commands(char *input, t_pipe_comms *pcomms);
+char	**pipping_commands2(char *str, int x, t_pipe_comms *pcomms);
 int		size_before_pipe(char *str);
 int		pipe_verify(char *argv);
 char	***scary_thing(char	**dptr);
@@ -196,6 +229,7 @@ int		varlen(char *str, int k);
 void	final_cleaner(t_shell *utils);
 void	free_dptr(char **clc, int i);
 void	ft_free(void **pointer);
+void	free_tptr(char ***clc, int i);
 
 //COMMANDS
 int		builtin_not_command(char **argv);

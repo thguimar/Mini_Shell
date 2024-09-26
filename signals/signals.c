@@ -68,7 +68,7 @@ void	signal_search2(t_signal_type t)
 	else if (t == IGNORE)
 	{
 		ignore_signal(&sa, SIGQUIT);
-		global_status()->status = 131;
+		//global_status()->status = 131;
 		ignore_signal(&sa, SIGINT);
 	}
 }

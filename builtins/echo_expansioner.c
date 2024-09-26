@@ -55,12 +55,23 @@ int	size_before_pipe(char *str)
 	return (i);
 }
 
-char	**pipping_commands2(char *str, int x)
+char	**pipping_commands2(char *str, int x, t_pipe_comms *pcomms)
 {
-	char	**rtn;
+	char			**rtn;
+	t_pipe_comms	*copy;
+	int				i;
 
+	copy = pcomms;
+	i = -1;
 	rtn = ft_calloc(sizeof(char *), x + 1);
 	rtn = ft_split(str, '|');
+	while (rtn[++i])
+	{
+		printf("RTN[i]: %s\n", rtn[i]);
+		printf("copy->strp: %s\n", copy->strp);
+		copy->strp = rtn[i];
+		copy = copy->next;
+	}
 	return (rtn);
 }
 
@@ -121,7 +132,7 @@ char	**pipping_commands2(char *str, int x)
 	return (rtn);
 }*/
 
-char	**pipping_commands(char *input)
+char	**pipping_commands(char *input, t_pipe_comms *pcomms)
 {
 	int		i;
 	int		x;
@@ -135,31 +146,126 @@ char	**pipping_commands(char *input)
 			x++;
 	}
 	i = -1;
-	rtn = pipping_commands2(input, x);
+	rtn = pipping_commands2(input, x, pcomms);
 	return (rtn);
 }
+
+//int	quotes_verify(char *argv)
+//{
+//	int	sq;
+//	int	dq;
+//	int	j;
+//
+//	j = -1;
+//	sq = 0;
+//	dq = 0;
+//	while (argv[++j])
+//	{
+//		if (argv[j] == '\'')
+//			sq++;
+//		else if (argv[j] == '"')
+//			dq++;
+//		if (sq == 2 || dq == 2)
+//		{
+//			if ((sq % 2 == 0 && dq % 2 != 0) || (sq % 2 != 0 && dq % 2 == 0))
+//			{
+//				write(1, "Incorrect opening of quotes\n", 28);
+//				return (1);
+//			}
+//		}
+//	}
+//	if (sq % 2 != 0 || dq % 2 != 0)
+//	{
+//		write(1, "Incorrect opening of quotes\n", 28);
+//		return (1);
+//	}
+//	return (0);
+//}
+
+//int	quotes_verify(char *argv)
+//{
+//	int	sq;
+//	int	dq;
+//	int	j;
+//
+//	j = 0;
+//	sq = 0;
+//	dq = 0;
+//	while (argv[j])
+//	{
+//		if (argv[j] == '\'')
+//			sq++;
+//		else if (argv[j] == '"')
+//			dq++;
+//		j++;
+//	}
+//	if (dq % 2 != 0 || sq % 2 != 0)
+//	{
+//		write(1, "Odd number of quotes\n", 21);
+//		return (1);
+//	}
+//	return (0);
+//}
+
+// array[0] -> sq1;
+// array[1] -> sq2;
+// array[2] -> dq1;
+// array[3] -> dq2;
 
 int	quotes_verify(char *argv)
 {
 	int	sq;
 	int	dq;
 	int	j;
+	int	array[4];
 
-	j = 0;
+	j = -1;
 	sq = 0;
 	dq = 0;
-	while (argv[j])
+	array[0] = 0;
+	array[1] = 0;
+	array[2] = 0;
+	array[3] = 0;
+	while (argv[++j])
 	{
-		if (argv[j] == '\'')
+		if (argv[j] == '\'' && sq % 2 == 0)
+		{
+			array[0] = j;
 			sq++;
-		else if (argv[j] == '"')
+		}
+		else if (argv[j] == '\'' && sq % 2 != 0)
+		{
+			array[1] = j;
+			sq++;
+		}
+		else if (argv[j] == '"' && dq % 2 == 0)
+		{
+			array[2] = j;
 			dq++;
-		j++;
+		}
+		else if (argv[j] == '"' && dq % 2 != 0)
+		{
+			array[3] = j;
+			dq++;
+		}
 	}
-	if (dq % 2 != 0 || sq % 2 != 0)
+	if (sq % 2 != 0 || dq % 2 != 0 || sq % 2 == 0 || dq % 2 == 0)
 	{
-		write(1, "Odd number of quotes\n", 21);
-		return (1);
+		if ((dq % 2 == 0 && sq % 2 != 0) || (sq % 2 == 0 && dq % 2 != 0))
+		{
+			write(1, "Incorrect opening of quotes\n", 28);
+			return (1);
+		}
+		else if (sq % 2 == 0 || dq % 2 == 0)
+		{
+			if ((array[0] > array[2] && array[1] < array[3]) || (array[2] > array[0] && array[3] < array[1]))
+				return (0);
+			else if ((array[0] > array[2] && array[0] < array[3]) || (array[2] > array[0] && array[2] < array[1]))
+			{
+				write(1, "Incorrect opening of quotes\n", 28);
+				return (1);
+			}
+		}
 	}
 	return (0);
 }
@@ -170,24 +276,27 @@ int	pipe_verify(char *argv)
 	int	x;
 
 	j = -1;
-	while (argv[++j] || argv[j - 1] == '|')
+	if (argv && ft_strlen(argv) > 0)
 	{
-		if (argv[j - 1] == '|')
-			j--;
-		x = 0;
-		if (j == 0 && argv[j] == '|')
-			return (ft_putendl_fd("wrong pipes", 1), -1);
-		if (argv[j] == '|')
+		while (argv[++j] || argv[j - 1] == '|')
 		{
-			j++;
-			while (argv[j] && argv[j] != '|')
-			{
-				if (argv[j] != ' ')
-					x++;
-				j++;
-			}
-			if (x == 0)
+			if (j > 0 && argv[j - 1] && argv[j - 1] == '|')
+				j--;
+			x = 0;
+			if (j == 0 && argv[j] == '|')
 				return (ft_putendl_fd("wrong pipes", 1), -1);
+			if (argv[j] == '|')
+			{
+				j++;
+				while (argv[j] && argv[j] != '|')
+				{
+					if (argv[j] != ' ')
+						x++;
+					j++;
+				}
+				if (x == 0)
+					return (ft_putendl_fd("wrong pipes", 1), -1);
+			}
 		}
 	}
 	return (0);

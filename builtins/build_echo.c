@@ -119,16 +119,12 @@ void	build_echo(char *arr, t_shell *utils, int i, int j)
 		if (pa > 0)
 			i++;
 		final_reader[++j] = expansions(str, utils, pa);
+		free(str);
 		i += x;
 	}
-	//printf("final_reader -> %s\n", final_reader[j]);
-	//printf("final_reader -> %s\n", final_reader[j + 1]);
-	//printf("final_reader -> %s\n", final_reader[j + 2]);
 	j = 0;
 	while (final_reader && final_reader[j])
 	{
-		//printf("j = %d\n", j);
-		//printf("final_reader[%d] -> %s\n", j, final_reader[j]);
 		ft_putstr_fd(final_reader[j], 1);
 		j++;
 	}

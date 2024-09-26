@@ -24,8 +24,32 @@ void	free_dptr(char **clc, int i)
 			//clc[i] = NULL;
 			i++;
 		}
-		free(clc);
 	}
+	free(clc);
+}
+
+void	free_tptr(char ***clc, int i)
+{
+	int	j;
+
+	if (clc && clc[i])
+	{
+		while (clc[i])
+		{
+			j = 0;
+			if (clc[i][j])
+			{
+				while (clc[i][j])
+				{
+					free(clc[i][j]);
+					j++;
+				}
+			}
+			free(clc[i]);
+			i++;
+		}
+	}
+	free(clc);
 }
 
 void	ft_free(void **pointer)
@@ -44,7 +68,9 @@ void	final_cleaner(t_shell *utils)
 	//i = -1;
 	free_dptr(utils->builtins, 0);
 	free_dptr(utils->exp, 0);
-	//free_dptr(utils->command, 0);
+	free_dptr(utils->command, 0);
+	free_dptr(utils->envr, 0);
+	free(utils->expansions);
 	free(utils->export);
 	free(utils);
 }
@@ -72,7 +98,7 @@ void	build_exit(char **argv, t_shell *utils, int flag)
 	i = 0;
 	if (!argv[1])
 	{
-		free_dptr(argv, 0);
+		//free_dptr(argv, 0);
 		if (flag == 1)
 			ft_putendl_fd("exit", 1);
 		final_cleaner(utils);

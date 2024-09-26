@@ -70,11 +70,9 @@ void	index_reset(t_shell *utils)
 char	***scary_thing(char	**dptr)
 {
 	char	***rtn;
-	int		i;
 	int		j;
 	int		x;
 
-	i = 0;
 	j = 0;
 	x = 0;
 	while (dptr[j])
@@ -99,9 +97,13 @@ char	***scary_thing(char	**dptr)
 
 int	main2(t_shell *utils, int flag)
 {
-	int	x;
+	//int				x;
+	t_pipe_comms	*pcomms;
 
-	x = -1;
+	pcomms = ft_calloc(1, sizeof(t_pipe_comms));
+	//x = -1;
+	//free_tptr(utils->bizarre, 0);
+	free_dptr(utils->command, 0);
 	//signal_search(IGNORE); //ele funciona aqui, e tem mais sentido estar aqui, mas não me apetece estragar as perfeitas 25 linhas da função
 	signal_search(ROOT);
 	index_reset(utils);
@@ -115,22 +117,32 @@ int	main2(t_shell *utils, int flag)
 	{
 		if (pipe_verify(utils->input) == 0)
 		{
-			utils->command = pipping_commands(utils->input);
-			utils->bizarre = scary_thing(utils->command);
-			while(utils->bizarre[++x])
+			utils->command = pipping_commands(utils->input, pcomms);
+			while (pcomms != NULL)
 			{
-				while (utils->command[utils->j])
-					utils->j++;
-				flag = builtins(utils->bizarre[x][0], utils, -1);
-				if (flag == 0)
-					path_comms(utils->bizarre[x], utils);
-				if (flag != 0)
-					exec_builtin(flag, utils->bizarre[x], utils->envr, utils);
-				utils->j = 0;
+				printf("TESTE: %s\n", pcomms->strp);
+				pcomms = pcomms->next;
 			}
+			//utils->bizarre = scary_thing(utils->command);
+			//while(utils->bizarre[++x])
+			//{
+			while (utils->command[utils->j])
+				utils->j++;
+			flag = builtins(utils->command[0], utils, -1);
+			if (flag == 0)
+				path_comms(utils->command, utils);
+			if (flag != 0)
+				exec_builtin(flag, utils->command, utils->envr, utils);
+			utils->j = 0;
 			free_dptr(utils->command, 0);
+			//}
+			//free_tptr(utils->bizarre, 0);
 		}
+		//utils->bizarre = NULL;
+		utils->command = NULL;
 	}
+	//if (utils->command)
+	//	free_dptr(utils->command, 0);
 	return (1);
 }
 
@@ -156,7 +168,7 @@ int	main(int argc, char **argv, char **env)
 		free (utils->envr[i]);
 		num = ft_itoa(n);
 		utils->envr[i] = ft_strjoin("SHLVL=", num);
-		free (num);
+		free(num);
 	}
 	else
 		utils->envr[i] = ft_strdup("SHLVL=1");

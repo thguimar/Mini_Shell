@@ -36,7 +36,12 @@ void	execute_comm(char **argv, char *test2, t_shell *utils, char *test)
 		else
 			utils->exp[i] = ft_strdup("SHLVL=1");
 	}*/
-	if (access(test2, F_OK) == 0)
+	if (!test2 || access(test2, F_OK) == -1)
+	{
+		ft_putstr_fd("Command not found\n", 1);
+		global_status()->status = 127;
+	}
+	else if (access(test2, F_OK) == 0)
 	{
 		if (access(test2, X_OK) != 0)
 		{
@@ -45,11 +50,6 @@ void	execute_comm(char **argv, char *test2, t_shell *utils, char *test)
 		}
 		else
 			execve(test2, argv, utils->exp);
-	}
-	else if (access(test2, F_OK) == -1)
-	{
-		ft_putstr_fd("Command not found\n", 1);
-		global_status()->status = 127;
 	}
 	free(test);
 	free(test2);
@@ -85,6 +85,7 @@ void	path_comms(char **argv, t_shell *utils)
 	j = -1;
 	right_path = NULL;
 	test = NULL;
+	test2 = NULL;
 	signal_search(IGNORE);
 	utils->process_id = fork();
 	if (utils->process_id == 0)
@@ -100,12 +101,21 @@ void	path_comms(char **argv, t_shell *utils)
 			{
 				test = ft_strjoin(right_path[j], "/");
 				test2 = ft_strjoin(test, argv[0]);
-				if (access(test2, F_OK) == 0)
+				if (access(test2, F_OK) == -1)
+				{
+					free(test);
+					free(test2);
+					test = NULL;
+					test2 = NULL;
+				}
+				else if (access(test2, F_OK) == 0)
 					break ;
 			}
 		}
 		if (flag == 0)
 			execute_comm(argv, test2, utils, test);
+		//free(test);
+		//free(test2);
 		free_dptr(right_path, 0);
 		/* ft_putstr_fd("Command not found\n", 1);
 		global_status()->status = 127; */
@@ -117,5 +127,8 @@ void	path_comms(char **argv, t_shell *utils)
 		//printf("global_status -> %d\n", global_status()->status);
 		status_handler(utils);
 	}
+	free(test);
+	if (test2)
+		free(test2);
 	return ;
 }

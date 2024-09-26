@@ -65,248 +65,201 @@ int	pid_dollar(char *str, int j)
 		return (0);
 	x = 0;
 	while (j >= 0 && str[j] && str[j] == '$')
-	{
+	{//output
 		x++;
 		j--;
 	}
 	return (x - 1);
 }
 
+void	expansions_initializer(t_shell *utils)
+{
+	utils->expansions = ft_calloc(1, sizeof(t_expansions));
+	utils->expansions->dollar = 0;
+	utils->expansions->o_que_quiser = NULL;
+	utils->expansions->o_que_quiser2 = NULL;
+	utils->expansions->o_que_quiser3 = NULL;
+	utils->expansions->o_que_quiser4 = NULL;
+	utils->expansions->o_que_quiser5 = NULL;
+	utils->expansions->output = NULL;
+	utils->expansions->pid_str = NULL;
+	utils->expansions->split = NULL;
+}
+
+void	expansions_dollar(t_shell *utils, t_index *index)
+{
+	printf("...4\n");
+	utils->expansions->dollar = pid_dollar(utils->expansions->split[index->i], index->j);
+	if (utils->expansions->dollar % 2 != 0)
+		utils->expansions->pid_str = ft_getpid();
+	index->j++;
+	utils->expansions->o_que_quiser = ft_substr(utils->expansions->split[index->i], 0, index->j - 2);
+	utils->expansions->o_que_quiser2 = ft_substr(utils->expansions->split[index->i], index->j, ft_strlen(utils->expansions->split[index->i]) - index->j);
+	free(utils->expansions->split[index->i]);
+	utils->expansions->o_que_quiser3 = ft_strjoin(utils->expansions->o_que_quiser, utils->expansions->pid_str);
+	free(utils->expansions->o_que_quiser);
+	utils->expansions->split[index->i] = ft_strjoin(utils->expansions->o_que_quiser3, utils->expansions->o_que_quiser2);
+	free(utils->expansions->o_que_quiser2);
+	free(utils->expansions->o_que_quiser3);
+	free(utils->expansions->pid_str);
+}
+
+void	expansions_exit_code(t_shell *utils, t_index *index)
+{
+	printf("...5\n");
+	utils->expansions->o_que_quiser = ft_substr(utils->expansions->split[index->i], index->k + 1, ft_strlen(utils->expansions->split[index->i]) - index->k);
+	free(utils->expansions->split[index->i]);
+	utils->expansions->o_que_quiser2 = ft_itoa(global_status()->status);
+	utils->expansions->split[index->i] = ft_strjoin(utils->expansions->o_que_quiser2, utils->expansions->o_que_quiser);
+	free(utils->expansions->o_que_quiser);
+	free(utils->expansions->o_que_quiser2);
+	global_status()->status = 0;
+}
+
+void	expansions_value_found(t_shell *utils, t_index *index)
+{
+	printf("...6\n");
+	utils->expansions->o_que_quiser2 = ft_substr(utils->envr[index->l], ft_strlen3(utils->expansions->o_que_quiser) + 1, ft_strlen(utils->envr[index->l]) - ft_strlen(utils->expansions->o_que_quiser) - 1);
+	free(utils->expansions->o_que_quiser);
+	if (index->x != 0)
+		utils->expansions->o_que_quiser3 = ft_substr(utils->expansions->split[index->i], 0, index->x);
+	else
+		utils->expansions->o_que_quiser3 = NULL;
+	while (utils->expansions->split[index->i][index->j])
+		index->j++;
+	utils->expansions->o_que_quiser4 = ft_substr(utils->expansions->split[index->i], index->k, index->j - index->k);
+	utils->expansions->o_que_quiser5 = ft_strjoin(utils->expansions->o_que_quiser3, utils->expansions->o_que_quiser2);
+	free(utils->expansions->o_que_quiser2);
+	free(utils->expansions->o_que_quiser3);
+	utils->expansions->o_que_quiser2 = ft_strjoin(utils->expansions->o_que_quiser5, utils->expansions->o_que_quiser4);
+	free(utils->expansions->o_que_quiser4);
+	free(utils->expansions->o_que_quiser5);
+	free(utils->expansions->split[index->i]);
+	utils->expansions->split[index->i] = ft_strdup(utils->expansions->o_que_quiser2);
+	free(utils->expansions->o_que_quiser2);
+}
+
+void	expansions_value_not_found(t_shell *utils, t_index *index)
+{
+	printf("...7\n");
+	utils->expansions->o_que_quiser2 = ft_substr(utils->expansions->split[index->i], 0, index->j - 1);
+	utils->expansions->o_que_quiser3 = ft_substr(utils->expansions->split[index->i], index->k, ft_strlen(utils->expansions->split[index->i]) - index->k);
+	free(utils->expansions->split[index->i]);
+	utils->expansions->split[index->i] = ft_strjoin(utils->expansions->o_que_quiser2, utils->expansions->o_que_quiser3);
+	free(utils->expansions->o_que_quiser);
+	free(utils->expansions->o_que_quiser2);
+	free(utils->expansions->o_que_quiser3);
+}
+
+char	*expansioner(t_shell *utils, t_index *index)
+{
+	char	*temp;
+	printf("...8\n");
+	index->i = 0;
+	while (utils->expansions->split[index->i])
+	{
+		if (index->i == 0)
+		{
+			utils->expansions->output = ft_strjoinn(utils->expansions->split[index->i], utils->expansions->split[index->i + 1]);
+			if (utils->expansions->split[index->i + 1] == NULL)
+				index->i += 1;
+			else
+				index->i += 2;
+		}
+		else
+		{
+			temp = ft_strdup(utils->expansions->output);
+			free(utils->expansions->output);
+			utils->expansions->output = ft_strjoinn(temp, utils->expansions->split[index->i]);
+			free(temp);
+			index->i++;
+		}
+	}
+	free_dptr(utils->expansions->split, 0);
+	return (utils->expansions->output);
+}
+
+void	expansions_helper(t_shell *utils, t_index *index)
+{
+	printf("...3\n");
+	while (ft_isalnum((int)utils->expansions->split[index->i][index->k]) == 1)
+		index->k++;
+	utils->expansions->o_que_quiser = ft_substr(utils->expansions->split[index->i], index->j, index->k - index->j);
+	while (utils->envr[index->l])
+	{
+		if (ft_strncmp(utils->expansions->o_que_quiser, utils->envr[index->l], ft_strlen3(utils->envr[index->l])) == 0 && ft_strlen3(utils->expansions->o_que_quiser) == ft_strlen3(utils->envr[index->l]))
+			break ;
+		index->l++;
+	}
+	if (utils->envr[index->l])
+		expansions_value_found(utils, index);
+	else
+		expansions_value_not_found(utils, index);
+}
+
+void	expansions_bigger_helper(t_shell *utils, t_index *index)
+{
+	printf("...2\n");
+	if (utils->expansions->split[index->i][index->j] == '$' && utils->expansions->split[index->i][index->j + 1] && (ft_isalnum(utils->expansions->split[index->i][index->j + 1]) == 1 || utils->expansions->split[index->i][index->j + 1] == '$' || utils->expansions->split[index->i][index->j + 1] == '?'))
+	{
+		index->j++;
+		if (utils->expansions->split[index->i][index->j] == '$')
+			expansions_dollar(utils, index);
+		else
+		{
+			index->k = index->j;
+			if (utils->expansions->split[index->i][index->k] == '?')
+				expansions_exit_code(utils, index);
+			else
+				expansions_helper(utils, index);
+		}
+	}
+	//else
+	//{
+	//	index->j++;
+	//	printf("index->j = %d\n", index->j);
+	//}
+	index->l = 0;
+}
 char	*expansions(char *argv, t_shell *utils, int pa)
 {
-	int		i;
-	int		j;
-	int		k;
-	int		l;
-	int		x;
-	int		dollar;
-	char	**split;
-	char	*o_que_quiser;
-	char	*o_que_quiser2;
-	char	*o_que_quiser3;
-	char	*o_que_quiser4;
-	char	*o_que_quiser5;
-	char	*output;
-	char	*pid_str;
+	t_index	index;
 
-	i = 0;
-	k = 0;
-	l = 0;
-	o_que_quiser3 = NULL;
-	o_que_quiser4 = NULL;
-	o_que_quiser5 = NULL;
-	split = ft_split2(argv, ' ');
-	o_que_quiser2 = NULL;
-	dollar = 0;
-	//printf("...1\n");
+	index.i = 0;
+	index.j = 0;
+	index.k = 0;
+	index.l = 0;
+	index.x = 0;
+	expansions_initializer(utils);
+	printf("...1\n");
+	utils->expansions->split = ft_split2(argv, ' ');
 	if (pa == 2)
-		return (free_dptr(split, 0), ft_strdup(argv));
-	while (split[i])
+		return (free_dptr(utils->expansions->split, 0), ft_strdup(argv));
+	while (utils->expansions->split && utils->expansions->split[index.i])
 	{
-		while (is_there_a_dollar(split[i]) != 0)
+		printf("...11\n");
+		while (is_there_a_dollar(utils->expansions->split[index.i]) != 0)
 		{
-			int	o = is_there_a_dollar(split[i]);
-			printf("o = %d\n", o);
-			j = 0;
-			while (split[i][j] && split[i][j] != '$')
-				j++;
-			x = j;
-			//printf("...3\n");
-			if (split[i][j] == '$')
+			printf("...111\n");
+			index.j = 0;
+			printf("i = %d\n", index.i);
+			printf("split -> %s\n", utils->expansions->split[index.i]);
+			while (utils->expansions->split[index.i][index.j] && is_there_a_dollar(utils->expansions->split[index.i]) != 0)
 			{
-				if (split[i][j + 1] && (ft_isalnum(split[i][j + 1]) == 1 || split[i][j + 1] == '$' || split[i][j + 1] == '?'))
-					j++;
-				else
-					break ;
-				//printf("split[i][j] -> %c\n", split[i][j]);
-				//printf("split[i][j - 1] -> %c\n", split[i][j - 1]);
-				//printf("split[i][j + 1] -> %c\n", split[i][j + 1]);
-				if (split[i][j] == '$')
-				{
-					/* while (split[i][j] == '$')
-					{
-						o_que_quiser = ft_substr(split[i], 0, )
-						dollar = pid_dollar(split[i], j);
-						if (dollar % 2 != 0)
-							ft_putstr_fd(ft_getpid(), 1);
-						j++;
-					} */
-					dollar = pid_dollar(split[i], j);
-					//printf("DOLLAR!: %i\n", dollar);
-					if (dollar % 2 != 0)
-						pid_str = ft_getpid();
-					j++;
-					//printf("JJJJJJJJJJ: %i\n", j);
-					o_que_quiser = ft_substr(split[i], 0, j - 2);
-					o_que_quiser2 = ft_substr(split[i], j, ft_strlen(split[i]) - j);
-					free(split[i]);
-					//printf("O que quiser: %s\npis_str: %s\n", o_que_quiser, pid_str);
-					o_que_quiser3 = ft_strjoin(o_que_quiser, pid_str);
-					free(o_que_quiser);
-					split[i] = ft_strjoin(o_que_quiser3, o_que_quiser2);
-					free(o_que_quiser2);
-					free(o_que_quiser3);
-					free(pid_str);
-				}
-				else
-				{
-					k = j;
-					if (split[i][k] == '?')
-					{
-						o_que_quiser = ft_substr(split[i], k + 1, ft_strlen(split[i]) - k);
-						free(split[i]);
-						o_que_quiser2 = ft_itoa(global_status()->status);
-						split[i] = ft_strjoin(o_que_quiser2, o_que_quiser);
-						free(o_que_quiser);
-						free(o_que_quiser2);
-						global_status()->status = 0;
-					}
-					else
-					{
-						while (ft_isalnum((int)split[i][k]) == 1)
-							k++;
-						//printf("...6\n");
-						o_que_quiser = ft_substr(split[i], j, k - j);
-						//printf("...7\n");
-						while (utils->envr[l])
-						{
-							if (ft_strncmp(o_que_quiser, utils->envr[l], ft_strlen3(utils->envr[l])) == 0 && ft_strlen3(o_que_quiser) == ft_strlen3(utils->envr[l]))
-								break ;
-							//printf("...8\n");
-							l++;
-						}
-						//printf("...9\n");
-						if (utils->envr[l])
-						{
-							o_que_quiser2 = ft_substr(utils->envr[l], ft_strlen3(o_que_quiser) + 1, ft_strlen(utils->envr[l]) - ft_strlen(o_que_quiser) - 1);
-							free(o_que_quiser);
-							if (x != 0)
-								o_que_quiser3 = ft_substr(split[i], 0, x);
-							else
-								o_que_quiser3 = NULL;
-							while (split[i][j])
-								j++;
-							o_que_quiser4 = ft_substr(split[i], k, j - k);
-							//j = 0;
-							//while (split[i][j])
-							//{
-							//	while (split[i][j] && split[i][j] != '$')
-							//		j++;
-							//	if (split[i][j])
-							//	{
-							//		while(split[i][j])
-							//		split[i][j] = '\0';
-							//		j++;
-							//	}
-							//}
-							//printf("...10\n");
-																								/*
-
-
-																								AQUI O, ADICIONAR, LOGICA DE MANTER SPLIT SEM DAR FREE, E OUTRA
-																									VARIAVEL QUE NAO O SPLIT RECEBER 
-																								 ft_strjoinn(o_que_quiser2, ft_substr(utils->envr[l], ft_strlen3(o_que_quiser) + 1, ft_strlen(utils->envr[l]) - ft_strlen(o_que_quiser) - 1));
-
-
-																									*/
-							//split[i] = ft_strjoinn(o_que_quiser2, ft_substr(utils->envr[l], ft_strlen3(o_que_quiser) + 1, ft_strlen(utils->envr[l]) - ft_strlen(o_que_quiser) - 1));
-							o_que_quiser5 = ft_strjoin(o_que_quiser3, o_que_quiser2);
-							free(o_que_quiser2);
-							free(o_que_quiser3);
-							o_que_quiser2 = ft_strjoin(o_que_quiser5, o_que_quiser4);
-							free(o_que_quiser4);
-							free(o_que_quiser5);
-							free(split[i]);
-							split[i] = ft_strdup(o_que_quiser2);
-							free(o_que_quiser2);
-							//printf("...12\n");
-						}
-						else
-						{
-							//printf("split[i] -> %s\n", split[i]);
-							o_que_quiser2 = ft_substr(split[i], 0, j - 1);
-							o_que_quiser3 = ft_substr(split[i], k, ft_strlen(split[i]) - k);
-							//printf("o que quiser2 -> %s\n", o_que_quiser2);
-							//printf("o que quiser3 -> %s\n", o_que_quiser3);
-							free(split[i]);
-							split[i] = ft_strjoin(o_que_quiser2, o_que_quiser3);
-							free(o_que_quiser);
-							free(o_que_quiser2);
-							free(o_que_quiser3);
-							/* j = 0;
-							while (split[i][j])
-							{
-								while (split[i][j] && split[i][j] != '$')
-									j++;
-								if (split[i][j])
-								{
-									while (split[i][j])
-									{
-										split[i][j] = '\0';
-										j++;
-									}
-								}
-							} */
-						}
-					}
-				}
+				printf("...1111\n");
+				while (utils->expansions->split[index.i][index.j] && utils->expansions->split[index.i][index.j] != '$')
+					index.j++;
+				printf("index.j = %d\n", index.j);
+				printf("len = %ld\n", ft_strlen(utils->expansions->split[index.i]));
+				index.x = index.j;
+				expansions_bigger_helper(utils, &index);
+				printf("index.j = %d\n", index.j);
+				printf("len = %ld\n", ft_strlen(utils->expansions->split[index.i]));
 			}
-			l = 0;
 		}
-		i++;
+		index.i++;
 	}
-	i = 0;
-	while (split[i])
-	{
-		if (i == 0)
-		{
-			output = ft_strjoinn(split[i], split[i + 1]);
-			if (split[i + 1] == NULL)
-				i += 1;
-			else
-				i += 2;
-		}
-		else
-		{
-			output = ft_strjoinn(output, split[i]);
-			i++;
-		}
-		//printf("...14\n");
-		/* if (i == 0)
-		{
-			//printf("...15\n");
-			//printf("split[i] -> %s\n", split[i]);
-			//printf("split[i + 1] -> %s\n", split[i + 1]);
-			if (dollar % 2 != 0)
-			{
-				output = ft_strjoinn(split[i] + dollar + 1, split[i + 1]);
-				ft_putendl_fd("", 1);
-			}
-			else
-				output = ft_stri = 0;joinn(split[i] + dollar, split[i + 1]);
-			//printf("output -> %s\n", output);
-			//printf("...16\n");
-			if (split[i + 1] == NULL)
-				i += 1;
-			else
-				i += 2;
-		}
-		else
-		{
-			//printf("split[%d] -> %s\n", i, split[i]);
-			output = ft_strjoinn(output, split[i]);
-			i++;
-		} */
-		//printf("...17\n");
-	}
-	//printf("%s\n", output);
-	//printf("...18\n");
-	//if (output && dollar % 2 != 0)
-	//	ft_putendl_fd("", 1);
-	free_dptr(split, 0);
-	//if (output != NULL)
-	return (output);
-	//printf("...19\n");
+	return (expansioner(utils, &index));
 }
 
 int		is_there_a_dollar(char *str)
@@ -316,7 +269,7 @@ int		is_there_a_dollar(char *str)
 	i = 0;
 	while (str && str[i])
 	{
-		if (str[i] == '$')
+		if (str[i + 1] && str[i] == '$' && (ft_isalnum(str[i + 1]) == 1 || str[i + 1] == '$' || str[i + 1] == '?')) // || str[i + 1] == '\'' || str[i + 1] == '"'))
 			return (1);
 		i++;
 	}
