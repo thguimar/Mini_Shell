@@ -112,7 +112,7 @@ int	main2(t_shell *utils, int flag)
 	if (utils->input)
 		add_history(utils->input);
 	else
-		return (0); // dar free do utils, utils->export, utils->envr
+		return (free_dptr(utils->envr, 0), free(utils->export), free_dptr(utils->exp, 0), free(utils), 0);
 	if (quotes_verify(utils->input) == 0)
 	{
 		if (pipe_verify(utils->input) == 0)

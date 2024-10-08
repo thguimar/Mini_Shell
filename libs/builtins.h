@@ -120,6 +120,7 @@ typedef struct s_pipe_comms	t_pipe_comms;
 typedef struct s_pipe_comms
 {
 	char				*strp;
+	char				**args;
 	int					*fd_in;
 	int					*fd_out;
 	t_pipe_comms	*next;

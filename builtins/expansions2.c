@@ -145,7 +145,7 @@ void	expansions_value_not_found(t_shell *utils, t_index *index)
 	utils->expansions->o_que_quiser2 = ft_substr(utils->expansions->split[index->i], 0, index->j - 1);
 	utils->expansions->o_que_quiser3 = ft_substr(utils->expansions->split[index->i], index->k, ft_strlen(utils->expansions->split[index->i]) - index->k);
 	free(utils->expansions->split[index->i]);
-	utils->expansions->split[index->i] = ft_strjoin(utils->expansions->o_que_quiser2, utils->expansions->o_que_quiser3);
+	utils->expansions->split[index->i] = ft_strjoinn(utils->expansions->o_que_quiser2, utils->expansions->o_que_quiser3);
 	free(utils->expansions->o_que_quiser);
 	free(utils->expansions->o_que_quiser2);
 	free(utils->expansions->o_que_quiser3);
@@ -176,6 +176,7 @@ char	*expansioner(t_shell *utils, t_index *index)
 		}
 	}
 	free_dptr(utils->expansions->split, 0);
+	printf("output = %s\n", utils->expansions->output);
 	return (utils->expansions->output);
 }
 
@@ -214,11 +215,11 @@ void	expansions_bigger_helper(t_shell *utils, t_index *index)
 				expansions_helper(utils, index);
 		}
 	}
-	//else
-	//{
-	//	index->j++;
-	//	printf("index->j = %d\n", index->j);
-	//}
+	else
+	{
+		index->j++;
+		printf("index->j = %d\n", index->j);
+	}
 	index->l = 0;
 }
 char	*expansions(char *argv, t_shell *utils, int pa)
@@ -230,13 +231,27 @@ char	*expansions(char *argv, t_shell *utils, int pa)
 	index.k = 0;
 	index.l = 0;
 	index.x = 0;
+	if (utils->expansions)
+		free(utils->expansions);
 	expansions_initializer(utils);
 	printf("...1\n");
 	utils->expansions->split = ft_split2(argv, ' ');
+	while (utils->expansions->split[index.i] != NULL)
+	{
+		printf("split = %s\n", utils->expansions->split[index.i]);
+		index.i++;
+	}
+	index.i = 0;
 	if (pa == 2)
 		return (free_dptr(utils->expansions->split, 0), ft_strdup(argv));
 	while (utils->expansions->split && utils->expansions->split[index.i])
 	{
+		if (pa == 0 && ft_strlen(utils->expansions->split[index.i]) == 1 && utils->expansions->split[index.i][0] == '$')
+		{
+			printf("...aaaaaaaaaa\n");
+			free(utils->expansions->split[index.i]);
+			utils->expansions->split[index.i] = ft_calloc(sizeof(char), 1);
+		}
 		printf("...11\n");
 		while (is_there_a_dollar(utils->expansions->split[index.i]) != 0)
 		{

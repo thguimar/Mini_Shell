@@ -4,4 +4,5 @@ Norminette
 Expansions in the beginning for commands
 Comandos não funcionam dentro de aspas e plicas, deveriam
 Testar unset / pwd / cd / export / env (para leaks e segfaults)
-
+Extra dollar signs no echo
+TABS ???!!!
