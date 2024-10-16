@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_export_utils1.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:04 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/23 20:29:09 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:37:28 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,12 @@ char	**exp_copy(char **exp)
 
 	i = 0;
 	j = 0;
-	//copy = ft_calloc(mlc_size(0, exp) + 1, sizeof(char *));
 	while (exp[i])
 		i++;
 	copy = ft_calloc(sizeof(char *), i + 1);
 	while (exp[j])
 	{
-		//copy[j] = ft_calloc(ft_strlen(exp[j]) + 1, sizeof(char));
 		copy[j] = ft_strdup(exp[j]);
-//		printf("%s\n", exp[j + 1]);
-//		write_env(0, copy[j]);
-		/* while (exp[j][++i])
-			copy[j][i] = exp[j][i]; */
-		//i = -1;
 		j++;
 	}
 	return (copy);

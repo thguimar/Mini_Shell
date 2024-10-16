@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_export_utils3.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:12:42 by thguimar          #+#    #+#             */
-/*   Updated: 2024/06/19 19:19:16 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:38:27 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,16 @@ void	export_helper_helper(t_builtvars *export, char **argv, int j)
 		export->n++;
 		export->l++;
 	}
+}
+
+char	**dptr_dup(char	**dptr)
+{
+	char	**rtn;
+	int		i;
+
+	i = -1;
+	rtn = ft_calloc(sizeof(char *), mlc_size(0, dptr) + 1);
+	while (dptr[++i])
+		rtn[i] = ft_strdup(dptr[i]);
+	return (rtn);
 }

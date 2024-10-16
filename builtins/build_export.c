@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:33:10 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/23 20:36:50 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:38:18 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,29 +94,16 @@ void	argc2(t_shell *utils, char **argv, int j, int argc)
 	}
 }
 
-char	**dptr_dup(char	**dptr)
-{
-	char	**rtn;
-	int		i;
-
-	i = -1;
-	rtn = ft_calloc(sizeof(char *), mlc_size(0, dptr) + 1);
-	while (dptr[++i])
-		rtn[i] = ft_strdup(dptr[i]);
-	return (rtn);
-}
-
 char	**build_export(int argc, char **argv, t_shell *utils)
 {
 	int			j;
 	static int	x;
 
-	(void)argv;
 	j = 1;
 	if (argc == 1)
 	{
 		utils->export->i = mlc_size(0, utils->exp);
-		write_exp(utils); //problema do export esta algures aqui
+		write_exp(utils);
 	}
 	else
 	{

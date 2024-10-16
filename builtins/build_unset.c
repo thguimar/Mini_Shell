@@ -44,7 +44,7 @@ char	**build_unset(int argc, char **argv, char **exp, int i)
 
 	j = -1;
 	flag = 0;
-	if (argc > 1)
+	if (argc > 1) //com maior que 0 funciona, duvido que fosse suposto
 	{
 		while (argv[++j])
 		{
@@ -62,6 +62,5 @@ char	**build_unset(int argc, char **argv, char **exp, int i)
 		free_dptr(exp, 0);
 		exp = copy;
 	}
-	global_status()->status = 0;
-	return (exp);
+	return (global_status()->status = 0, exp);
 }

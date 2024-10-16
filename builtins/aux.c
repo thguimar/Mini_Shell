@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:56:34 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/19 19:25:14 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:10:43 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,3 @@ char	*ft_getpid(void)
 		return (NULL);
 	return (pid);
 }
-/*int main (void)
-{
-	char	*temp;
-
-	temp = ft_getpid();
-	printf("pid: %s\n", temp);
-	free(temp);
-}*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thguimar <thguimar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/09/03 18:05:46 by thguimar         ###   ########.fr       */
+/*   Updated: 2024/10/16 19:39:46 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	exec_builtin(int flag, char **command, char **env, t_shell *utils)
 	else if (flag == 6)
 		build_env(utils->j, command, utils);
 	else if (flag == 7)
-		build_exit(command, utils, 1);
+		build_exit(command, utils, 1, 0);
 }
 
 void	index_reset(t_shell *utils)
@@ -113,24 +113,23 @@ int	main2(t_shell *utils, int flag)
 		add_history(utils->input);
 	else
 		return (free_dptr(utils->envr, 0), free(utils->export), free_dptr(utils->exp, 0), free(utils), 0);
-	if (quotes_verify(utils->input) == 0)
+	if (quotes_verify(utils->input, 0, 0, 0) == 0)
 	{
-		if (pipe_verify(utils->input) == 0)
+		if (pipe_verify(utils->input, -1, 0) == 0)
 		{
 			utils->command = pipping_commands(utils->input, pcomms);
 			while (pcomms != NULL)
-			{
-				printf("TESTE: %s\n", pcomms->strp);
 				pcomms = pcomms->next;
-			}
 			//utils->bizarre = scary_thing(utils->command);
 			//while(utils->bizarre[++x])
 			//{
+			utils->command = ft_split(utils->command[0], ' ');
 			while (utils->command[utils->j])
 				utils->j++;
+			//has_quotes(utils->lala[2], 0, utils->input, utils->lala[0]);
 			flag = builtins(utils->command[0], utils, -1);
 			if (flag == 0)
-				path_comms(utils->command, utils);
+				path_comms(utils->command, utils, -1, -1);
 			if (flag != 0)
 				exec_builtin(flag, utils->command, utils->envr, utils);
 			utils->j = 0;

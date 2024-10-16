@@ -55,10 +55,7 @@ int	var_equal_line2(char **env, char *argv)
 	while (env[m])
 	{
 		if (ft_strncmp(argv, env[m], ft_strlen3(env[m])) == 0)
-		{
-			//printf("m = %d\nenv[%d] -> %s\n", m, m, env[m]);
 			return (m);
-		}
 		m++;
 	}
 	return (-1);
