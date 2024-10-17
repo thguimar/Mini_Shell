@@ -6,7 +6,7 @@
 /*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:03:27 by joanda-s          #+#    #+#             */
-/*   Updated: 2024/10/16 19:32:20 by joana            ###   ########.fr       */
+/*   Updated: 2024/10/17 17:41:39 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,13 +114,14 @@ void	expansions_exit_code(t_shell *utils, t_index *index)
 	ft_substr(utils->expansions->split[index->i], \
 	index->k + 1, ft_strlen(utils->expansions->split[index->i]) - index->k);
 	free(utils->expansions->split[index->i]);
+	printf("global status to print -> %d\n", global_status()->status);
 	utils->expansions->o_que_quiser2 = ft_itoa(global_status()->status);
 	utils->expansions->split[index->i] = \
 	ft_strjoin(utils->expansions->o_que_quiser2, \
 	utils->expansions->o_que_quiser);
 	free(utils->expansions->o_que_quiser);
 	free(utils->expansions->o_que_quiser2);
-	global_status()->status = 0;
+	//global_status()->status = 0;
 }
 
 void	expansions_value_found(t_shell *utils, t_index *index)
@@ -273,7 +274,13 @@ char	*expansions(char *argv, t_shell *utils, int pa)
 		index.i++;
 	index.i = 0;
 	if (pa == 2)
+	{
+		printf("split[i] -> %s\n", utils->expansions->split[0]);
+		printf("split[i] -> %s\n", utils->expansions->split[1]);
+		printf("split[i] -> %s\n", utils->expansions->split[2]);
+		printf("argv -> %s\n", argv);
 		return (free_dptr(utils->expansions->split, 0), ft_strdup(argv));
+	}
 	while (utils->expansions->split && utils->expansions->split[index.i])
 	{
 		if (pa == 0 && ft_strlen(utils->expansions->split[index.i]) == 1 \

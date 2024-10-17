@@ -6,7 +6,7 @@
 /*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:57:29 by thguimar          #+#    #+#             */
-/*   Updated: 2024/10/16 17:35:46 by joana            ###   ########.fr       */
+/*   Updated: 2024/10/17 18:21:14 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,3 +97,4 @@ void	build_exit(char **argv, t_shell *utils, int flag, int i)
 	else
 		ft_putendl_fd("Too many arguments", 1);
 }
+

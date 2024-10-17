@@ -6,7 +6,7 @@
 /*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:42:24 by thguimar          #+#    #+#             */
-/*   Updated: 2024/10/16 19:39:46 by joana            ###   ########.fr       */
+/*   Updated: 2024/10/17 19:44:24 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,38 +95,129 @@ char	***scary_thing(char	**dptr)
 	return (rtn);
 }
 
+int	andre_count(char *str, char c)
+{
+	int	i;
+	int	quotes;
+	int	words;
+
+	i = 0;
+	words = 0;
+	quotes = 0;
+	while (str[i])
+	{
+		while (str[i] && str[i] == c)
+			i++;
+		if (str[i] && str[i] != c && quotes == 0)
+		{
+			if ((str[i] ==  '"' || str[i] == '\'') && quotes == 0)
+				quotes = 1;
+			i++;
+			while ((str[i] !=  '"' && str[i] != '\'') && quotes == 1)
+				i++;
+			if ((str[i] == '"' || str[i] == '\'') && quotes == 1)
+			{
+				quotes = 0;
+				i++;
+			}
+		}
+		if (str[i] && str[i] != c)
+			words++;
+	}
+	return (words + 1);
+}
+
+void	*filldre(char **matrix, char const *str, char c)
+{
+	int		i;
+	int		j;
+	int		word;
+
+	i = 0;
+	word = 0;
+	while (str[i])
+	{
+		if (str[i] && str[i] == c)
+			i++;
+		else
+		{
+			j = 0;
+			while (str[i + j] && str[i + j] != c)
+			{
+				j++;
+				if ((str[i] ==  '"' || str[i] == '\''))
+				{
+						j++;
+					while (str[i] && str[i] !=  '"' && str[i] != '\'')
+						i++;
+					if ((str[i] == '"' || str[i] == '\''))
+						i++;
+				}
+			}
+		}
+			matrix[word++] = ft_substr(str, i, j);
+			//if (!matrix[word - 1])
+			//	return (free_matrix(matrix, word - 1));
+			i += j;
+	}
+	matrix[word] = NULL;
+	return (matrix);
+}
+
+char	**split_andre(t_shell *utils)
+{
+	char	**matrix;
+	
+	matrix = (char **)malloc(sizeof (char *) * (andre_count(utils->input, ' ') + 1));
+	if (!matrix)
+		return (NULL);
+	matrix = filldre(matrix, utils->input, ' ');
+	return (matrix);
+}
+
+
+//utils->input = readline("minishell"); //prompt escreve por cima por causa do prompt ser interativo
+
 int	main2(t_shell *utils, int flag)
 {
-	//int				x;
 	t_pipe_comms	*pcomms;
+	t_pipe_comms	*test;
+	int	i;
 
+	i = 0;
 	pcomms = ft_calloc(1, sizeof(t_pipe_comms));
-	//x = -1;
-	//free_tptr(utils->bizarre, 0);
 	free_dptr(utils->command, 0);
-	//signal_search(IGNORE); //ele funciona aqui, e tem mais sentido estar aqui, mas não me apetece estragar as perfeitas 25 linhas da função
 	signal_search(ROOT);
+	printf("global status beginning -> %d\n", global_status()->status);
 	index_reset(utils);
 	utils->input = readline("\x1b[5;95mpanic_shell> \x1b[0m");
-	//utils->input = readline("minishell"); //prompt escreve por cima por causa do prompt ser interativo
 	if (utils->input)
 		add_history(utils->input);
 	else
 		return (free_dptr(utils->envr, 0), free(utils->export), free_dptr(utils->exp, 0), free(utils), 0);
-	if (quotes_verify(utils->input, 0, 0, 0) == 0)
+	if (quotes_verify(utils->input, 0, 0, -1) == 0)
 	{
 		if (pipe_verify(utils->input, -1, 0) == 0)
 		{
 			utils->command = pipping_commands(utils->input, pcomms);
-			while (pcomms != NULL)
-				pcomms = pcomms->next;
-			//utils->bizarre = scary_thing(utils->command);
-			//while(utils->bizarre[++x])
-			//{
-			utils->command = ft_split(utils->command[0], ' ');
+			test = pcomms;
+//			while (test != NULL)
+//			{
+//				printf("Pcomms; %s\n", test->strp);
+//				test = test->next;
+//			}
+			utils->command = split_andre(utils);
+			while (utils->command[i])
+			{
+				has_quotes(0, 0, utils->command[i], utils);
+				utils->command[i] = ft_substr(utils->command[i], utils->lala[2], utils->lala[1]);
+				if (utils->lala[0] > 0)
+					i++;
+				utils->command[i] = expansions(utils->command[i], utils, utils->lala[0]);
+				i++;
+			}
 			while (utils->command[utils->j])
 				utils->j++;
-			//has_quotes(utils->lala[2], 0, utils->input, utils->lala[0]);
 			flag = builtins(utils->command[0], utils, -1);
 			if (flag == 0)
 				path_comms(utils->command, utils, -1, -1);
@@ -134,14 +225,9 @@ int	main2(t_shell *utils, int flag)
 				exec_builtin(flag, utils->command, utils->envr, utils);
 			utils->j = 0;
 			free_dptr(utils->command, 0);
-			//}
-			//free_tptr(utils->bizarre, 0);
 		}
-		//utils->bizarre = NULL;
 		utils->command = NULL;
 	}
-	//if (utils->command)
-	//	free_dptr(utils->command, 0);
 	return (1);
 }
 

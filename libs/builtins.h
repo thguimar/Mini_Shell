@@ -6,7 +6,7 @@
 /*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:03:40 by thguimar          #+#    #+#             */
-/*   Updated: 2024/10/16 19:39:30 by joana            ###   ########.fr       */
+/*   Updated: 2024/10/17 19:22:09 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,17 @@ typedef struct s_expansions
 	char	**split;
 }		t_expansions;
 
+typedef struct s_pipe_comms	t_pipe_comms;
+
+typedef struct s_pipe_comms
+{
+	char				*strp;
+	char				**args;
+	int					*fd_in;
+	int					*fd_out;
+	t_pipe_comms		*next;
+}		t_pipe_comms;
+
 typedef struct s_shell
 {
 	char			**exp;
@@ -97,6 +108,7 @@ typedef struct s_shell
 	int				process_id;
 	int				status;
 	int				*lala;
+	t_pipe_comms	*cmd_lst;
 	t_builtvars		*export;
 	t_builtvars2	*cd;
 	t_expansions	*expansions;
@@ -113,17 +125,6 @@ typedef struct s_cd
 	int		x;
 	t_shell	*utils;
 }		t_cd;
-
-typedef struct s_pipe_comms	t_pipe_comms;
-
-typedef struct s_pipe_comms
-{
-	char				*strp;
-	char				**args;
-	int					*fd_in;
-	int					*fd_out;
-	t_pipe_comms		*next;
-}		t_pipe_comms;
 
 //Export Functions
 

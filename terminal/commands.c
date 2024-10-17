@@ -6,7 +6,7 @@
 /*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:12:32 by thguimar          #+#    #+#             */
-/*   Updated: 2024/10/16 19:37:24 by joana            ###   ########.fr       */
+/*   Updated: 2024/10/17 17:37:55 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	execute_comm(char **argv, char *test2, t_shell *utils, char *test)
 	{
 		ft_putstr_fd("Command not found\n", 1);
 		global_status()->status = 127;
+		
 	}
 	else if (access(test2, F_OK) == 0)
 	{
