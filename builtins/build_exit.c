@@ -6,11 +6,27 @@
 /*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:57:29 by thguimar          #+#    #+#             */
-/*   Updated: 2024/10/17 18:21:14 by joana            ###   ########.fr       */
+/*   Updated: 2024/10/19 20:29:19 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
+
+t_status	*global_status(void)
+{
+	static t_status	status;
+
+	return (&status);
+}
+// se for maior que este numero, ele divide, mas mostra o exit
+//code como o resto da divisão e não o quociente
+
+void	status_handler(t_shell *utils)
+{
+	(void)utils;
+	if (global_status()->status > 255)
+		global_status()->status /= 256;
+}
 
 void	free_dptr(char **clc, int i)
 {
@@ -23,39 +39,6 @@ void	free_dptr(char **clc, int i)
 		}
 	}
 	free(clc);
-}
-
-void	free_tptr(char ***clc, int i)
-{
-	int	j;
-
-	if (clc && clc[i])
-	{
-		while (clc[i])
-		{
-			j = 0;
-			if (clc[i][j])
-			{
-				while (clc[i][j])
-				{
-					free(clc[i][j]);
-					j++;
-				}
-			}
-			free(clc[i]);
-			i++;
-		}
-	}
-	free(clc);
-}
-
-void	ft_free(void **pointer)
-{
-	if (pointer && *pointer)
-	{
-		free(*pointer);
-		*pointer = NULL;
-	}
 }
 
 void	final_cleaner(t_shell *utils)
@@ -97,4 +80,3 @@ void	build_exit(char **argv, t_shell *utils, int flag, int i)
 	else
 		ft_putendl_fd("Too many arguments", 1);
 }
-

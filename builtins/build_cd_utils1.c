@@ -6,7 +6,7 @@
 /*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:03:58 by thguimar          #+#    #+#             */
-/*   Updated: 2024/10/16 16:28:56 by joana            ###   ########.fr       */
+/*   Updated: 2024/10/19 20:22:32 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,23 +101,4 @@ void	argc_2(t_cd *cd, char **argv, t_shell *utils)
 	cd->i = 0;
 	cd->j = 1;
 	get_cd(cd, argv, utils);
-}
-
-void	argc_1(t_cd *cd, char *home, int argc, char **argv)
-{
-	cd->i = 0;
-	while (argc == 1 || (argv[1][cd->i] == 47 && argv[1][cd->i]))
-	{
-		cd->i++;
-		if (argc == 1)
-		{
-			chdir(home);
-			break ;
-		}
-		if (argv[1][cd->i] == '\0')
-		{
-			chdir("/");
-			break ;
-		}
-	}
 }

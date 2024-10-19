@@ -2,16 +2,21 @@ Leaks X
 Invalid Read Size X
 Norminette
 Expansions in the beginning (for commands) X
-Comandos não funcionam dentro de aspas e plicas, deveriam (Quase, possui uns segfaults)
-Testar unset / pwd / cd / export / env (para leaks e segfaults)
+Comandos não funcionam dentro de aspas e plicas, deveriam X
 Extra dollar signs no echo X
-Comandos não funcionam (Comandos já funcionam, separar argumentos direito agora)
-Espaços X
+Comandos não funcionam X
+Exit code não dá reset X
+Espaços
 
-Falta o split alterado por pipes (parte do thiago ?)
-Separar argumentos ? (na struct dos pipes, aquela que dava segfault)
-Usar o in between para apanhar o tamanho do que está dentro de aspas ou plicas
-Fazer uma função que apanhe essa string, colocar isso numa outra string / substituir o argv pelo que está entre aspas ou plicas, para que ele consiga executar. (Isto tudo depois de fazer as expansões no início, ver função do André no Slack)
-Criar um segundo pa no array de ints, pa_final, e usar esse para expandir as cenas ou não, dependendo se é aspas ou plicas, e assim já dar para substituir o argumento)
-VOU AO MEU ECHO E DESCUBRO ONDE E QUE ELE TIRA E COMO E QUE ELE TIRA AS PLICAS
-Fazer a mesma lógica para os builtins ou então fazer isto tudo na função do minishell.c
+*Fazer um pointer prev no pipe comms
+
+Criar um segundo pa no array de ints, pa_final, e usar esse para expandir as cenas ou não, dependendo se é aspas ou plicas, e assim já dar para substituir o argumento
+
+*Pipes, execucao com pipes, redirections, heredoc, sinais no heredoc
+
+Problema com espaços (por alguma razão, quando junto duas strings vazias, "" "", ele decide escrever lá um espaço. Não é suposto) /// Consegui tirar as expansoes do echo (quase), ele as vezes escreve espacos, outras vezes nao printa os espacos e isto sai tudo pegado...) (Espaços estão só todos fudidos, não printa quando é suposto printar, tira espaços, põe espaços, socorro)
+Está a expandir com plicas, bela merda
+flag do -n no echo deixou de funcionar
+Ja se fodeu a divisao de argumentos outra vez, apenas nos comandos, nos builtins funciona
+
+Verificar se há funções que já não utilizo

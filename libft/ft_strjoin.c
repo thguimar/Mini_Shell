@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 12:06:29 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/20 16:51:47 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/10/19 16:43:23 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	rtn[j] = '\0';
 	return ((char *)rtn);
 }
-/*
-int	main(void)
+
+/* int	main(void)
 {
-	printf("%s", ft_strjoin("voce e incrivel", "mente gay"));
-}*/
+	printf("%s", ft_strjoin("", ""));
+	printf("\n");
+} */

@@ -10,30 +10,34 @@ OBJECTS= $(SRC:sources/%.c=%.o)
 LIBFT_PATH = ../libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
-SRCS 	=	minishell.c\
+SRCS 	=	../libft/libft.a\
 			../builtins/aux.c\
 			../builtins/build_cd_utils1.c\
 			../builtins/build_cd_utils2.c\
 			../builtins/build_cd_utils3.c\
 			../builtins/build_cd.c\
-			../builtins/build_echo_utils.c\
 			../builtins/build_echo.c\
 			../builtins/build_env.c\
-			../builtins/build_exit_utils.c\
 			../builtins/build_exit.c\
 			../builtins/build_export_utils1.c\
 			../builtins/build_export_utils2.c\
 			../builtins/build_export_utils3.c\
 			../builtins/build_export.c\
 			../builtins/build_pwd.c\
-			../builtins/build_unset_utils.c\
 			../builtins/build_unset.c\
 			../builtins/builtins.c\
+			../builtins/echo_expansioner_utils.c\
 			../builtins/echo_expansioner.c\
-			../builtins/expansions2.c\
+			../builtins/expansions_utils1.c\
+			../builtins/expansions_utils2.c\
+			../builtins/expansions_utils3.c\
+			../builtins/expansions.c\
 			../signals/signals.c\
+			aux2_utils.c\
+			aux2.c\
 			commands.c\
-			../libft/libft.a
+			minishell_utils.c\
+			minishell.c
 
 Color_Off='\033[0m'       # Text Reset
 

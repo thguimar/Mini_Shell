@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanda-s <joanda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 11:11:00 by thguimar          #+#    #+#             */
-/*   Updated: 2024/08/23 15:50:46 by joanda-s         ###   ########.fr       */
+/*   Updated: 2024/10/19 15:17:32 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char	**ft_split2(char *str, char c)
 	}
 	else
 	{
-		matrix = (char **)malloc(sizeof (char *) * (word_count(str, c) + 1));
+		matrix = (char **)malloc(sizeof (char *) * (word_count(str, c)));
 		if (!matrix)
 			return (NULL);
 		matrix = fill_matrix(matrix, str, c);

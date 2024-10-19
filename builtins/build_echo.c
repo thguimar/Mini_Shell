@@ -6,30 +6,88 @@
 /*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:19:40 by thiago-camp       #+#    #+#             */
-/*   Updated: 2024/10/17 19:11:55 by joana            ###   ########.fr       */
+/*   Updated: 2024/10/19 20:27:28 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/builtins.h"
-#include "../libft/libft.h"
 
-void	echo_printer(char **final_reader, int j, char *arr)
+int	echo_flag(char *argv)
 {
-	while (final_reader && final_reader[++j])
-		ft_putstr_fd(final_reader[j], 1);
-	if (echo_flag(arr) == 0)
-		ft_putstr_fd("\n", 1);
-	free_dptr(final_reader, 0);
+	int	i;
+
+	i = 1;
+	if (ft_strncmp("-n", argv, 2) == 0)
+	{
+		while (argv[i] && argv[i] != ' ')
+		{
+			if (argv[i] != 'n')
+				return (0);
+			i++;
+		}
+		return (1);
+	}
+	return (0);
 }
 
-void	build_echo(char *arr, t_shell *utils, int i, int j)
+int	flag_count(char *argv)
 {
+	int	i;
+
+	i = 1;
+	while (argv[i] == 'n')
+		i++;
+	while (argv[i] == ' ')
+		i++;
+	return (i);
+}
+
+void	has_quotes(int i, int x, char *arr, t_shell *utils)
+{
+	int	pa;
+
+	utils->lala = ft_calloc(sizeof(int), 3);
+	x = 0;
+	if (arr[i] == '"')
+	{
+		i++;
+		pa = 1;
+		x = in_between('"', arr, i);
+	}
+	else if (arr[i] == '\'')
+	{
+		i++;
+		pa = 2;
+		x = in_between('\'', arr, i);
+	}
+	else
+	{
+		pa = 0;
+		while (arr[i + x] && arr[i + x] != '\'' && arr[i + x] != '"')
+			x++;
+	}
+	utils->lala[0] = pa;
+	utils->lala[1] = x;
+	utils->lala[2] = i;
+}
+
+void	echo_printer(t_pipe_comms *pcomms, int j, char *arr)
+{
+	while (pcomms->args && pcomms->args[++j])
+		ft_putstr_fd(pcomms->args[j], 1);
+	if (echo_flag(arr) == 0)
+		ft_putstr_fd("\n", 1);
+	free_dptr(pcomms->args, 0);
+}
+
+void	build_echo(char *arr, t_shell *utils, t_pipe_comms *pcomms)
+{
+	int		i;
 	int		x;
 	int		pa;
 	char	*str;
-	char	**final_reader;
 
-	final_reader = ft_calloc(sizeof(char *), final_reader_size(arr, 0, 0) + 1);
+	i = 0;
 	if (echo_flag(arr) == 1)
 		i += flag_count(arr);
 	while (arr[i])
@@ -41,10 +99,9 @@ void	build_echo(char *arr, t_shell *utils, int i, int j)
 		str = ft_substr(arr, i, x);
 		if (pa > 0)
 			i++;
-		final_reader[++j] = expansions(str, utils, pa);
 		free(str);
 		i += x;
 	}
 	utils->lala[2] = i;
-	echo_printer(final_reader, -1, arr);
+	echo_printer(pcomms, 0, arr);
 }

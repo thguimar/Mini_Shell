@@ -6,7 +6,7 @@
 /*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:12:32 by thguimar          #+#    #+#             */
-/*   Updated: 2024/10/17 17:37:55 by joana            ###   ########.fr       */
+/*   Updated: 2024/10/19 20:38:33 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	execute_comm(char **argv, char *test2, t_shell *utils, char *test)
 	{
 		ft_putstr_fd("Command not found\n", 1);
 		global_status()->status = 127;
-		
 	}
 	else if (access(test2, F_OK) == 0)
 	{
@@ -34,24 +33,32 @@ void	execute_comm(char **argv, char *test2, t_shell *utils, char *test)
 	free(test2);
 }
 
-int	builtin_not_command(char **argv)
-{
-	if (ft_strcmp2("echo", argv[0]) == 0)
-		return (1);
-	else if (ft_strcmp2("cd", argv[0]) == 0)
-		return (1);
-	else if (ft_strcmp2("pwd", argv[0]) == 0)
-		return (1);
-	else if (ft_strcmp2("export", argv[0]) == 0)
-		return (1);
-	else if (ft_strcmp2("unset", argv[0]) == 0)
-		return (1);
-	else if (ft_strcmp2("exit", argv[0]) == 0)
-		return (1);
-	else if (ft_strcmp2("env", argv[0]) == 0)
-		return (1);
-	return (0);
-}
+//void	path_comms_helper(char *test2, char **argv, char *path, int j)
+//{
+//	char	**right_path;
+//	char	*test;
+//	
+//	if (ft_strncmp(argv[0], "./", 2) == 0)
+//		test2 = ft_substr(argv[0], 2, ft_strlen(argv[0]) - 2);
+//	else
+//	{
+//		right_path = ft_split(path, ':');
+//		while (right_path[++j])
+//		{
+//			test = ft_strjoin(right_path[j], "/");
+//			test2 = ft_strjoin(test, argv[0]);
+//			if (access(test2, F_OK) == -1)
+//			{
+//				free(test);
+//				free(test2);
+//				test = NULL;
+//				test2 = NULL;
+//			}
+//			else if (access(test2, F_OK) == 0)
+//				break ;
+//		}
+//	}
+//}
 
 void	path_comms(char **argv, t_shell *utils, int i, int j)
 {

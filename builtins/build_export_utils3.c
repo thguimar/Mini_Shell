@@ -6,7 +6,7 @@
 /*   By: joana <joana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:12:42 by thguimar          #+#    #+#             */
-/*   Updated: 2024/10/17 18:20:55 by joana            ###   ########.fr       */
+/*   Updated: 2024/10/19 20:22:43 by joana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,17 @@ char	**dptr_dup(char	**dptr)
 	while (dptr[++i])
 		rtn[i] = ft_strdup(dptr[i]);
 	return (rtn);
+}
+
+void	index_reset(t_shell *utils)
+{
+	utils->j = 0;
+	utils->export->i = 0;
+	utils->export->j = 0;
+	utils->export->k = 0;
+	utils->export->l = 0;
+	utils->export->m = 0;
+	utils->export->n = 0;
+	utils->export->x = 0;
+	utils->export->flag = 0;
 }
